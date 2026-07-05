@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- SPECTRUM FI-064 v0.2.0 build marker -->
+<!-- SPECTRUM FI-064 v0.1.0 build marker -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -35,9 +35,8 @@
   --f-mono:    'Share Tech Mono', monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{height:100%}
+html,body{height:100%}
 body{
-  min-height:100vh;
   background:var(--od-deep);
   background-image:
     radial-gradient(ellipse at 50% -10%, rgba(255,255,240,.045), transparent 60%),
@@ -46,6 +45,7 @@ body{
   font-family:var(--f-ui);
   font-size:14px;
   letter-spacing:.02em;
+  min-height:100%;
   display:flex;flex-direction:column;
 }
 button{font-family:inherit;color:inherit;cursor:pointer}
@@ -120,12 +120,6 @@ button{font-family:inherit;color:inherit;cursor:pointer}
 }
 .btn.small{padding:5px 9px;font-size:11px}
 .btn.danger{color:#e8b39a}
-.btn.stop{
-  background:linear-gradient(#a3492a,#7c3520);
-  color:#f4ddcb;border-color:#2a0f06;
-  box-shadow:inset 0 1px 0 rgba(255,220,190,.25), 0 2px 3px rgba(0,0,0,.5);
-}
-.btn.stop:hover{background:linear-gradient(#b25232,#8a3c24)}
 
 /* ---------- header rail ---------- */
 header.rail{
@@ -187,15 +181,7 @@ aside.side{width:210px;flex:0 0 210px;display:flex;flex-direction:column;gap:10p
   width:100%;text-align:left;background:none;border:none;
   padding:9px 10px;border-radius:4px;font-size:12.5px;font-weight:500;
   letter-spacing:.08em;color:var(--ink-dim);display:flex;gap:9px;align-items:center;
-  white-space:nowrap;
 }
-aside.side.collapsed{width:56px;flex-basis:56px}
-aside.side.collapsed .side-menu button{justify-content:center;padding:9px 4px}
-aside.side.collapsed .side-menu button .lbl{display:none}
-aside.side.collapsed .side-plate{display:none}
-aside.side.collapsed .side-plate.ver{display:block;padding:8px 4px}
-aside.side.collapsed .side-plate.ver .nm{font-size:10px;word-break:break-word}
-aside.side.collapsed .side-plate.ver .rl{display:none}
 .side-menu button:hover{background:rgba(255,255,240,.05);color:var(--ink)}
 .side-menu button.on{background:var(--od-dark);color:var(--ink);box-shadow:inset 2px 0 0 var(--amber), inset 0 1px 3px rgba(0,0,0,.5)}
 .side-plate{padding:12px;text-align:center}
@@ -389,16 +375,13 @@ table.plain th{font-family:var(--f-ui);font-size:10px;letter-spacing:.18em;color
 <!-- ================= MAIN ================= -->
 <main>
   <!-- left sidebar -->
-  <aside class="side" id="sideBar">
+  <aside class="side">
     <div class="panel rivets side-menu"><span class="rv"></span>
-      <button id="menuCollapse" title="Collapse menu" aria-expanded="true">&#9776;<span class="lbl">&ensp;Collapse Menu</span></button>
-    </div>
-    <div class="panel rivets side-menu"><span class="rv"></span>
-      <button class="on" data-pg="dashboard" title="Dashboard">&#8962;<span class="lbl">&ensp;Dashboard</span></button>
-      <button data-pg="journal" title="Journal">&#9997;<span class="lbl">&ensp;Journal</span></button>
-      <button data-pg="signals" title="Signals">&#8767;<span class="lbl">&ensp;Signals</span></button>
-      <button id="menuBandplan" title="Band Plan">&#9636;<span class="lbl">&ensp;Band Plan</span></button>
-      <button id="menuShortcuts" title="Shortcuts">&#9000;<span class="lbl">&ensp;Shortcuts</span></button>
+      <button class="on" data-pg="dashboard">&#8962;&ensp;Dashboard</button>
+      <button data-pg="journal">&#9997;&ensp;Journal</button>
+      <button data-pg="signals">&#8767;&ensp;Signals</button>
+      <button id="menuBandplan">&#9636;&ensp;Band Plan</button>
+      <button id="menuShortcuts">&#9000;&ensp;Shortcuts</button>
     </div>
     <div class="panel rivets side-plate"><span class="rv"></span>
       <div class="nm">&#128295; Developer<br>Diagnostics</div>
@@ -410,7 +393,7 @@ table.plain th{font-family:var(--f-ui);font-size:10px;letter-spacing:.18em;color
     </div>
     <div class="panel rivets side-plate ver"><span class="rv"></span>
       <div class="nm" id="verPlate">SPECTRUM v0.1.0</div>
-      <div class="rl">Fieldworthy Release</div>
+      <div class="rl">Foundation Release</div>
     </div>
   </aside>
 
@@ -421,7 +404,7 @@ table.plain th{font-family:var(--f-ui);font-size:10px;letter-spacing:.18em;color
     <div class="page on" id="pg-dashboard">
       <div class="panel rivets" style="position:relative"><span class="rv"></span>
         <div class="panel-title">Realtime Spectrum
-          <span class="tr">Zoom <button class="btn small" id="zoomOut" title="Zoom out">&minus;</button> <span id="zoomLbl" style="color:var(--ink)">1x</span> <button class="btn small" id="zoomIn" title="Zoom in">+</button> &emsp; Span: <span id="spanLbl">--</span> &emsp; RBW: <span id="rbwLbl">--</span></span>
+          <span class="tr">Span: <span id="spanLbl">--</span> &emsp; RBW: <span id="rbwLbl">--</span></span>
         </div>
         <div class="led freq-flag" id="freqFlag">14.265.000 <span class="unit">MHz</span></div>
         <div class="scope-wrap">
@@ -487,16 +470,9 @@ table.plain th{font-family:var(--f-ui);font-size:10px;letter-spacing:.18em;color
               <option value="2400000" selected>2.4 MS/s</option>
             </select></div>
           <div><label>Freq Correction (ppm)</label><input type="number" id="ppmIn" value="0" min="-200" max="200"></div>
-          <div><label>Direct Sampling (HF)</label>
-            <select id="directSel" style="width:100%;background:var(--od-dark);color:var(--ink);border:1px solid var(--od-shadow);font-family:var(--f-mono);padding:7px">
-              <option value="auto" selected>Auto (below 24 MHz)</option>
-              <option value="off">Off</option>
-              <option value="q">Q branch</option>
-              <option value="i">I branch</option>
-            </select></div>
         </div>
         <h3>Notes</h3>
-        <p id="radioNotes">Sample rate and PPM take effect on the next connect for USB hardware. The simulator applies them immediately. Direct sampling routes the ADC straight to the antenna for HF reception without an upconverter; Q branch matches the common dongle modification, and the meaningful range is 0 to 14.4 MHz. Stock dongles without the direct sampling mod will hear HF only weakly.</p>
+        <p id="radioNotes">Sample rate and PPM take effect on the next connect for USB hardware. The simulator applies them immediately.</p>
       </div>
     </div>
 
@@ -679,7 +655,7 @@ table.plain th{font-family:var(--f-ui);font-size:10px;letter-spacing:.18em;color
    SPECTRUM FI-064 v0.1.0 - core engine
    Modules: DBG, Store, DSP, MORSE, SimSource, RtlSource
    ============================================================ */
-const APP = { version:"0.2.0", release:"Fieldworthy" };
+const APP = { version:"0.1.0", release:"Foundation" };
 
 /* ---------- debug ---------- */
 const DBG = {
@@ -697,9 +673,8 @@ const Store = {
       version:APP.version,
       freq:14265000, mode:"USB", filter:2400, rfGain:30, sampleRate:2400000, ppm:0,
       af:50, vol:0, squelch:-100, agc:2,
-      fftSize:2048, avg:4, wfFloor:-110, wfCeil:-30, zoom:1, direct:"auto",
+      fftSize:2048, avg:4, wfFloor:-110, wfCeil:-30,
       lat:39.2904, lon:-76.6122,
-      menuCollapsed:false,
       memories:[
         {freq:7050000,  mode:"LSB", label:"AM Net"},
         {freq:14265000, mode:"USB", label:"DX Call"},
@@ -827,70 +802,6 @@ const MORSE = {
   }
 };
 
-/* ---------- FIR filtering (v0.2) ---------- */
-/* windowed-sinc lowpass, Hamming, unity DC gain. fcNorm = cutoff / sample rate */
-function designLowpass(numTaps, fcNorm){
-  const h=new Float32Array(numTaps), M=numTaps-1;
-  for(let i=0;i<numTaps;i++){
-    const x=i-M/2;
-    const s = (x===0) ? 2*fcNorm : Math.sin(2*Math.PI*fcNorm*x)/(Math.PI*x);
-    const w = 0.54-0.46*Math.cos(2*Math.PI*i/M);
-    h[i]=s*w;
-  }
-  let sum=0; for(let i=0;i<numTaps;i++) sum+=h[i];
-  for(let i=0;i<numTaps;i++) h[i]/=sum;
-  return h;
-}
-
-/* streaming FIR (circular history), one sample in, one out */
-class Fir {
-  constructor(h){ this.h=h; this.b=new Float32Array(h.length); this.p=0; }
-  push(x){
-    const h=this.h, b=this.b, T=h.length;
-    b[this.p]=x;
-    let acc=0, idx=this.p;
-    for(let j=0;j<T;j++){ acc+=h[j]*b[idx]; idx=idx===0?T-1:idx-1; }
-    this.p=(this.p+1)%T; return acc;
-  }
-}
-
-/* FIR decimator: proper anti-alias filtering, computes only kept outputs.
-   complex=true consumes/produces interleaved IQ; false is scalar. */
-class FirDecimator {
-  constructor(h, D, complex){
-    this.h=h; this.D=D; this.complex=!!complex;
-    this.HL=h.length-1; this.pend=0;
-    this.hI=new Float32Array(this.HL); this.hQ=this.complex?new Float32Array(this.HL):null;
-    this.wI=null; this.wQ=null;
-  }
-  process(data){
-    const T=this.h.length, D=this.D, h=this.h, HL=this.HL, cx=this.complex;
-    const n=cx?data.length>>1:data.length;
-    const total=HL+n;
-    if(!this.wI||this.wI.length<total){ this.wI=new Float32Array(total+16384); if(cx) this.wQ=new Float32Array(total+16384); }
-    const wI=this.wI, wQ=this.wQ;
-    wI.set(this.hI,0);
-    if(cx){ wQ.set(this.hQ,0); for(let i=0;i<n;i++){ wI[HL+i]=data[2*i]; wQ[HL+i]=data[2*i+1]; } }
-    else for(let i=0;i<n;i++) wI[HL+i]=data[i];
-    const count=Math.floor((this.pend+n)/D);
-    const out=new Float32Array(count*(cx?2:1));
-    let o=0;
-    for(let p=D-this.pend-1; p<n && o<count; p+=D){
-      let aI=0, aQ=0;
-      if(cx){ for(let j=0;j<T;j++){ aI+=h[j]*wI[p+j]; aQ+=h[j]*wQ[p+j]; } out[2*o]=aI; out[2*o+1]=aQ; }
-      else { for(let j=0;j<T;j++) aI+=h[j]*wI[p+j]; out[o]=aI; }
-      o++;
-    }
-    this.pend=(this.pend+n)%D;
-    /* carry last HL samples into history */
-    for(let i=0;i<HL;i++){ wI[i]=wI[total-HL+i]; }
-    this.hI.set(wI.subarray(0,HL));
-    if(cx){ for(let i=0;i<HL;i++) wQ[i]=wQ[total-HL+i]; this.hQ.set(wQ.subarray(0,HL)); }
-    return cx?out.subarray(0,o*2):out.subarray(0,o);
-  }
-}
-
-
 /* ============================================================
    SOURCES. Both emit Float32Array interleaved IQ in [-1,1]
    via onBlock(iq), and report .rate and .name.
@@ -1008,40 +919,6 @@ class RtlSource {
     this.serial="";
     this.IF=3570000;           /* R820T IF */
     this.XTAL=28800000;
-    this.directSetting="auto"; /* auto | off | i | q */
-    this.directMode=0;         /* 0 tuner, 1 I-branch, 2 Q-branch */
-  }
-  /* --- direct sampling (v0.2, experimental): route the ADC straight
-     to the antenna for HF. Q-branch is the common dongle mod. Meaningful
-     range is 0 to 14.4 MHz (half the 28.8 MHz ADC clock); above that
-     you are listening to aliases. --- */
-  _wantDirect(f){
-    if(this.directSetting==="i") return 1;
-    if(this.directSetting==="q") return 2;
-    if(this.directSetting==="off") return 0;
-    return f<24000000 ? 2 : 0;   /* auto: Q-branch below 24 MHz */
-  }
-  async _applyDirect(f){
-    const want=this._wantDirect(f);
-    if(want===this.directMode) return;
-    this.directMode=want;
-    if(want){
-      await this._demodW(1, 0xb1, 0x1a, 1);
-      await this._demodW(0, 0x08, want===1?0x4d:0xcd, 1);  /* ADC input select */
-      await this._demodW(1, 0x15, 0x00, 1);                /* no spectrum inversion */
-      DBG.log("direct sampling on,", want===1?"I":"Q", "branch");
-    }else{
-      await this._demodW(0, 0x08, 0x4d, 1);
-      await this._setIfFreq(this.IF);
-      await this._demodW(1, 0x15, 0x01, 1);                /* inversion for R820T */
-      await this._r82xxInit();
-      await this.setGain(this.rfGain);
-      DBG.log("direct sampling off, tuner path restored");
-    }
-  }
-  async setDirectSetting(v){
-    this.directSetting=v;
-    await this.setCenter(this.center);
   }
   /* --- low-level register access --- */
   async _ctrlOut(block, addr, data){
@@ -1146,12 +1023,6 @@ class RtlSource {
   }
   async setCenter(f){
     this.center=f;
-    await this._applyDirect(f);
-    if(this.directMode){
-      /* in direct sampling the demod DDC does the tuning */
-      await this._setIfFreq(f);
-      return;
-    }
     const lo=f+this.IF;                     /* upconvert: LO = RF + IF */
     const xtal=this.XTAL*(1+this.ppm/1e6);
     /* pick divider so VCO in 1.77 - 3.54 GHz */
@@ -1192,11 +1063,7 @@ class RtlSource {
     while(this._running){
       let r;
       try{ r=await this.dev.transferIn(1, LEN); }
-      catch(e){
-        DBG.warn("bulk in failed", e);
-        if(this._running){ this._running=false; UI.sourceLost(e); }
-        return;
-      }
+      catch(e){ DBG.warn("bulk in failed", e); this._running=false; UI.sourceLost(e); return; }
       if(r.data && r.data.byteLength){
         const u8=new Uint8Array(r.data.buffer);
         const n=u8.length>>1, iq=new Float32Array(n*2);
@@ -1247,8 +1114,8 @@ const RX={
   /* audio */
   actx:null, node:null, aRing:new Float32Array(1<<16), aW:0, aR:0, aRate:48000,
   nb:false, nr:false, agcGain:1, sqOpen:true, sqSlew:0,
-  d:{ pI:1,pQ:0, ph1:0,ph2:0, dc:0, de:0, nrY:0 },
-  dec1:null, dec2:null, chI:null, chQ:null, midRate:240000,
+  d:{ accI:0,accQ:0,cnt:0,D:50, pI:1,pQ:0, ph1:0,ph2:0, li:0,lq:0,li2:0,lq2:0,
+      dc:0, de:0, nrY:0, w1:{accI:0,accQ:0,cnt:0,D:10,pI:1,pQ:0}, w2:{acc:0,cnt:0,D:5} },
 
   attach(src){
     this.src=src;
@@ -1257,24 +1124,16 @@ const RX={
   },
   setupDecim(){
     const r=this.src?this.src.rate:2400000;
-    this.d={ pI:1,pQ:0, ph1:0,ph2:0, dc:0, de:0, nrY:0 };
     if(this.mode==="WFM"){
-      const D1=Math.max(1,Math.round(r/240000)), mid=r/D1;
-      const D2=Math.max(1,Math.round(mid/48000));
-      this.aRate=mid/D2; this.midRate=mid;
-      this.dec1=new FirDecimator(designLowpass(Math.min(160,Math.max(24,D1*8)), 0.45/D1), D1, true);
-      this.dec2=new FirDecimator(designLowpass(Math.min(96,Math.max(24,D2*8)), 0.38/D2), D2, false);
-      this.chI=this.chQ=null;
+      this.d.w1.D=Math.max(1,Math.round(r/240000));
+      const midRate=r/this.d.w1.D;
+      this.d.w2.D=Math.max(1,Math.round(midRate/48000));
+      this.aRate=midRate/this.d.w2.D;
     }else{
-      const D=Math.max(1,Math.round(r/48000));
-      this.aRate=r/D;
-      this.dec1=new FirDecimator(designLowpass(Math.min(480,Math.max(32,D*8)), 0.45/D), D, true);
-      this.dec2=null;
-      /* channel selectivity at audio rate: 63-tap lowpass at half the mode bandwidth */
-      const fc=Math.min(0.45,(this.filter/2)/this.aRate);
-      const h=designLowpass(63, fc);
-      this.chI=new Fir(h); this.chQ=new Fir(h);
+      this.d.D=Math.max(1,Math.round(r/48000));
+      this.aRate=r/this.d.D;
     }
+    this.d.accI=this.d.accQ=this.d.cnt=0;
   },
   onIQ(iq){
     /* keep ring for FFT/scope */
@@ -1283,56 +1142,61 @@ const RX={
     this.demod(iq);
   },
 
-  /* ---------- demodulators (FIR chain, v0.2) ---------- */
+  /* ---------- demodulators ---------- */
   demod(iq){
-    const d=this.d, mode=this.mode, bw=this.filter, Fs=this.aRate;
+    const d=this.d, n=iq.length>>1;
+    const mode=this.mode, bw=this.filter, Fs=this.aRate;
     const outA=[];
     if(mode==="WFM"){
-      const mid=this.dec1.process(iq);         /* complex, ~240k */
-      const n=mid.length>>1;
-      if(!n){ return; }
-      const disc=new Float32Array(n);
-      const k=this.midRate/(2*Math.PI*75000);
+      /* stage 1 decimate to ~240k, FM discriminate, stage 2 decimate */
+      const w1=d.w1, w2=d.w2;
       for(let i=0;i<n;i++){
-        const I=mid[2*i], Q=mid[2*i+1];
-        const re=I*d.pI+Q*d.pQ, im=Q*d.pI-I*d.pQ;
-        d.pI=I; d.pQ=Q;
-        disc[i]=Math.atan2(im,re)*k;
-      }
-      const aud=this.dec2.process(disc);       /* real, ~48k */
-      for(let i=0;i<aud.length;i++){
-        d.de+=(aud[i]-d.de)*0.18;              /* 75 us-ish deemphasis */
-        outA.push(d.de);
+        w1.accI+=iq[2*i]; w1.accQ+=iq[2*i+1];
+        if(++w1.cnt>=w1.D){
+          const I=w1.accI/w1.D, Q=w1.accQ/w1.D;
+          w1.accI=w1.accQ=0; w1.cnt=0;
+          const re=I*w1.pI+Q*w1.pQ, im=Q*w1.pI-I*w1.pQ;
+          w1.pI=I; w1.pQ=Q;
+          let a=Math.atan2(im,re)*( (this.src.rate/w1.D) /(2*Math.PI*75000));
+          w2.acc+=a;
+          if(++w2.cnt>=w2.D){
+            let s=w2.acc/w2.D; w2.acc=0; w2.cnt=0;
+            d.de+= (s-d.de)*0.18;           /* 75us-ish deemphasis */
+            outA.push(d.de);
+          }
+        }
       }
     } else {
-      const bb=this.dec1.process(iq);          /* complex baseband at aRate */
-      const n=bb.length>>1;
       for(let i=0;i<n;i++){
-        let I=bb[2*i], Q=bb[2*i+1], s=0;
+        d.accI+=iq[2*i]; d.accQ+=iq[2*i+1];
+        if(++d.cnt<d.D) continue;
+        let I=d.accI/d.D, Q=d.accQ/d.D;
+        d.accI=d.accQ=0; d.cnt=0;
+        let s=0;
         if(mode==="AM"){
-          I=this.chI.push(I); Q=this.chQ.push(Q);
           const m=Math.sqrt(I*I+Q*Q);
-          d.dc+=(m-d.dc)*0.002;
+          d.dc+= (m-d.dc)*0.002;
           s=(m-d.dc)*4;
         } else if(mode==="NFM"){
-          I=this.chI.push(I); Q=this.chQ.push(Q);
           const re=I*d.pI+Q*d.pQ, im=Q*d.pI-I*d.pQ;
           d.pI=I; d.pQ=Q;
-          s=Math.atan2(im,re)*(Fs/(2*Math.PI*MODES.NFM.dev));
-        } else { /* USB / LSB / CW : Weaver with FIR arms */
+          s=Math.atan2(im,re)*(Fs/(2*Math.PI*(MODES.NFM.dev)));
+        } else { /* USB / LSB / CW : Weaver */
+          let sign=(mode==="LSB")?-1:1;
           if(mode==="CW"){
-            /* BFO: shift up 600 Hz so a zero-beat carrier sings at 600 */
-            d.ph2+=2*Math.PI*600/Fs; if(d.ph2>Math.PI*2) d.ph2-=Math.PI*2;
+            /* BFO: shift up 600 Hz so zero-beat carrier sings */
+            d.ph2+=2*Math.PI*600/Fs;
             const c=Math.cos(d.ph2), sn=Math.sin(d.ph2);
             const I2=I*c-Q*sn, Q2=I*sn+Q*c; I=I2; Q=Q2;
           }
-          /* passband center: USB +bw/2, LSB -bw/2, CW 600 Hz */
-          const f1 = mode==="CW" ? 600 : (mode==="LSB"?-bw/2:bw/2);
-          d.ph1+=2*Math.PI*f1/Fs; if(Math.abs(d.ph1)>Math.PI*2) d.ph1-=Math.sign(d.ph1)*Math.PI*2;
-          const c=Math.cos(d.ph1), sn=Math.sin(d.ph1);
-          let vI=I*c+Q*sn, vQ=Q*c-I*sn;        /* x times e^(-j ph1) */
-          vI=this.chI.push(vI); vQ=this.chQ.push(vQ);
-          s=(vI*c - vQ*sn)*5;                  /* Re of v times e^(+j ph1) */
+          const f1=sign*bw/2;
+          d.ph1+=2*Math.PI*f1/Fs;
+          const c=Math.cos(-d.ph1), sn=Math.sin(-d.ph1);
+          let vI=I*c-Q*sn, vQ=I*sn+Q*c;
+          const a=1-Math.exp(-2*Math.PI*(bw/2)/Fs);
+          d.li +=a*(vI-d.li);  d.lq +=a*(vQ-d.lq);
+          d.li2+=a*(d.li-d.li2); d.lq2+=a*(d.lq-d.lq2);
+          s=(d.li2*Math.cos(d.ph1)-sign*d.lq2*Math.sin(d.ph1))*6;
         }
         outA.push(s);
       }
@@ -1402,7 +1266,7 @@ const RX={
     this.filter=MODES[m].filters[0]; S.filter=this.filter;
     this.setupDecim(); Store.save(); UI.modeChanged();
   },
-  setFilter(bw){ this.filter=bw; S.filter=bw; this.setupDecim(); Store.save(); }
+  setFilter(bw){ this.filter=bw; S.filter=bw; Store.save(); }
 };
 
 /* ================= CW decoder ================= */
@@ -1454,9 +1318,6 @@ const UI={
   freqChanged(){
     $("freqFlag").innerHTML=this.fmtFreq(RX.freq)+' <span class="unit">Hz</span>';
     $("freqPadDisplay").innerHTML=this.fmtFreq(RX.freq)+' <span class="unit">Hz</span>';
-    if(RX.src && RX.src.directMode!==undefined){
-      $("rsSrc").textContent=RX.src.name+(RX.src.directMode?(" \u00b7 DIRECT "+(RX.src.directMode===1?"I":"Q")):"");
-    }
     document.querySelectorAll("#bandGrid .btn").forEach(b=>{
       b.classList.toggle("active", Math.abs(Number(b.dataset.f)-RX.freq)<Number(b.dataset.f)*0.04);
     });
@@ -1483,15 +1344,6 @@ const UI={
       if(pg==="rflab") this.sizeIq();
     };
     document.querySelectorAll("[data-pg]").forEach(el=>el.addEventListener("click",()=>go(el.dataset.pg)));
-    /* collapsible sidebar */
-    const applyCollapse=()=>{
-      $("sideBar").classList.toggle("collapsed", !!S.menuCollapsed);
-      $("menuCollapse").setAttribute("aria-expanded", String(!S.menuCollapsed));
-      $("menuCollapse").title=S.menuCollapsed?"Expand menu":"Collapse menu";
-      requestAnimationFrame(()=>{ this.sizeScopes(); this.sizeIq(); });
-    };
-    $("menuCollapse").onclick=()=>{ S.menuCollapsed=!S.menuCollapsed; Store.save(); applyCollapse(); };
-    applyCollapse();
     $("menuBandplan").onclick=()=>alert("US amateur HF quick reference (phone/CW general):\n160m 1.800-2.000\n80m 3.500-4.000\n40m 7.000-7.300\n30m 10.100-10.150 (CW/data)\n20m 14.000-14.350\n17m 18.068-18.168\n15m 21.000-21.450\n12m 24.890-24.990\n10m 28.000-29.700\n6m 50.0-54.0  2m 144-148  70cm 420-450");
     $("menuShortcuts").onclick=()=>alert("Keyboard:\nDigits + Enter = direct entry (Hz)\nArrow Left/Right = step down/up\nArrow Up/Down = 10x step\nM = audio on/off\n? = quick start");
     $("btnHelp").onclick=()=>alert("SPECTRUM quick start:\n1. Click SIMULATOR to run without hardware, or CONNECT USB with an RTL-SDR in Chrome/Edge.\n2. Turn VOLUME up and click the headphone button to start audio (browser requires a click).\n3. Tune with the keypad, band buttons, arrow keys, or by clicking the spectrum.\n4. Try the sim CW beacon at 7.050.000 in CW mode, then open Decode.");
@@ -1504,24 +1356,18 @@ const UI={
     $("agcKnob").value=S.agc; $("afKnob").value=S.af; $("sqKnob").value=S.squelch; $("volKnob").value=S.vol;
     ["agcKnob","afKnob","sqKnob","volKnob"].forEach(id=>$(id).dispatchEvent(new Event("input")));
 
-    /* connect buttons: each toggles its own source */
-    $("btnSim").onclick=async ()=>{
-      if(this.srcType==="sim"){ await this.stopSource(); return; }
-      await this.startSource(new SimSource(), "sim");
-    };
+    /* connect buttons */
+    $("btnSim").onclick=()=>this.startSource(new SimSource());
     $("btnConnect").onclick=async ()=>{
-      if(this.srcType==="usb"){ await this.stopSource(); return; }
       if(!navigator.usb){ alert("WebUSB is not available in this browser. Chrome or Edge on desktop is required for hardware; the Simulator works everywhere."); return; }
       const src=new RtlSource();
-      src.center=RX.freq; src.rate=S.sampleRate; src.ppm=S.ppm; src.rfGain=S.rfGain; src.directSetting=S.direct||"auto";
+      src.center=RX.freq; src.rate=S.sampleRate; src.ppm=S.ppm; src.rfGain=S.rfGain;
       try{
-        if(this.srcType==="sim") await this.stopSource();
         this.setConn("warn","Negotiating","Requesting device...");
         await src.connect();
-        await this.startSource(src, "usb");
+        await this.startSource(src, true);
       }catch(e){
         this.setConn("","Standby","No device: "+e.message);
-        this.updateConnButtons();
         alert("USB connect failed: "+e.message+"\n\nNotes: use Chrome/Edge over HTTPS or localhost, and make sure no other SDR app holds the dongle. On Linux, udev rules must allow user access.");
       }
     };
@@ -1542,14 +1388,6 @@ const UI={
     $("srSel").onchange=e=>{ S.sampleRate=+e.target.value; Store.save(); $("rsSr").textContent=(S.sampleRate/1e6)+" MS/s"; };
     $("ppmIn").value=S.ppm;
     $("ppmIn").onchange=e=>{ S.ppm=+e.target.value; Store.save(); };
-    $("directSel").value=S.direct||"auto";
-    $("directSel").onchange=async e=>{
-      S.direct=e.target.value; Store.save();
-      if(RX.src && RX.src.setDirectSetting){
-        try{ await RX.src.setDirectSetting(S.direct); this.freqChanged(); }
-        catch(err){ alert("Direct sampling switch failed: "+err.message); }
-      }
-    };
 
     /* keypad */
     document.querySelectorAll(".pad-grid [data-key]").forEach(b=>b.onclick=()=>this.key(b.dataset.key));
@@ -1579,59 +1417,14 @@ const UI={
       bg.appendChild(b);
     });
 
-    /* scope interaction: click tunes, drag slews, wheel steps, ctrl-wheel zooms */
-    this.zoom=Math.max(1,Math.min(16,S.zoom||1));
-    const setZoom=(z)=>{
-      this.zoom=Math.max(1,Math.min(16,z));
-      S.zoom=this.zoom; Store.save();
-      $("zoomLbl").textContent=this.zoom+"x";
-    };
-    $("zoomIn").onclick=()=>setZoom(this.zoom*2);
-    $("zoomOut").onclick=()=>setZoom(this.zoom/2);
-    setZoom(this.zoom);
-    const hzPerPx=(cv)=>{
-      if(!RX.src) return 0;
-      const w=cv.getBoundingClientRect().width||1;
-      return RX.src.rate/this.zoom/w;
-    };
-    const scopePointer=(cv)=>{
-      cv.style.cursor="crosshair";
-      let pid=null, px0=0, f0=0, drag=false, lastT=0;
-      cv.addEventListener("pointerdown",e=>{
-        if(!RX.src) return;
-        pid=e.pointerId; px0=e.clientX; f0=RX.freq; drag=false;
-        cv.setPointerCapture(pid);
-      });
-      cv.addEventListener("pointermove",e=>{
-        if(pid===null||e.pointerId!==pid) return;
-        const dx=e.clientX-px0;
-        if(Math.abs(dx)>3) drag=true;
-        if(drag){
-          const now=performance.now();
-          if(now-lastT>90){ lastT=now; RX.tune(f0-dx*hzPerPx(cv)); }
-        }
-      });
-      cv.addEventListener("pointerup",e=>{
-        if(pid===null||e.pointerId!==pid) return;
-        try{ cv.releasePointerCapture(pid); }catch(_){}
-        pid=null;
-        if(!RX.src) return;
-        if(drag){ RX.tune(f0-(e.clientX-px0)*hzPerPx(cv)); }
-        else{
-          const r=cv.getBoundingClientRect();
-          const frac=(e.clientX-r.left)/r.width;
-          RX.tune(RX.freq+(frac-0.5)*RX.src.rate/this.zoom);
-        }
-      });
-      cv.addEventListener("wheel",e=>{
-        e.preventDefault();
-        if(e.ctrlKey){ setZoom(e.deltaY<0?this.zoom*2:this.zoom/2); return; }
-        if(!RX.src) return;
-        const st=this.steps[this.stepIdx];
-        RX.tune(RX.freq+(e.deltaY<0?st:-st));
-      },{passive:false});
-    };
-    scopePointer($("spectrumC")); scopePointer($("waterfallC"));
+    /* click-to-tune on scopes */
+    const clickTune=(cv)=>cv.addEventListener("click",e=>{
+      if(!RX.src) return;
+      const r=cv.getBoundingClientRect();
+      const frac=(e.clientX-r.left)/r.width;
+      RX.tune(RX.freq+(frac-0.5)*RX.src.rate);
+    });
+    clickTune($("spectrumC")); clickTune($("waterfallC"));
 
     /* memories */
     $("memNew").onclick=()=>{
@@ -1788,40 +1581,23 @@ const UI={
     $("connState").textContent=state;
     $("connDetail").textContent=detail;
   },
-  srcType:null,
-  async startSource(src, type){
+  async startSource(src, isHw){
     if(RX.src){ try{ await RX.src.stop(); }catch(e){} }
     RX.attach(src);
     src.setCenter&&src.setCenter(RX.freq);
     await src.start();
     RX.running=true;
-    this.srcType=type;
     this.setConn("on","Connected", src.name+(src.serial?(" S/N: "+src.serial):""));
     $("rsSrc").textContent=src.name;
     $("rsSr").textContent=(src.rate/1e6).toFixed(src.rate%1e6?3:1)+" MS/s";
-    this.updateConnButtons();
+    $("btnConnect").textContent=isHw?"Disconnect":"Connect USB";
+    if(isHw){
+      $("btnConnect").onclick=async ()=>{ await src.stop(); RX.running=false; this.setConn("","Standby","No device"); location.reload(); };
+    }
     RX.setupDecim();
   },
-  async stopSource(){
-    if(RX.src){ try{ await RX.src.stop(); }catch(e){} }
-    RX.src=null; RX.running=false; this.srcType=null;
-    this.setConn("","Standby","No device");
-    $("rsSrc").textContent="None";
-    this.updateConnButtons();
-  },
-  updateConnButtons(){
-    const c=$("btnConnect"), s=$("btnSim");
-    const usb=this.srcType==="usb", sim=this.srcType==="sim";
-    c.textContent=usb?"Disconnect":"Connect USB";
-    c.classList.toggle("stop", usb);
-    s.textContent=sim?"Stop Sim":"Simulator";
-    s.classList.toggle("stop", sim);
-  },
   sourceLost(e){
-    RX.src=null; RX.running=false; this.srcType=null;
     this.setConn("","Standby","Stream lost: "+(e&&e.message||"unplugged"));
-    $("rsSrc").textContent="None";
-    this.updateConnButtons();
   },
 
   renderMems(){
@@ -1918,15 +1694,8 @@ const UI={
     RX.smoothDbm+=(RX.sigDbm-RX.smoothDbm)*0.2;
   },
 
-  visRange(){
-    const N=RX.fftSize;
-    const len=Math.max(16, Math.floor(N/this.zoom));
-    return { start:(N-len)>>1, len };
-  },
-
   drawSpectrum(){
-    const c=$("spectrumC"), g=c.getContext("2d"), W=c.width,H=c.height;
-    const {start,len}=this.visRange();
+    const c=$("spectrumC"), g=c.getContext("2d"), W=c.width,H=c.height,N=RX.fftSize;
     g.fillStyle="#0c120a"; g.fillRect(0,0,W,H);
     const lo=-130, hi=-10;
     /* grid */
@@ -1944,41 +1713,39 @@ const UI={
     g.shadowColor="rgba(168,215,106,.5)"; g.shadowBlur=4;
     g.beginPath();
     for(let x=0;x<W;x++){
-      const i=start+Math.floor(x/W*len);
+      const i=Math.floor(x/W*N);
       const y=H*(1-(RX.specAvg[i]-lo)/(hi-lo));
       x?g.lineTo(x,y):g.moveTo(x,y);
     }
     g.stroke(); g.shadowBlur=0;
     /* filter shading + center line */
-    const visSpan=RX.src.rate/this.zoom;
-    const hz2px=W/visSpan;
+    const hz2px=W/RX.src.rate;
     const fw=RX.filter*hz2px;
     g.fillStyle="rgba(168,215,106,.08)";
     let fx=W/2, fx0=fx-fw/2;
     if(RX.mode==="USB") fx0=fx; else if(RX.mode==="LSB") fx0=fx-fw;
-    g.fillRect(fx0,0,Math.max(2,fw),H);
+    g.fillRect(fx0,0,Math.max(2,RX.mode==="USB"||RX.mode==="LSB"?fw:fw),H);
     g.strokeStyle="#c4552e"; g.lineWidth=1.5;
     g.beginPath(); g.moveTo(W/2,0); g.lineTo(W/2,H); g.stroke();
     g.fillStyle="#c4552e"; g.beginPath();
     g.moveTo(W/2-5,0); g.lineTo(W/2+5,0); g.lineTo(W/2,8); g.fill();
     /* HUD */
-    const span=RX.src.rate, N=RX.fftSize;
-    $("spanLbl").textContent=(visSpan/1e6).toFixed(3).replace(/0+$/,"").replace(/\.$/,"")+" MHz";
+    const span=RX.src.rate;
+    $("spanLbl").textContent=(span/1e6).toFixed(span%1e6?3:0).replace(/0+$/,"").replace(/\.$/,"")+" MHz";
     $("rbwLbl").textContent=(span/N/1000).toFixed(1)+" kHz";
-    $("hudLo").textContent=((RX.freq-visSpan/2)/1e6).toFixed(3);
+    $("hudLo").textContent=((RX.freq-span/2)/1e6).toFixed(3);
     $("hudMid").textContent=(RX.freq/1e6).toFixed(3);
-    $("hudHi").textContent=((RX.freq+visSpan/2)/1e6).toFixed(3);
+    $("hudHi").textContent=((RX.freq+span/2)/1e6).toFixed(3);
   },
 
   drawWaterfall(){
-    const c=$("waterfallC"), g=c.getContext("2d"), W=c.width,H=c.height;
-    const {start,len}=this.visRange();
+    const c=$("waterfallC"), g=c.getContext("2d"), W=c.width,H=c.height,N=RX.fftSize;
     /* scroll down one line */
     g.drawImage(c, 0,0,W,H-1, 0,1,W,H-1);
     const row=g.createImageData(W,1), d=row.data, lut=DSP.cmap;
     const lo=S.wfFloor, hi=S.wfCeil;
     for(let x=0;x<W;x++){
-      const i=start+Math.floor(x/W*len);
+      const i=Math.floor(x/W*N);
       let v=(RX.specAvg[i]-lo)/(hi-lo);
       v=Math.max(0,Math.min(1,v));
       const k=(v*255|0)*3;
@@ -2143,32 +1910,6 @@ const UI={
     T("Colormap: 256 entries, ends warmer than it starts",()=>{
       const l=DSP.cmap;
       return (l.length===768 && l[765]>l[0]) || "lut malformed";
-    });
-    T("FIR design: unity DC gain, 40 dB stopband",()=>{
-      const h=designLowpass(63,0.1);
-      let dc=0; for(let i=0;i<h.length;i++) dc+=h[i];
-      let re=0,im=0;
-      for(let i=0;i<h.length;i++){ re+=h[i]*Math.cos(2*Math.PI*0.25*i); im-=h[i]*Math.sin(2*Math.PI*0.25*i); }
-      const att=-20*Math.log10(Math.hypot(re,im)+1e-12);
-      return (Math.abs(dc-1)<0.01 && att>40) || "dc "+dc.toFixed(3)+" att "+att.toFixed(1)+" dB";
-    });
-    T("FIR decimator: passband survives, alias down 40 dB",()=>{
-      const D=4, h=designLowpass(64,0.45/D), n=4096;
-      const mk=(f)=>{ const iq=new Float32Array(n*2);
-        for(let i=0;i<n;i++){ iq[2*i]=Math.cos(2*Math.PI*f*i); iq[2*i+1]=Math.sin(2*Math.PI*f*i); }
-        return iq; };
-      const rms=(o)=>{ let e=0; for(let i=0;i<o.length;i++) e+=o[i]*o[i]; return Math.sqrt(e/Math.max(1,o.length)); };
-      const pass=rms(new FirDecimator(h,D,true).process(mk(0.02)));
-      const alias=rms(new FirDecimator(h,D,true).process(mk(0.24)));
-      const rej=20*Math.log10(pass/(alias+1e-12));
-      return (pass>0.6 && rej>40) || "pass rms "+pass.toFixed(3)+" rejection "+rej.toFixed(1)+" dB";
-    });
-    T("Zoom: visible range centers and scales",()=>{
-      const saveZ=UI.zoom, saveN=RX.fftSize;
-      RX.fftSize=2048; UI.zoom=4;
-      const v=UI.visRange();
-      UI.zoom=saveZ; RX.fftSize=saveN;
-      return (v.len===512 && v.start===768) || "len "+v.len+" start "+v.start;
     });
     T("Frequency formatter: 14265000 renders 14.265.000",()=>{
       return UI.fmtFreq(14265000)==="14.265.000" || UI.fmtFreq(14265000);
