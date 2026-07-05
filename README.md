@@ -70,6 +70,8 @@ GPL-3.0
 
 ## Changelog
 
+- **v0.3.2** Band module gains US broadcast buttons: AM (530-1700 kHz, tunes to 1000 kHz), FM (87.9-107.9 MHz, tunes to 98.1), and WX (NOAA weather, tunes to 162.550). These three also switch the demodulator (AM, WFM, NFM respectively); the amateur band buttons remain tune-only so they never override a chosen mode. Tooltips carry the band ranges.
+
 - **v0.3.1** Squelch now measures SNR above the noise floor instead of absolute dBFS, so the setting survives gain changes; the knob reads 0 (open) to +60 dB SNR and pre-0.3.1 stored values migrate to open. The in-filter SNR readout on the Signals page is now bin-count normalized (in-filter power compared against the noise the same number of bins would hold), so an empty channel reads near 0 dB instead of inheriting a bin-count offset; the CW decoder threshold rides the same normalized figure. Bench-verified: a 20 dB gain change moves the absolute level 20.0 dB but the SNR squelch decision under 2 dB, where the old scheme flips outright.
 
 - **v0.3.0 Shakedown.** IQ recording to standard 2-channel WAV with SDR-style frequency-tagged filenames, audio recording at line level, and replay of any IQ WAV through the complete receiver (spectrum, demodulators, decoder) with the dial following the filename tag. Five-step commissioning checklist on the System page: device verification, frequency error measurement against a reference with PPM apply, automated gain walk, S-meter calibration against a known level, and a persistent commissioning record that overrides the default calibration everywhere. Three new self-tests (WAV round trip, FileSource replay, calibration override), 14 total.
