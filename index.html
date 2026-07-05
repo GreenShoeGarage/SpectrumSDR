@@ -1,127 +1,1983 @@
-<!doctype html>
+<!DOCTYPE html>
+<!-- SPECTRUM FI-064 v0.1.2 build marker -->
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>WebSDR Studio v14.9 Sidebar Recovery</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPECTRUM | Field Instrument 064 | A WebSDR Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&family=Oswald:wght@400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f8fafc;--panel:#fff;--text:#111827;--muted:#4b5563;--border:#d1d5db;--accent:#2563eb;--accent2:#dbeafe;--good:#047857;--warn:#b45309;--bad:#b91c1c;--chip:#f1f5f9;--side:#eef2f7;--focus:#f59e0b;--shadow:0 10px 30px rgba(15,23,42,.08)}
-[data-theme=dark]{--bg:#08111f;--panel:#101b2d;--text:#f8fafc;--muted:#cbd5e1;--border:#334155;--accent:#60a5fa;--accent2:#1e3a5f;--good:#34d399;--warn:#fbbf24;--bad:#fb7185;--chip:#17243a;--side:#0d1727;--focus:#facc15;--shadow:0 10px 30px rgba(0,0,0,.35)}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--focus);outline-offset:2px}.app{display:grid;grid-template-columns:280px 1fr;height:100vh;overflow:hidden}.sidebar{background:var(--side);border-right:1px solid var(--border);padding:16px;display:flex;flex-direction:column;gap:14px;height:100vh;position:sticky;top:0;overflow-y:auto}.brand{display:flex;gap:10px;align-items:center}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--accent),#8b5cf6);box-shadow:var(--shadow)}.brand h1{font-size:19px;margin:0;line-height:1}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.nav-title{font-size:11px;color:var(--muted);font-weight:850;letter-spacing:.12em;margin:14px 8px 6px}.nav-btn{width:100%;border:1px solid transparent;background:transparent;color:var(--text);display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;text-align:left}.nav-btn:hover{background:var(--chip)}.nav-btn.active{background:var(--accent2);border-color:var(--accent);font-weight:850}.side-actions{display:grid;grid-template-columns:1fr;gap:8px;margin:2px 0 4px}.side-footer{margin-top:auto;display:grid;gap:8px}.main{display:flex;flex-direction:column;min-width:0;height:100vh;overflow:auto}.topbar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}.toolbar{display:flex;gap:8px;align-items:center;padding:10px 14px;flex-wrap:wrap}.tool-btn,.ghost-btn,.primary-btn,.danger-btn{border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:12px;padding:9px 12px}.primary-btn{background:var(--accent);color:#fff;border-color:var(--accent)}.danger-btn{background:var(--bad);color:#fff;border-color:var(--bad)}.ghost-btn{background:var(--chip)}.tool-btn[aria-pressed=true]{background:var(--accent2);border-color:var(--accent);font-weight:850}.spacer{flex:1}.search{min-width:220px;border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:12px;padding:9px 12px}.status{display:flex;gap:8px;align-items:center;padding:0 14px 10px;overflow:auto}.pill{white-space:nowrap;border:1px solid var(--border);background:var(--chip);border-radius:999px;padding:6px 10px;color:var(--text)}.pill.good{color:var(--good);border-color:color-mix(in srgb,var(--good) 45%,var(--border))}.pill.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,var(--border))}.content{padding:18px;display:grid;gap:16px}.workspace-head{display:flex;gap:14px;align-items:flex-start;justify-content:space-between}.workspace-head h2{font-size:28px;margin:0}.workspace-head p{margin:4px 0 0;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.card{grid-column:span 4;background:var(--panel);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:16px;min-height:120px}.card.wide{grid-column:span 8}.card.full{grid-column:1/-1}.card.half{grid-column:span 6}.card h3{margin:0 0 8px;font-size:17px}.card p{color:var(--muted)}.metric{font-size:28px;font-weight:900}.form-row{display:grid;grid-template-columns:130px 1fr;gap:10px;align-items:center;margin:10px 0}.field{width:100%;border:1px solid var(--border);border-radius:12px;padding:9px 10px;background:var(--panel);color:var(--text)}.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.canvas{height:240px;border-radius:14px;border:1px solid var(--border);background:linear-gradient(180deg,#172554,#0f172a);position:relative;overflow:hidden}.trace{position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0 18px,rgba(255,255,255,.06) 19px),linear-gradient(90deg,transparent 0 8%,rgba(96,165,250,.3) 11%,transparent 14%,transparent 37%,rgba(34,197,94,.38) 41%,transparent 44%,transparent 69%,rgba(244,63,94,.38) 74%,transparent 78%)}.cursor{position:absolute;top:0;bottom:0;width:2px;background:#fff;left:50%;box-shadow:0 0 12px #fff}.waterfall{height:240px;border-radius:14px;border:1px solid var(--border);background:repeating-linear-gradient(180deg,#07111f 0 5px,#0b2344 6px,#1d4ed8 7px,#0f172a 10px)}.table{width:100%;border-collapse:collapse}.table th,.table td{border-bottom:1px solid var(--border);padding:9px;text-align:left}.table th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--chip);border:1px solid var(--border);border-radius:6px;padding:2px 6px}.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-start;justify-content:center;padding-top:10vh;z-index:10}.modal.open{display:flex}.dialog{width:min(760px,92vw);background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);padding:16px}.dialog-head{display:flex;justify-content:space-between;align-items:center}.cmd-list{display:grid;gap:6px;margin-top:12px;max-height:360px;overflow:auto}.cmd-item{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:10px;border-radius:12px;text-align:left}.cmd-item:hover{background:var(--accent2);border-color:var(--accent)}.toast{position:fixed;right:18px;bottom:18px;background:var(--panel);border:1px solid var(--border);box-shadow:var(--shadow);padding:12px 14px;border-radius:14px;display:none;z-index:12}.toast.show{display:block}.collapsed .app{grid-template-columns:76px 1fr}.collapsed .brand p,.collapsed .brand h1,.collapsed .nav-title,.collapsed .nav-btn span,.collapsed .side-footer .ghost-btn span,.collapsed .side-actions .ghost-btn span{display:none}.collapsed .sidebar{padding:12px}.test-pass{color:var(--good);font-weight:850}.test-fail{color:var(--bad);font-weight:850}
-.radio-console{display:grid;grid-template-columns:280px minmax(460px,1fr) 300px;grid-template-rows:auto auto;gap:14px}.radio-left,.radio-center,.radio-right,.radio-bottom{background:var(--panel);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:16px}.radio-bottom{grid-column:1/-1}.radio-center{min-width:0}.freq-display{font-size:32px;font-weight:950;letter-spacing:.02em;border:1px solid var(--border);background:var(--chip);border-radius:16px;padding:12px 14px;text-align:center;margin:8px 0 10px}.freq-display input{font-size:32px;font-weight:950;text-align:center;border:0;background:transparent;color:var(--text);width:100%;outline:0}.step-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:10px 0}.step-grid button{padding:8px 6px}.signal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.signal-box{border:1px solid var(--border);background:var(--chip);border-radius:12px;padding:10px}.signal-box b{display:block;font-size:18px}.dock-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.dock-panel{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.mini-card{border:1px solid var(--border);background:var(--chip);border-radius:14px;padding:12px}.bookmark-row{display:flex;gap:8px;flex-wrap:wrap}.bookmark-row button{border-color:color-mix(in srgb,#a855f7 45%,var(--border))}.waterfall-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.operator-mode .sidebar,.operator-mode .topbar{display:none}.operator-mode .app{grid-template-columns:1fr}.operator-mode .content{padding:10px}.operator-mode .radio-left,.operator-mode .radio-right,.operator-mode .radio-bottom,.operator-mode .workspace-head{display:none}.operator-mode .radio-console{grid-template-columns:1fr}.operator-mode .radio-center{min-height:90vh}.operator-mode .canvas{height:52vh}.operator-mode .waterfall{height:32vh}@media(max-width:1200px){.radio-console{grid-template-columns:1fr}.radio-bottom{grid-column:auto}.dock-panel{grid-template-columns:1fr 1fr}}
-@media(max-width:900px){.app{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.card,.card.wide,.card.half{grid-column:1/-1}.search{width:100%;min-width:0}.workspace-head{display:block}}
+/* ============================================================
+   SPECTRUM - Field Instrument 064 - A WebSDR Studio
+   Palette: Signal Corps olive drab
+   ============================================================ */
+:root{
+  --od-deep:   #1e2114;  /* app background        */
+  --od-dark:   #2a2d1d;  /* recessed wells         */
+  --od-panel:  #3d4029;  /* panel face             */
+  --od-raise:  #4a4d33;  /* raised control face    */
+  --od-edge:   #565a3c;  /* bevel light            */
+  --od-shadow: #14160d;  /* bevel dark             */
+  --ink:       #d6d2b4;  /* stenciled cream        */
+  --ink-dim:   #a5a284;  /* secondary labels       */
+  --ink-faint: #7c7a60;
+  --led-green: #a8d76a;  /* phosphor readouts      */
+  --led-dim:   #5d7a3c;
+  --amber:     #e0a33c;  /* release plate / warn   */
+  --alert:     #c4552e;  /* needle red / danger    */
+  --scope-bg:  #0c120a;  /* CRT well               */
+  --grid-line: #223321;
+  --focusring: #e0a33c;
+  --f-stencil: 'Allerta Stencil', sans-serif;
+  --f-ui:      'Oswald', sans-serif;
+  --f-mono:    'Share Tech Mono', monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{
+  min-height:100vh;
+  background:var(--od-deep);
+  background-image:
+    radial-gradient(ellipse at 50% -10%, rgba(255,255,240,.045), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0 1px, transparent 1px 3px);
+  color:var(--ink);
+  font-family:var(--f-ui);
+  font-size:14px;
+  letter-spacing:.02em;
+  display:flex;flex-direction:column;
+}
+button{font-family:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--focusring);outline-offset:2px}
+::selection{background:var(--led-dim);color:#fff}
 
-.signals-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.signal-hero{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:16px}.signal-card{border-left:5px solid var(--accent)}.info-grid{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:12px 0}.info-grid span,.muted{color:var(--muted)}.metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.metric-grid div{padding:12px;border:1px solid var(--border);border-radius:14px;background:var(--soft)}.metric-grid small{display:block;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em}.metric-grid b{font-size:1.25rem}.toolbar-strip{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.toolbar-strip .search{min-width:280px;flex:1}@media(max-width:950px){.signals-layout{grid-template-columns:1fr}.signal-hero{display:block}.toolbar-strip .search{min-width:100%}}
+/* ---------- panel chrome ---------- */
+.panel{
+  background:linear-gradient(160deg, var(--od-panel), #383b26);
+  border:1px solid var(--od-shadow);
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,240,.10),
+    inset -1px -1px 0 rgba(0,0,0,.35),
+    0 2px 6px rgba(0,0,0,.45);
+  border-radius:6px;
+  position:relative;
+}
+.rivets::before,.rivets::after,
+.rivets .rv::before,.rivets .rv::after{
+  content:"";position:absolute;width:7px;height:7px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #6a6d4c, #2c2e1d 70%);
+  box-shadow:inset 0 -1px 1px rgba(0,0,0,.6), 0 1px 1px rgba(255,255,240,.12);
+  pointer-events:none;
+}
+.rivets::before{top:5px;left:5px}
+.rivets::after{top:5px;right:5px}
+.rivets .rv::before{bottom:5px;left:5px}
+.rivets .rv::after{bottom:5px;right:5px}
+.rivets .rv{position:absolute;inset:0;pointer-events:none}
+
+.panel-title{
+  font-family:var(--f-ui);font-weight:600;font-size:11px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim);
+  padding:8px 12px 4px 14px;display:flex;align-items:center;gap:8px;
+}
+.panel-title .tr{margin-left:auto;font-weight:400;letter-spacing:.08em;color:var(--ink-faint);font-size:10.5px}
+
+.well{
+  background:var(--od-dark);
+  border:1px solid var(--od-shadow);
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.55), inset 0 -1px 0 rgba(255,255,240,.05);
+  border-radius:4px;
+}
+
+/* ---------- LED / phosphor readouts ---------- */
+.led{
+  font-family:var(--f-mono);color:var(--led-green);
+  background:linear-gradient(#0d130b,#101a0d);
+  border:1px solid #000;border-radius:4px;
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,240,.06);
+  text-shadow:0 0 6px rgba(168,215,106,.55);
+  padding:4px 10px;
+}
+.led .unit{color:var(--led-dim);font-size:.62em;letter-spacing:.1em}
+
+/* ---------- buttons ---------- */
+.btn{
+  background:linear-gradient(#565a3c,#41442d);
+  border:1px solid var(--od-shadow);
+  border-radius:4px;color:var(--ink);
+  font-family:var(--f-ui);font-weight:500;font-size:12px;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:7px 14px;
+  box-shadow:inset 0 1px 0 rgba(255,255,240,.18), 0 2px 3px rgba(0,0,0,.45);
+}
+.btn:hover{background:linear-gradient(#61653f,#494c31)}
+.btn:active{box-shadow:inset 0 2px 4px rgba(0,0,0,.5);transform:translateY(1px)}
+.btn.active{
+  background:linear-gradient(#2d3020,#23261a);
+  color:var(--amber);border-color:#000;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.6), 0 0 0 1px rgba(224,163,60,.35);
+}
+.btn.small{padding:5px 9px;font-size:11px}
+.btn.danger{color:#e8b39a}
+.btn.stop{
+  background:linear-gradient(#a3492a,#7c3520);
+  color:#f4ddcb;border-color:#2a0f06;
+  box-shadow:inset 0 1px 0 rgba(255,220,190,.25), 0 2px 3px rgba(0,0,0,.5);
+}
+.btn.stop:hover{background:linear-gradient(#b25232,#8a3c24)}
+
+/* ---------- header rail ---------- */
+header.rail{
+  display:flex;gap:10px;align-items:stretch;padding:10px 12px 6px;
+  flex-wrap:wrap;
+}
+.plate{
+  padding:10px 16px;display:flex;flex-direction:column;justify-content:center;
+}
+.plate .fi{font-size:10px;letter-spacing:.3em;color:var(--ink-dim);text-transform:uppercase}
+.plate h1{
+  font-family:var(--f-stencil);font-size:34px;line-height:1.02;
+  color:var(--ink);text-transform:uppercase;letter-spacing:.04em;
+  text-shadow:0 1px 0 rgba(0,0,0,.6);
+}
+.plate .sub{font-size:11px;letter-spacing:.2em;color:var(--ink-dim);text-transform:uppercase}
+
+.hdr-conn{flex:1 1 260px;min-width:240px;padding:8px 12px;display:flex;gap:12px;align-items:center}
+.conn-meta{font-size:11.5px;line-height:1.5;color:var(--ink-dim)}
+.conn-meta b{color:var(--ink);font-weight:500}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#5a3d2b;box-shadow:inset 0 -1px 2px rgba(0,0,0,.6);vertical-align:-1px;margin-right:6px}
+.dot.on{background:var(--led-green);box-shadow:0 0 7px rgba(168,215,106,.8)}
+.dot.warn{background:var(--amber);box-shadow:0 0 7px rgba(224,163,60,.8)}
+
+.hdr-quick{display:flex;gap:10px;flex:2 1 420px;min-width:320px}
+.qk{flex:1;padding:8px 10px;text-align:center;display:flex;flex-direction:column;gap:4px}
+.qk .lab{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim)}
+.qk .val{font-family:var(--f-mono);font-size:15px;color:var(--ink)}
+.qk input[type=range]{width:100%;accent-color:var(--led-green)}
+
+.hdr-crest{padding:8px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:150px}
+.hdr-crest .star{font-size:26px;color:var(--ink);text-shadow:0 1px 0 #000}
+.hdr-crest .l1{font-family:var(--f-stencil);font-size:14px;letter-spacing:.1em}
+.hdr-crest .l2{font-size:9.5px;letter-spacing:.28em;color:var(--ink-dim)}
+
+/* ---------- nav tabs ---------- */
+nav.tabs{display:flex;gap:4px;padding:4px 12px 0;flex-wrap:wrap}
+.tab{
+  background:linear-gradient(#3a3d28,#31341f);
+  border:1px solid var(--od-shadow);border-bottom:none;
+  border-radius:6px 6px 0 0;
+  padding:9px 16px;font-size:12px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);
+  display:flex;align-items:center;gap:7px;
+}
+.tab .ic{font-family:var(--f-mono);font-size:12px;opacity:.8}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{
+  background:linear-gradient(#4a4d33,#3d4029);color:var(--ink);
+  box-shadow:inset 0 2px 0 var(--amber);
+}
+.tab.util{margin-left:auto}
+
+/* ---------- main grid ---------- */
+main{flex:1;display:flex;gap:10px;padding:8px 12px;align-items:stretch;min-height:0}
+aside.side{width:210px;flex:0 0 210px;display:flex;flex-direction:column;gap:10px}
+.side-menu{padding:6px}
+.side-menu button{
+  width:100%;text-align:left;background:none;border:none;
+  padding:9px 10px;border-radius:4px;font-size:12.5px;font-weight:500;
+  letter-spacing:.08em;color:var(--ink-dim);display:flex;gap:9px;align-items:center;
+  white-space:nowrap;
+}
+aside.side.collapsed{width:56px;flex-basis:56px}
+aside.side.collapsed .side-menu button{justify-content:center;padding:9px 4px}
+aside.side.collapsed .side-menu button .lbl{display:none}
+aside.side.collapsed .side-plate{display:none}
+aside.side.collapsed .side-plate.ver{display:block;padding:8px 4px}
+aside.side.collapsed .side-plate.ver .nm{font-size:10px;word-break:break-word}
+aside.side.collapsed .side-plate.ver .rl{display:none}
+.side-menu button:hover{background:rgba(255,255,240,.05);color:var(--ink)}
+.side-menu button.on{background:var(--od-dark);color:var(--ink);box-shadow:inset 2px 0 0 var(--amber), inset 0 1px 3px rgba(0,0,0,.5)}
+.side-plate{padding:12px;text-align:center}
+.side-plate .nm{font-family:var(--f-stencil);font-size:13px;letter-spacing:.06em}
+.side-plate .rl{font-size:10px;letter-spacing:.2em;color:var(--ink-dim);text-transform:uppercase;margin-top:2px}
+.side-plate.ver .nm{color:var(--amber)}
+.side-plate.ver .rl{color:var(--amber);opacity:.8}
+
+section.stage{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px}
+.page{display:none;flex-direction:column;gap:10px;min-height:0}
+.page.on{display:flex}
+
+/* ---------- scopes ---------- */
+.scope-wrap{padding:8px 10px 10px}
+canvas.scope{display:block;width:100%;background:var(--scope-bg);border-radius:3px}
+#spectrumC{height:190px}
+#waterfallC{height:200px}
+.freq-flag{
+  position:absolute;left:50%;top:34px;transform:translateX(-50%);
+  z-index:3;padding:3px 16px;font-size:19px;
+}
+.scope-hud{display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink-faint);letter-spacing:.1em;padding:2px 4px 0;font-family:var(--f-mono)}
+
+/* ---------- bottom row ---------- */
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch}
+.row > .panel{min-width:0}
+
+/* frequency pad */
+.freqpad{flex:1 1 280px;padding:8px 12px 12px}
+.freq-display{font-size:26px;text-align:center;margin-bottom:8px;padding:8px}
+.pad-grid{display:grid;grid-template-columns:repeat(3,1fr) 86px;gap:6px}
+.pad-grid .btn{font-family:var(--f-mono);font-size:15px;padding:9px 0;text-transform:none}
+.pad-side{display:flex;flex-direction:column;gap:6px}
+.pad-side .btn{flex:1;font-size:11px}
+.step-lab{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);text-align:center}
+
+/* band grid */
+.bandpanel{flex:1 1 250px;padding:8px 12px 12px}
+.band-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+
+/* memory channels */
+.mempanel{flex:2 1 360px;padding:8px 12px 12px;display:flex;flex-direction:column}
+table.mem{width:100%;border-collapse:collapse;font-family:var(--f-mono);font-size:12.5px}
+table.mem td,table.mem th{padding:5px 7px;text-align:left;border-bottom:1px solid rgba(0,0,0,.35)}
+table.mem th{font-family:var(--f-ui);font-size:10px;letter-spacing:.18em;color:var(--ink-faint);text-transform:uppercase}
+table.mem tr.sel td{background:rgba(224,163,60,.12);color:var(--amber)}
+table.mem tr:hover td{background:rgba(255,255,240,.05);cursor:pointer}
+.mem-actions{display:flex;gap:8px;margin-top:8px}
+
+/* ---------- right column ---------- */
+aside.rcol{width:250px;flex:0 0 250px;display:flex;flex-direction:column;gap:10px}
+.kv{display:flex;align-items:center;justify-content:space-between;padding:5px 12px;gap:8px}
+.kv label{font-size:12px;color:var(--ink-dim);letter-spacing:.06em}
+.kv select,.kv input[type=number]{
+  background:var(--od-dark);color:var(--ink);border:1px solid var(--od-shadow);
+  border-radius:3px;font-family:var(--f-mono);font-size:12px;padding:4px 6px;width:110px;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.5);
+}
+.kv input[type=range]{width:64px;accent-color:var(--led-green)}
+.kv .rv-val{font-family:var(--f-mono);font-size:12px;width:46px;text-align:right;color:var(--led-green)}
+
+/* S-meter */
+.smeter-wrap{padding:6px 10px 10px}
+#smeterC{width:100%;height:110px;display:block}
+.smeter-read{display:flex;justify-content:space-between;align-items:center;padding:4px 8px;margin-top:6px}
+.smeter-read .s{font-size:19px}
+.smeter-read .dbm{font-size:13px;color:var(--ink)}
+
+.minibar{padding:6px 10px 10px}
+#noiseC,#audioC{width:100%;height:44px;display:block;background:var(--scope-bg);border-radius:3px}
+.audio-btns{display:flex;gap:6px;margin-top:8px;align-items:center}
+.audio-btns .btn{flex:1;font-size:10.5px;padding:5px 4px}
+
+/* ---------- footer ---------- */
+footer.status{
+  display:flex;gap:0;align-items:stretch;margin:0 12px 10px;
+  font-family:var(--f-mono);font-size:12px;
+}
+footer.status .cell{
+  padding:8px 14px;display:flex;gap:8px;align-items:center;color:var(--ink-dim);
+  border-right:1px solid rgba(0,0,0,.4);box-shadow:inset 1px 0 0 rgba(255,255,240,.05);
+}
+footer.status .cell b{color:var(--ink);font-weight:400}
+footer.status .cell:first-child{font-family:var(--f-ui);letter-spacing:.1em}
+footer.status .grow{flex:1}
+.meterbar{width:70px;height:9px;background:#12150c;border:1px solid #000;border-radius:2px;overflow:hidden}
+.meterbar i{display:block;height:100%;background:linear-gradient(90deg,var(--led-dim),var(--led-green))}
+
+/* ---------- generic page content ---------- */
+.pg-pad{padding:12px 16px 16px;line-height:1.65}
+.pg-pad h2{font-family:var(--f-stencil);font-size:19px;letter-spacing:.05em;margin-bottom:8px}
+.pg-pad h3{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);margin:14px 0 6px}
+.pg-pad p{color:var(--ink-dim);max-width:70ch}
+.pg-pad p b{color:var(--ink);font-weight:500}
+textarea, input[type=text]{
+  background:var(--od-dark);color:var(--ink);border:1px solid var(--od-shadow);
+  border-radius:3px;font-family:var(--f-mono);font-size:13px;padding:7px 9px;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.5);width:100%;
+}
+textarea{resize:vertical;min-height:70px}
+.form-row{display:flex;gap:10px;margin:8px 0;flex-wrap:wrap}
+.form-row > div{flex:1;min-width:140px}
+.form-row label{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px}
+
+table.plain{width:100%;border-collapse:collapse;font-family:var(--f-mono);font-size:12.5px}
+table.plain td,table.plain th{padding:6px 8px;border-bottom:1px solid rgba(0,0,0,.35);text-align:left}
+table.plain th{font-family:var(--f-ui);font-size:10px;letter-spacing:.18em;color:var(--ink-faint);text-transform:uppercase}
+
+.testline{font-family:var(--f-mono);font-size:12.5px;padding:3px 0}
+.testline .ok{color:var(--led-green)}
+.testline .fail{color:var(--alert)}
+
+.decode-out{font-family:var(--f-mono);font-size:14px;color:var(--led-green);min-height:120px;padding:10px;white-space:pre-wrap;word-break:break-all}
+
+#iqScope{width:100%;height:260px;display:block;background:var(--scope-bg);border-radius:3px}
+
+/* responsive */
+@media (max-width:1100px){
+  aside.side{display:none}
+  aside.rcol{width:100%;flex:1 1 100%;flex-direction:row;flex-wrap:wrap}
+  aside.rcol>.panel{flex:1 1 240px}
+  main{flex-wrap:wrap}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 </style>
 </head>
-<body data-theme="light">
-<div class="app"><aside class="sidebar" aria-label="Primary navigation"><div class="brand"><div class="logo"></div><div><h1>WebSDR Studio</h1><p>v14.9 Sidebar Recovery</p></div></div><div class="side-actions" aria-label="Persistent sidebar controls"><button class="ghost-btn" data-command="toggle-sidebar" title="Collapse or expand sidebar">☰ <span>Collapse sidebar</span></button><button class="ghost-btn" data-command="open-dev" title="Open Developer Diagnostics">🧪 <span>Developer diagnostics</span></button></div><nav id="nav"></nav></aside><main class="main"><header class="topbar"><div class="toolbar" id="toolbar"></div><div class="status" id="status"></div></header><section class="content" id="content" tabindex="-1"></section></main></div>
-<div class="modal" id="commandModal"><div class="dialog"><div class="dialog-head"><h2>Quick Actions</h2><button class="ghost-btn" data-command="close-command">Close</button></div><input class="field" id="commandSearch" placeholder="Type a command, frequency, calculator, workspace..." autocomplete="off"><div class="cmd-list" id="commandList"></div></div></div>
-<div class="modal" id="dialogModal"><div class="dialog"><div class="dialog-head"><h2 id="dialogTitle">Dialog</h2><button class="ghost-btn" data-command="close-dialog">Close</button></div><div id="dialogBody"></div></div></div><div class="toast" id="toast"></div>
+<body>
+
+<!-- ================= HEADER RAIL ================= -->
+<header class="rail">
+  <div class="panel rivets plate"><span class="rv"></span>
+    <span class="fi">&mdash; Field Instrument 064</span>
+    <h1>Spectrum</h1>
+    <span class="sub">A WebSDR Studio &mdash;</span>
+  </div>
+
+  <div class="panel rivets hdr-conn"><span class="rv"></span>
+    <div class="conn-meta">
+      <div style="font-size:10px;letter-spacing:.22em;text-transform:uppercase">Connection</div>
+      <div><span class="dot" id="connDot"></span><b id="connState">Standby</b></div>
+      <div id="connDetail">No device</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-left:auto">
+      <button class="btn" id="btnConnect">Connect USB</button>
+      <button class="btn" id="btnSim">Simulator</button>
+    </div>
+  </div>
+
+  <div class="hdr-quick">
+    <div class="panel rivets qk"><span class="rv"></span>
+      <span class="lab">AGC</span><span class="val" id="agcVal">Medium</span>
+      <input type="range" id="agcKnob" min="0" max="3" step="1" value="2" aria-label="AGC speed">
+    </div>
+    <div class="panel rivets qk"><span class="rv"></span>
+      <span class="lab">AF Gain</span><span class="val" id="afVal">50%</span>
+      <input type="range" id="afKnob" min="0" max="100" value="50" aria-label="AF gain">
+    </div>
+    <div class="panel rivets qk"><span class="rv"></span>
+      <span class="lab">Squelch</span><span class="val" id="sqVal">-100 dB</span>
+      <input type="range" id="sqKnob" min="-120" max="-20" value="-100" aria-label="Squelch threshold">
+    </div>
+    <div class="panel rivets qk"><span class="rv"></span>
+      <span class="lab">Volume</span><span class="val" id="volVal">Muted</span>
+      <input type="range" id="volKnob" min="0" max="100" value="0" aria-label="Volume">
+    </div>
+  </div>
+
+  <div class="panel rivets hdr-crest"><span class="rv"></span>
+    <span class="star">&#9733;</span>
+    <span class="l1">U.S. ARMY</span>
+    <span class="l2">SIGNAL CORPS</span>
+  </div>
+</header>
+
+<!-- ================= NAV TABS ================= -->
+<nav class="tabs" role="tablist" aria-label="Pages">
+  <button class="tab" role="tab" data-pg="dashboard" aria-selected="true"><span class="ic">&#8962;</span>Dashboard</button>
+  <button class="tab" role="tab" data-pg="radio"><span class="ic">&#9738;</span>Radio</button>
+  <button class="tab" role="tab" data-pg="signals"><span class="ic">&#8767;</span>Signals</button>
+  <button class="tab" role="tab" data-pg="decode"><span class="ic">1010</span>Decode</button>
+  <button class="tab" role="tab" data-pg="rflab"><span class="ic">&#9634;</span>RF Lab</button>
+  <button class="tab" role="tab" data-pg="journal"><span class="ic">&#9997;</span>Journal</button>
+  <button class="tab" role="tab" data-pg="geo"><span class="ic">&#127760;</span>Geospatial</button>
+  <button class="tab" role="tab" data-pg="system"><span class="ic">&#9881;</span>System</button>
+  <button class="tab util" id="btnHelp" title="Quick start">?</button>
+</nav>
+
+<!-- ================= MAIN ================= -->
+<main>
+  <!-- left sidebar -->
+  <aside class="side" id="sideBar">
+    <div class="panel rivets side-menu"><span class="rv"></span>
+      <button id="menuCollapse" title="Collapse menu" aria-expanded="true">&#9776;<span class="lbl">&ensp;Collapse Menu</span></button>
+    </div>
+    <div class="panel rivets side-menu"><span class="rv"></span>
+      <button class="on" data-pg="dashboard" title="Dashboard">&#8962;<span class="lbl">&ensp;Dashboard</span></button>
+      <button data-pg="journal" title="Journal">&#9997;<span class="lbl">&ensp;Journal</span></button>
+      <button data-pg="signals" title="Signals">&#8767;<span class="lbl">&ensp;Signals</span></button>
+      <button id="menuBandplan" title="Band Plan">&#9636;<span class="lbl">&ensp;Band Plan</span></button>
+      <button id="menuShortcuts" title="Shortcuts">&#9000;<span class="lbl">&ensp;Shortcuts</span></button>
+    </div>
+    <div class="panel rivets side-plate"><span class="rv"></span>
+      <div class="nm">&#128295; Developer<br>Diagnostics</div>
+    </div>
+    <div style="flex:1"></div>
+    <div class="panel rivets side-plate"><span class="rv"></span>
+      <div class="nm">M.B. Parks</div>
+      <div class="rl">Green Shoe Garage</div>
+    </div>
+    <div class="panel rivets side-plate ver"><span class="rv"></span>
+      <div class="nm" id="verPlate">SPECTRUM v0.1.0</div>
+      <div class="rl">Foundation Release</div>
+    </div>
+  </aside>
+
+  <!-- center stage -->
+  <section class="stage">
+
+    <!-- ========== PAGE: DASHBOARD ========== -->
+    <div class="page on" id="pg-dashboard">
+      <div class="panel rivets" style="position:relative"><span class="rv"></span>
+        <div class="panel-title">Realtime Spectrum
+          <span class="tr">Span: <span id="spanLbl">--</span> &emsp; RBW: <span id="rbwLbl">--</span></span>
+        </div>
+        <div class="led freq-flag" id="freqFlag">14.265.000 <span class="unit">MHz</span></div>
+        <div class="scope-wrap">
+          <canvas class="scope" id="spectrumC"></canvas>
+          <div class="scope-hud"><span id="hudLo">--</span><span id="hudMid">--</span><span id="hudHi">--</span></div>
+          <canvas class="scope" id="waterfallC" style="margin-top:6px"></canvas>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="panel rivets freqpad"><span class="rv"></span>
+          <div class="panel-title">Frequency</div>
+          <div class="led freq-display" id="freqPadDisplay">14.265.000 <span class="unit">MHz</span></div>
+          <div class="pad-grid">
+            <button class="btn" data-key="1">1</button><button class="btn" data-key="2">2</button><button class="btn" data-key="3">3</button>
+            <div class="pad-side" style="grid-row:span 4">
+              <div style="display:flex;gap:6px"><button class="btn" id="stepDn" style="flex:1">&#9664;</button><button class="btn" id="stepUp" style="flex:1">&#9654;</button></div>
+              <div class="step-lab">Step:</div>
+              <button class="btn" id="stepCycle">1 kHz</button>
+              <button class="btn" id="padEnter" style="font-family:var(--f-stencil)">Tune</button>
+            </div>
+            <button class="btn" data-key="4">4</button><button class="btn" data-key="5">5</button><button class="btn" data-key="6">6</button>
+            <button class="btn" data-key="7">7</button><button class="btn" data-key="8">8</button><button class="btn" data-key="9">9</button>
+            <button class="btn" data-key=".">.</button><button class="btn" data-key="0">0</button><button class="btn" data-key="bs">&#9003;</button>
+          </div>
+        </div>
+
+        <div class="panel rivets bandpanel"><span class="rv"></span>
+          <div class="panel-title">Band</div>
+          <div class="band-grid" id="bandGrid"></div>
+        </div>
+
+        <div class="panel rivets mempanel"><span class="rv"></span>
+          <div class="panel-title">Memory Channels</div>
+          <div class="well" style="flex:1;overflow:auto;max-height:190px">
+            <table class="mem" id="memTable"><thead><tr>
+              <th>#</th><th>Frequency</th><th>Band</th><th>Mode</th><th>Label</th><th></th>
+            </tr></thead><tbody></tbody></table>
+          </div>
+          <div class="mem-actions">
+            <button class="btn" id="memNew">New</button>
+            <button class="btn" id="memEdit">Edit</button>
+            <button class="btn danger" id="memDelete">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: RADIO ========== -->
+    <div class="page" id="pg-radio">
+      <div class="panel rivets pg-pad"><span class="rv"></span>
+        <h2>Radio</h2>
+        <p>Demodulator and front-end control. Changes apply live to the running receiver.</p>
+        <h3>Demodulator</h3>
+        <div class="form-row" id="modeRow"></div>
+        <h3>Front End</h3>
+        <div class="form-row">
+          <div><label>RF Gain (dB)</label><input type="number" id="rfGainIn" value="30" min="0" max="49" step="1"></div>
+          <div><label>Sample Rate</label>
+            <select id="srSel" style="width:100%;background:var(--od-dark);color:var(--ink);border:1px solid var(--od-shadow);font-family:var(--f-mono);padding:7px">
+              <option value="1024000">1.024 MS/s</option>
+              <option value="2048000">2.048 MS/s</option>
+              <option value="2400000" selected>2.4 MS/s</option>
+            </select></div>
+          <div><label>Freq Correction (ppm)</label><input type="number" id="ppmIn" value="0" min="-200" max="200"></div>
+        </div>
+        <h3>Notes</h3>
+        <p id="radioNotes">Sample rate and PPM take effect on the next connect for USB hardware. The simulator applies them immediately.</p>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: SIGNALS ========== -->
+    <div class="page" id="pg-signals">
+      <div class="panel rivets pg-pad"><span class="rv"></span>
+        <h2>Signals</h2>
+        <p>Strongest carriers detected in the current span, refreshed once per second. Click a row to tune.</p>
+        <div class="well" style="margin-top:10px">
+          <table class="plain" id="peakTable"><thead><tr>
+            <th>Frequency</th><th>Level (dBFS)</th><th>Offset</th><th>&Delta; vs noise</th>
+          </tr></thead><tbody></tbody></table>
+        </div>
+        <h3>Measurements at tuned frequency</h3>
+        <div class="well" style="padding:10px" id="measBox">
+          <div class="testline">Waiting for signal...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: DECODE ========== -->
+    <div class="page" id="pg-decode">
+      <div class="panel rivets pg-pad"><span class="rv"></span>
+        <h2>Decode</h2>
+        <p>Morse (CW) decoder. Tune a CW signal in CW mode, set the threshold, and copied text appears below. RTTY and FT8 are on the roadmap.</p>
+        <div class="form-row">
+          <div><label>Decoder</label>
+            <select id="decSel" style="width:100%;background:var(--od-dark);color:var(--ink);border:1px solid var(--od-shadow);font-family:var(--f-mono);padding:7px">
+              <option value="cw">CW (Morse)</option>
+              <option value="off">Off</option>
+            </select></div>
+          <div><label>Threshold (dB above noise)</label><input type="number" id="cwThresh" value="10" min="3" max="40"></div>
+          <div><label>&nbsp;</label><button class="btn" id="decClear" style="width:100%">Clear Text</button></div>
+        </div>
+        <div class="well decode-out" id="decodeOut"></div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: RF LAB ========== -->
+    <div class="page" id="pg-rflab">
+      <div class="panel rivets pg-pad"><span class="rv"></span>
+        <h2>RF Lab</h2>
+        <p>Raw IQ constellation straight from the source, plus analyzer settings.</p>
+        <h3>IQ Constellation</h3>
+        <canvas id="iqScope"></canvas>
+        <h3>Analyzer</h3>
+        <div class="form-row">
+          <div><label>FFT Size</label>
+            <select id="fftSel" style="width:100%;background:var(--od-dark);color:var(--ink);border:1px solid var(--od-shadow);font-family:var(--f-mono);padding:7px">
+              <option>1024</option><option selected>2048</option><option>4096</option>
+            </select></div>
+          <div><label>Averaging</label><input type="number" id="avgIn" value="4" min="1" max="32"></div>
+          <div><label>Waterfall Floor (dBFS)</label><input type="number" id="wfFloor" value="-110" min="-140" max="-60"></div>
+          <div><label>Waterfall Ceiling (dBFS)</label><input type="number" id="wfCeil" value="-30" min="-90" max="0"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: JOURNAL ========== -->
+    <div class="page" id="pg-journal">
+      <div class="panel rivets pg-pad"><span class="rv"></span>
+        <h2>Journal</h2>
+        <p>Log what you hear. Entries capture the tuned frequency and mode automatically and live in this browser (localStorage) until you export them.</p>
+        <div class="form-row">
+          <div style="flex:3"><label>Entry</label><textarea id="jText" placeholder="Heard W1AW code practice, solid copy..."></textarea></div>
+        </div>
+        <div class="form-row">
+          <div><button class="btn" id="jAdd">Log Entry</button></div>
+          <div><button class="btn" id="jExport">Export CSV</button></div>
+          <div><button class="btn danger" id="jClear">Archive All</button></div>
+        </div>
+        <div class="well" style="margin-top:8px;max-height:300px;overflow:auto">
+          <table class="plain" id="jTable"><thead><tr>
+            <th>UTC</th><th>Frequency</th><th>Mode</th><th>Entry</th><th></th>
+          </tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: GEOSPATIAL ========== -->
+    <div class="page" id="pg-geo">
+      <div class="panel rivets pg-pad"><span class="rv"></span>
+        <h2>Geospatial</h2>
+        <p>Station position, Maidenhead grid, and great-circle bearing to a target grid. Position is stored locally and shown in the status bar.</p>
+        <div class="form-row">
+          <div><label>Latitude</label><input type="text" id="geoLat" value="39.2904"></div>
+          <div><label>Longitude</label><input type="text" id="geoLon" value="-76.6122"></div>
+          <div><label>&nbsp;</label><button class="btn" id="geoSave" style="width:100%">Save Position</button></div>
+          <div><label>&nbsp;</label><button class="btn" id="geoLocate" style="width:100%">Use Browser GPS</button></div>
+        </div>
+        <div class="well" style="padding:10px;margin:8px 0">
+          <div class="testline">Grid square: <span class="ok" id="geoGrid">--</span></div>
+        </div>
+        <h3>Bearing to target</h3>
+        <div class="form-row">
+          <div><label>Target grid (e.g. IO91)</label><input type="text" id="geoTarget" placeholder="IO91"></div>
+          <div><label>&nbsp;</label><button class="btn" id="geoCalc" style="width:100%">Calculate</button></div>
+        </div>
+        <div class="well" style="padding:10px"><div class="testline" id="geoResult">Enter a target grid.</div></div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: SYSTEM ========== -->
+    <div class="page" id="pg-system">
+      <div class="panel rivets pg-pad"><span class="rv"></span>
+        <h2>System</h2>
+        <h3>Self Test</h3>
+        <p>Browser-runnable test harness. All lamps must be green before a release ships.</p>
+        <button class="btn" id="btnSelfTest">Run Self Test</button>
+        <div class="well" style="padding:10px;margin-top:8px" id="testOut"><div class="testline">Not yet run.</div></div>
+        <h3>Data</h3>
+        <div class="form-row">
+          <div><button class="btn" id="btnExportAll" style="width:100%">Export Settings + Data (JSON)</button></div>
+          <div><button class="btn" id="btnImportAll" style="width:100%">Import JSON</button></div>
+          <input type="file" id="importFile" accept=".json" class="sr">
+        </div>
+        <h3>Environment</h3>
+        <div class="well" style="padding:10px" id="envBox"></div>
+        <h3>Debug</h3>
+        <div class="form-row"><div>
+          <label><input type="checkbox" id="dbgChk" style="width:auto"> &ensp;Console logging</label>
+        </div></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- right column -->
+  <aside class="rcol">
+    <div class="panel rivets"><span class="rv"></span>
+      <div class="panel-title">Receiver Settings</div>
+      <div class="kv"><label>Mode</label><select id="rsMode"></select></div>
+      <div class="kv"><label>Filter</label><select id="rsFilter"></select></div>
+      <div class="kv"><label>RF Gain</label><span class="rv-val" id="rsRf">30 dB</span><input type="range" id="rsRfKnob" min="0" max="49" value="30"></div>
+      <div class="kv"><label>Samplerate</label><span class="rv-val" id="rsSr" style="width:auto">2.4 MS/s</span></div>
+      <div class="kv" style="padding-bottom:10px"><label>Source</label><span class="rv-val" id="rsSrc" style="width:auto">None</span></div>
+    </div>
+
+    <div class="panel rivets"><span class="rv"></span>
+      <div class="panel-title">Signal Meter</div>
+      <div class="smeter-wrap">
+        <canvas id="smeterC"></canvas>
+        <div class="led smeter-read"><span class="s" id="sRead">S0</span><span class="dbm" id="dbmRead">--- dBm</span></div>
+      </div>
+    </div>
+
+    <div class="panel rivets"><span class="rv"></span>
+      <div class="panel-title">Noise Floor<span class="tr led" style="padding:1px 8px" id="nfRead">-- dBm</span></div>
+      <div class="minibar"><canvas id="noiseC"></canvas></div>
+    </div>
+
+    <div class="panel rivets"><span class="rv"></span>
+      <div class="panel-title">Audio</div>
+      <div class="minibar">
+        <canvas id="audioC"></canvas>
+        <div class="audio-btns">
+          <button class="btn" id="btnNB">NB</button>
+          <button class="btn" id="btnNR">NR</button>
+          <button class="btn" id="btnANF">ANF</button>
+          <button class="btn" id="btnMute" title="Audio on/off">&#127911;</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="status panel rivets"><span class="rv"></span>
+  <div class="cell"><b>SPECTRUM</b> | A WebSDR Studio</div>
+  <div class="cell grow"></div>
+  <div class="cell">CPU: <b id="stCpu">--%</b><span class="meterbar"><i id="stCpuBar" style="width:0%"></i></span></div>
+  <div class="cell">BUF: <b id="stBuf">--%</b><span class="meterbar"><i id="stBufBar" style="width:0%"></i></span></div>
+  <div class="cell"><b id="stClock">--:--:-- UTC</b></div>
+  <div class="cell">LAT: <b id="stLat">--</b>&ensp;LON: <b id="stLon">--</b></div>
+</footer>
+
 <script>
-(()=>{'use strict';
-const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)], key='websdr-v14-sprint6';
-const defaultState={workspace:'home',theme:'light',sidebarCollapsed:false,lastCommand:'None',receiver:{connected:false,device:'RTL-SDR Blog V4',frequency:162.55,mode:'FM',gain:28,sampleRate:2.4,snr:24.6,recording:false,gps:false,scanning:false,step:0.005,bandwidth:12500,squelch:-55,agc:true,audioGain:70,muted:false,vfo:'A',vfoA:162.55,vfoB:146.52,scanIndex:0},metrics:{fps:60,cpu:12,heap:18,fftMs:3.4,renderMs:5.8,longSession:'Ready',a11yScore:96},events:[],projects:[{name:'NOAA Weather Monitoring',status:'Active',entries:1},{name:'433 MHz Sensor Hunt',status:'Open',entries:0}],journal:[{title:'NOAA weather baseline',time:'Today',tags:'weather, fm',project:'NOAA Weather Monitoring',notes:'Baseline observation from local weather radio.',freq:'162.550 MHz',mode:'FM'}],signals:[{freq:'162.550 MHz',type:'FM carrier',snr:'24.6 dB',status:'Stable'},{freq:'433.920 MHz',type:'Burst telemetry',snr:'16.1 dB',status:'Intermittent'}],memories:[{name:'NOAA Weather 1',freq:162.55,mode:'FM'},{name:'2m Calling',freq:146.52,mode:'FM'},{name:'70cm ISM',freq:433.92,mode:'NFM'}],recordings:[],markers:[{name:'A',freq:162.550,power:-48.2},{name:'B',freq:162.565,power:-61.4}],measurementSnapshots:[{time:'Today',freq:'162.550 MHz',snr:'24.6 dB',noise:'-72 dBFS',obw:'12.5 kHz'}],occupancy:[{band:'NOAA WX',pct:72},{band:'2m Amateur',pct:34},{band:'433 ISM',pct:18},{band:'Airband',pct:41}],rflab:{history:[],defaults:{txPower:10,txGain:3,rxGain:2,pathLoss:104,losses:2,forward:25,reflected:1,frequency:162.55,distance:15,noiseFigure:4,gain1:20,nf1:1.2,gain2:10,nf2:4,signal:-62,noise:-96,lo:145,rf:162.55,coaxLength:50,coaxLoss100:1.5,impedanceR:37,impedanceX:18,filterCenter:162.55,filterBw:12.5}}};
-const state=load();function load(){try{return merge(structuredClone(defaultState),JSON.parse(localStorage.getItem(key)||'{}'))}catch(e){return structuredClone(defaultState)}}function merge(a,b){for(const k in b){if(b[k]&&typeof b[k]==='object'&&!Array.isArray(b[k]))a[k]=merge(a[k]||{},b[k]);else a[k]=b[k]}return a}function save(){localStorage.setItem(key,JSON.stringify(state))}function emit(type,payload={}){state.events.unshift({time:new Date().toLocaleTimeString(),type,payload});state.events=state.events.slice(0,120);save();renderStatus();if(state.workspace==='system')renderWorkspace('system',false)}function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),1600)}
-const navGroups=[{title:'Home',items:[['home','⌂','Home']]},{title:'Operate',items:[['radio','◉','Radio'],['signals','▧','Signals'],['decode','⌁','Decode']]},{title:'Engineering',items:[['rflab','⌬','RF Lab'],['journal','✎','Journal'],['geospatial','◎','Geospatial']]},{title:'System',items:[['system','⚙','System']]}];
-const workspaces={home:['Home','Operational dashboard and launch point.'],radio:['Radio','Tune, listen, scan, and record.'],signals:['Signals','Measurements, markers, occupancy, comparison, and signal intelligence verification.'],decode:['Decode','Protocol decoder workbench and event logs.'],rflab:['RF Lab','Sprint 4: verified calculators and RF design tools.'],journal:['Journal','Sprint 5: verified project-based engineering record and reporting.'],geospatial:['Geospatial','GPS observations, coverage, and transmitter mapping.'],system:['System','Settings, diagnostics, shortcuts, performance, accessibility, and verification.']};
-const commands={
-'go-home':['Go to Home',()=>setWorkspace('home')],'go-radio':['Go to Radio',()=>setWorkspace('radio')],'go-signals':['Go to Signals',()=>setWorkspace('signals')],'go-decode':['Go to Decode',()=>setWorkspace('decode')],'go-rflab':['Go to RF Lab',()=>setWorkspace('rflab')],'go-journal':['Go to Journal',()=>setWorkspace('journal')],'go-geospatial':['Go to Geospatial',()=>setWorkspace('geospatial')],'go-system':['Go to System',()=>setWorkspace('system')],
-'connect':['Connect/disconnect receiver',()=>{state.receiver.connected=!state.receiver.connected;emit('receiver:connect',{connected:state.receiver.connected});refresh();toast(state.receiver.connected?'Receiver connected':'Receiver disconnected')}],
-'scan':['Start/stop scan',()=>{state.receiver.scanning=!state.receiver.scanning;emit('scan:toggle',{scanning:state.receiver.scanning});refresh();toast(state.receiver.scanning?'Scan started':'Scan stopped')}],
-'scan-next':['Scan next memory',()=>{const m=nextMemory();tune(m.freq,m.mode);emit('scan:next',m);toast('Tuned '+m.name)}],
-'record':['Start/stop recording',()=>{state.receiver.recording=!state.receiver.recording;if(state.receiver.recording)state.recordings.unshift({time:new Date().toLocaleString(),freq:state.receiver.frequency.toFixed(3),mode:state.receiver.mode,type:'audio'});emit('record:toggle',{recording:state.receiver.recording});refresh();toast(state.receiver.recording?'Recording started':'Recording stopped')}],
-'record-iq':['Start IQ capture',()=>{state.recordings.unshift({time:new Date().toLocaleString(),freq:state.receiver.frequency.toFixed(3),mode:state.receiver.mode,type:'IQ'});emit('record:iq');refresh();toast('IQ capture added')}],
-'operator-mode':['Toggle operator mode',()=>{document.body.classList.toggle('operator-mode');emit('ui:operatorMode',{active:document.body.classList.contains('operator-mode')});toast(document.body.classList.contains('operator-mode')?'Operator mode on':'Operator mode off')}],
-'waterfall-freeze':['Freeze waterfall',()=>{state.receiver.waterfallFrozen=!state.receiver.waterfallFrozen;emit('waterfall:freeze',{frozen:state.receiver.waterfallFrozen});refresh();toast(state.receiver.waterfallFrozen?'Waterfall frozen':'Waterfall live')}],
-'waterfall-palette':['Cycle waterfall palette',()=>{const palettes=['Classic','Thermal','Viridis','Mono'];const cur=state.receiver.palette||'Classic';state.receiver.palette=palettes[(palettes.indexOf(cur)+1)%palettes.length];emit('waterfall:palette',{palette:state.receiver.palette});refresh();toast('Palette: '+state.receiver.palette)}],
-'signal-inspector':['Open signal inspector',()=>openSignalInspector()],
-'snapshot':['Take radio snapshot',()=>{state.journal.unshift({title:`Snapshot ${state.receiver.frequency.toFixed(3)} MHz ${state.receiver.mode}`,time:new Date().toLocaleString(),tags:'snapshot, radio'});emit('capture:snapshot');toast('Snapshot saved to Journal')}],
-'export':['Export session JSON',()=>download('websdr-session.json',JSON.stringify(state,null,2),'application/json')],
-'open-journal':['Open Journal',()=>setWorkspace('journal')],'ai':['Ask signal assistant',()=>openDialog('Signal Assistant',`<p>Strongest signal is ${state.receiver.frequency.toFixed(3)} MHz in ${state.receiver.mode}. Current SNR is ${state.receiver.snr.toFixed(1)} dB.</p>`)],'settings':['Open System',()=>setWorkspace('system')],
-'palette':['Open Quick Actions',()=>openCommand()],'close-command':['Close Quick Actions',()=>closeCommand()],'close-dialog':['Close Dialog',()=>closeDialog()],
-'tune-help':['Spectrum tune controls',()=>openDialog('Spectrum Tuning',`<p><b>Click inside the spectrum</b> to tune relative to the current center frequency.</p><p><b>Mouse wheel over the spectrum</b> tunes by the selected step size.</p><p><b>Keyboard:</b> use ← and → in the Radio workspace to step down/up.</p><div class="btnrow"><button class="primary-btn" data-command="freq-keypad">Open Keypad</button><button class="ghost-btn" data-command="freq-down">− Step</button><button class="ghost-btn" data-command="freq-up">+ Step</button><button class="ghost-btn" data-command="close-dialog">Close</button></div>`)],
-'freq-keypad':['Open frequency keypad',()=>openKeypad()],'freq-up':['Tune up one step',()=>stepTune(1)],'freq-down':['Tune down one step',()=>stepTune(-1)],'vfo-swap':['Swap VFO A/B',()=>{const r=state.receiver;[r.vfoA,r.vfoB]=[r.vfoB,r.vfoA];tune(r.vfo==='A'?r.vfoA:r.vfoB,r.mode);emit('vfo:swap');refresh();toast('VFO A/B swapped')}],
-'vfo-toggle':['Toggle active VFO',()=>{const r=state.receiver;r.vfo=r.vfo==='A'?'B':'A';tune(r.vfo==='A'?r.vfoA:r.vfoB,r.mode);emit('vfo:toggle',{vfo:r.vfo});refresh();toast('VFO '+r.vfo)}],
-'copy-vfo':['Copy current VFO to other',()=>{const r=state.receiver;if(r.vfo==='A')r.vfoB=r.frequency;else r.vfoA=r.frequency;emit('vfo:copy');refresh();toast('VFO copied')}],
-'add-memory':['Add memory channel',()=>{const name=prompt('Memory name?',`${state.receiver.frequency.toFixed(3)} MHz ${state.receiver.mode}`);if(name){state.memories.unshift({name,freq:+state.receiver.frequency.toFixed(3),mode:state.receiver.mode});emit('memory:add',{name});refresh();toast('Memory added')}}],
-'delete-memory':['Delete last memory',()=>{const m=state.memories.shift();emit('memory:delete',m||{});refresh();toast(m?'Memory deleted':'No memory to delete')}],
-'mute':['Mute/unmute audio',()=>{state.receiver.muted=!state.receiver.muted;emit('audio:mute',{muted:state.receiver.muted});refresh();toast(state.receiver.muted?'Audio muted':'Audio unmuted')}],
-'reset-radio':['Reset radio controls',()=>{Object.assign(state.receiver,{frequency:162.55,mode:'FM',gain:28,sampleRate:2.4,step:0.005,bandwidth:12500,squelch:-55,agc:true,audioGain:70,muted:false,scanning:false,recording:false,vfo:'A',vfoA:162.55,vfoB:146.52});emit('radio:reset');refresh();toast('Radio reset')}],
-'add-project':['Add Journal project',()=>{const name=prompt('Project name?','New RF Investigation');if(name){state.projects=state.projects||[];state.projects.unshift({name,status:'Active',entries:0});emit('journal:project:add',{name});refresh();toast('Project added')}}],
-'add-journal':['Add journal entry',()=>{const title=prompt('Entry title?',`Observation ${state.receiver.frequency.toFixed(3)} MHz`);if(!title)return;const project=prompt('Project?',(state.projects&&state.projects[0]?.name)||'General')||'General';const tags=prompt('Tags?','signal, measurement')||'';const notes=prompt('Notes?','')||'';state.journal.unshift({title,time:new Date().toLocaleString(),tags,project,notes,freq:state.receiver.frequency.toFixed(3)+' MHz',mode:state.receiver.mode,snr:state.receiver.snr.toFixed(1)+' dB'});state.projects=state.projects||[];let p=state.projects.find(x=>x.name===project);if(!p){p={name:project,status:'Active',entries:0};state.projects.unshift(p)}p.entries=(p.entries||0)+1;emit('journal:add',{title,project});refresh();toast('Journal entry added')}],
-'edit-journal':['Edit latest journal entry',()=>{const j=state.journal[0];if(!j){toast('No journal entries');return}const title=prompt('Entry title?',j.title);if(!title)return;j.title=title;j.tags=prompt('Tags?',j.tags||'')||'';j.notes=prompt('Notes?',j.notes||'')||'';j.time=new Date().toLocaleString();emit('journal:edit',{title});refresh();toast('Journal entry updated')}],
-'delete-journal':['Delete latest journal entry',()=>{const j=state.journal[0];if(!j){toast('No journal entries');return}if(confirm('Delete latest journal entry?')){state.journal.shift();emit('journal:delete',{title:j.title});refresh();toast('Journal entry deleted')}}],
-'export-journal':['Export Journal JSON',()=>download('websdr-journal.json',JSON.stringify({projects:state.projects||[],journal:state.journal,recordings:state.recordings,measurements:state.measurementSnapshots},null,2),'application/json')],
-'export-report':['Export engineering report',()=>{const md=['# WebSDR Studio Engineering Report','',`Generated: ${new Date().toLocaleString()}`,'',`Receiver: ${state.receiver.frequency.toFixed(3)} MHz ${state.receiver.mode}`,'',`Journal entries: ${state.journal.length}`,'',...state.journal.map(j=>`## ${j.title}\nProject: ${j.project||'General'}\nTime: ${j.time}\nTags: ${j.tags||''}\nFrequency: ${j.freq||state.receiver.frequency.toFixed(3)+' MHz'}\nMode: ${j.mode||state.receiver.mode}\nNotes: ${j.notes||''}\n`)];download('websdr-engineering-report.md',md.join('\n'),'text/markdown')}],
-'calc-link':['Link budget calculator',()=>openRfCalc('link')],'calc-vswr':['VSWR calculator',()=>openRfCalc('vswr')],'calc-path':['Path loss calculator',()=>openRfCalc('path')],'calc-noise':['Noise figure calculator',()=>openRfCalc('noise')],'calc-dynamic':['Dynamic range calculator',()=>openRfCalc('dynamic')],'calc-pll':['PLL / mixer calculator',()=>openRfCalc('pll')],'calc-coax':['Coax loss calculator',()=>openRfCalc('coax')],
-'design-smith':['Smith chart solver',()=>openRfCalc('smith')],'design-match':['Matching network synthesis',()=>openRfCalc('match')],'design-filter':['Filter synthesis',()=>openRfCalc('filter')],'design-osc':['Oscillator design helper',()=>openRfCalc('osc')],
-'export-rflab':['Export RF Lab history CSV',()=>{const rows=['time,tool,result,details'].concat((state.rflab?.history||[]).map(h=>`"${h.time}","${h.tool}","${h.result}","${h.details}"`));download('websdr-rflab-history.csv',rows.join('\n'),'text/csv')}],
-'clear-rflab':['Clear RF Lab history',()=>{if(confirm('Clear RF Lab history?')){state.rflab.history=[];emit('rflab:clear');refresh();toast('RF Lab history cleared')}}],
+"use strict";
+/* ============================================================
+   SPECTRUM FI-064 v0.1.0 - core engine
+   Modules: DBG, Store, DSP, MORSE, SimSource, RtlSource
+   ============================================================ */
+const APP = { version:"0.1.2", release:"Foundation" };
 
-
-'signal-detect':['Run signal detection',()=>{const r=state.receiver;const base=+r.frequency.toFixed(3);const observed=[{freq:(base-0.012).toFixed(3)+' MHz',type:'Adjacent carrier',snr:(r.snr-7.2).toFixed(1)+' dB',status:'Watch',bandwidth:'7.8 kHz',confidence:'71%',duration:'00:18'},{freq:base.toFixed(3)+' MHz',type:r.mode+' carrier',snr:r.snr.toFixed(1)+' dB',status:'Stable',bandwidth:(r.bandwidth/1000).toFixed(1)+' kHz',confidence:'93%',duration:'Live'},{freq:(base+0.031).toFixed(3)+' MHz',type:'Burst telemetry',snr:(r.snr-10.4).toFixed(1)+' dB',status:'Intermittent',bandwidth:'4.2 kHz',confidence:'64%',duration:'00:03'}];state.signals=[...observed,...state.signals].slice(0,24);emit('signals:detect',{count:observed.length});refresh();toast('Signal detection added '+observed.length+' observations')}],
-'signal-tune-selected':['Tune strongest signal',()=>{const s=state.signals[0];if(!s){toast('No signal selected');return}const f=parseFloat(s.freq);if(!Number.isNaN(f)){tune(f);setWorkspace('radio');toast('Tuned '+s.freq)}}],
-'signal-journal':['Journal current signal',()=>{const s=state.signals[0]||{freq:state.receiver.frequency.toFixed(3)+' MHz',type:state.receiver.mode+' carrier',snr:state.receiver.snr.toFixed(1)+' dB',status:'Observed'};state.journal.unshift({title:`Signal observation ${s.freq}`,time:new Date().toLocaleString(),tags:'signal, analysis',project:'Signal Investigation',notes:`${s.type}; SNR ${s.snr}; status ${s.status}.`,freq:s.freq,mode:state.receiver.mode,snr:s.snr});emit('signals:journal',{freq:s.freq});refresh();toast('Signal added to Journal')}],
-'signal-report':['Export signal report',()=>{const lines=['# WebSDR Studio Signal Report','',`Generated: ${new Date().toLocaleString()}`,'',`Center: ${state.receiver.frequency.toFixed(3)} MHz ${state.receiver.mode}`,'',`Signals: ${state.signals.length}`,'',...state.signals.map(s=>`- ${s.freq}: ${s.type}, ${s.snr}, ${s.status}${s.bandwidth?`, BW ${s.bandwidth}`:''}`),'','## Measurement snapshots','',...state.measurementSnapshots.map(m=>`- ${m.time}: ${m.freq}, SNR ${m.snr}, OBW ${m.obw}`)];download('websdr-signal-report.md',lines.join('\n'),'text/markdown')}],
-'signal-replay':['Open waterfall replay',()=>openDialog('Waterfall Replay',`<p>Replay is bounded to the current session measurement history.</p><p><b>${state.measurementSnapshots.length}</b> measurement snapshots and <b>${state.signals.length}</b> signal observations are available.</p><div class="canvas"><div class="trace"></div><div class="cursor"></div></div>`)],
-'marker-clear':['Clear markers',()=>{if(confirm('Clear all measurement markers?')){state.markers=[];emit('marker:clear');refresh();toast('Markers cleared')}}],
-'add-marker':['Add signal marker',()=>{const n=String.fromCharCode(65+(state.markers.length%26));state.markers.push({name:n,freq:+state.receiver.frequency.toFixed(3),power:+(-70+state.receiver.snr).toFixed(1)});emit('marker:add',{name:n});refresh();toast('Marker '+n+' added')}],
-'measure-snapshot':['Save measurement snapshot',()=>{state.measurementSnapshots.unshift({time:new Date().toLocaleString(),freq:state.receiver.frequency.toFixed(3)+' MHz',snr:state.receiver.snr.toFixed(1)+' dB',noise:(-96+state.receiver.gain/3).toFixed(1)+' dBFS',obw:(state.receiver.bandwidth/1000).toFixed(1)+' kHz'});emit('measurement:snapshot');refresh();toast('Measurement snapshot saved')}],
-'compare-signals':['Compare selected signals',()=>openDialog('Signal Comparison',`<p class="metric">${state.signals.length} Signals</p><p>Strongest observation is near ${state.receiver.frequency.toFixed(3)} MHz. Current SNR is ${state.receiver.snr.toFixed(1)} dB.</p>`)],
-'export-measurements':['Export measurements CSV',()=>{const rows=['time,frequency,snr,noise,occupied_bandwidth'].concat(state.measurementSnapshots.map(s=>`${s.time},${s.freq},${s.snr},${s.noise},${s.obw}`));download('websdr-measurements.csv',rows.join('\n'),'text/csv')}],
-'clear-signal-log':['Clear signal log',()=>{if(confirm('Clear signal observations and measurement snapshots?')){state.signals=[];state.measurementSnapshots=[];emit('signals:clear');refresh();toast('Signal log cleared')}}],
-'run-performance-audit':['Run performance audit',()=>runPerformanceAudit()],'run-accessibility-audit':['Run accessibility audit',()=>runAccessibilityAudit()],'export-test-report':['Export verification report',()=>exportVerificationReport()],'run-tests':['Run verification tests',()=>runTests()],'reset-state':['Reset app state',()=>{localStorage.removeItem(key);location.reload()}],'toggle-theme':['Toggle theme',()=>{state.theme=state.theme==='light'?'dark':'light';applyTheme();emit('theme:toggle',{theme:state.theme});toast(state.theme+' mode')}],'toggle-sidebar':['Collapse sidebar',()=>{state.sidebarCollapsed=!state.sidebarCollapsed;applyTheme();emit('sidebar:toggle',{collapsed:state.sidebarCollapsed})}], 'open-dev':['Developer diagnostics',()=>{setWorkspace('system');setTimeout(()=>$('#devPanel')?.scrollIntoView({behavior:'smooth'}),50)}]
+/* ---------- debug ---------- */
+const DBG = {
+  on:false,
+  log(...a){ if(this.on) console.log("[SPECTRUM]",...a); },
+  warn(...a){ if(this.on) console.warn("[SPECTRUM]",...a); }
 };
-function execute(id){const c=commands[id];if(!c){toast('Missing command: '+id);return false}state.lastCommand=c[0];save();c[1]();renderToolbar();return true}function refresh(){renderStatus();renderToolbar();renderWorkspace(state.workspace,false);save()}function tune(freq,mode){const r=state.receiver;r.frequency=+freq;r.mode=mode||r.mode;if(r.vfo==='A')r.vfoA=r.frequency;else r.vfoB=r.frequency;r.snr=18+Math.abs(Math.sin(r.frequency))*14;emit('receiver:tune',{frequency:r.frequency,mode:r.mode})}function stepTune(dir){tune(+(state.receiver.frequency+dir*state.receiver.step).toFixed(6));refresh();toast((dir>0?'Up ':'Down ')+state.receiver.step+' MHz')}function nextMemory(){state.receiver.scanIndex=(state.receiver.scanIndex+1)%state.memories.length;return state.memories[state.receiver.scanIndex]}function applyTheme(){document.body.dataset.theme=state.theme;document.body.classList.toggle('collapsed',state.sidebarCollapsed)}
-function buildNav(){const nav=$('#nav');nav.innerHTML=navGroups.map(g=>`<div><div class="nav-title">${g.title}</div>${g.items.map(([id,icon,label])=>`<button class="nav-btn ${state.workspace===id?'active':''}" data-workspace="${id}" aria-current="${state.workspace===id?'page':'false'}"><b>${icon}</b><span>${label}</span></button>`).join('')}</div>`).join('')}function buildToolbar(){const buttons=[['connect',state.receiver.connected?'Disconnect':'Connect'],['scan',state.receiver.scanning?'Stop Scan':'Scan'],['record',state.receiver.recording?'Stop Record':'Record'],['snapshot','Snapshot'],['export','Export'],['open-journal','Journal'],['ai','AI'],['settings','Settings']];$('#toolbar').innerHTML=`${buttons.map(([id,label])=>`<button class="tool-btn" data-command="${id}" aria-pressed="${pressed(id)}">${label}</button>`).join('')}<div class="spacer"></div><input class="search" id="globalSearch" placeholder="Search or press Ctrl+K"><button class="primary-btn" data-command="palette">Quick Actions</button>`}function pressed(id){return String((id==='connect'&&state.receiver.connected)||(id==='scan'&&state.receiver.scanning)||(id==='record'&&state.receiver.recording))}function renderToolbar(){buildToolbar()}function renderStatus(){const r=state.receiver;$('#status').innerHTML=[`<span class="pill ${r.connected?'good':'warn'}">${r.connected?'Connected':'Offline'}: ${r.device}</span>`,`<span class="pill">VFO ${r.vfo}</span>`,`<span class="pill">${r.frequency.toFixed(3)} MHz</span>`,`<span class="pill">${r.mode}</span>`,`<span class="pill">${r.sampleRate} MSPS</span>`,`<span class="pill">Gain +${r.gain} dB</span>`,`<span class="pill">SNR ${r.snr.toFixed(1)} dB</span>`,`<span class="pill ${r.recording?'good':''}">${r.recording?'Recording':'Idle'}</span>`,`<span class="pill">CPU ${state.metrics.cpu}%</span>`,`<span class="pill">FPS ${state.metrics.fps}</span>`,`<span class="pill">Heap ${state.metrics.heap}%</span>`].join('')}
-function setWorkspace(id){if(!workspaces[id])return;state.workspace=id;save();emit('workspace:change',{workspace:id});renderWorkspace(id);buildNav();$('#content').focus()}function renderWorkspace(id=state.workspace,log=true){const w=workspaces[id];$('#content').innerHTML=`<div class="workspace-head"><div><h2>${w[0]}</h2><p>${w[1]}</p></div><div class="btnrow"><button class="ghost-btn" data-command="palette">Quick Actions</button><button class="ghost-btn" data-command="run-tests">Run Tests</button></div></div>`+workspaceHtml(id);if(log)emit('workspace:render',{workspace:id})}function workspaceHtml(id){return ({home:homeHtml,radio:radioHtml,signals:signalsHtml,decode:decodeHtml,rflab:rflabHtml,journal:journalHtml,geospatial:geospatialHtml,system:systemHtml}[id]||(()=>'<p>Unknown workspace.</p>'))()}
-function homeHtml(){return `<div class="grid"><div class="card"><h3>Receiver</h3><div class="metric">${state.receiver.connected?'Online':'Offline'}</div><p>${state.receiver.frequency.toFixed(3)} MHz ${state.receiver.mode}</p><button class="primary-btn" data-command="go-radio">Open Radio</button></div><div class="card"><h3>Recent Signals</h3><p>${state.signals.length} observations in session.</p><button class="ghost-btn" data-command="go-signals">Open Signals</button></div><div class="card"><h3>Journal</h3><p>${state.journal.length} entries.</p><button class="ghost-btn" data-command="add-journal">Add Entry</button></div><div class="card wide"><h3>Spectrum Preview</h3><div class="canvas"><div class="trace"></div><div class="cursor"></div></div></div></div>`}
-function radioHtml(){const r=state.receiver;const level=-54+Math.round(Math.random()*6-3);return `<div class="radio-console" id="radioWorkspace"><section class="radio-left"><h3>Receiver</h3><div class="signal-box"><span>Device</span><b>${r.connected?r.device:'Disconnected'}</b></div><div class="form-row"><label>Mode</label><select class="field" data-bind="mode">${['FM','NFM','AM','USB','LSB','CW','RAW IQ'].map(m=>`<option ${r.mode===m?'selected':''}>${m}</option>`).join('')}</select></div><div class="form-row"><label>Gain dB</label><input class="field" data-bind="gain" type="range" min="0" max="50" value="${r.gain}"></div><div class="form-row"><label>Sample rate</label><select class="field" data-bind="sampleRate">${[1.024,1.8,2.048,2.4,2.56,3.2].map(v=>`<option value="${v}" ${r.sampleRate===v?'selected':''}>${v} MSPS</option>`).join('')}</select></div><div class="form-row"><label>Bandwidth</label><input class="field" data-bind="bandwidth" type="number" step="100" value="${r.bandwidth}"></div><div class="form-row"><label>AGC</label><select class="field" data-bind="agc"><option value="true" ${r.agc?'selected':''}>On</option><option value="false" ${!r.agc?'selected':''}>Off</option></select></div><div class="btnrow"><button class="primary-btn" data-command="connect">${r.connected?'Disconnect':'Connect'}</button><button class="ghost-btn" data-command="reset-radio">Reset</button></div><h3>Bookmarks</h3><div class="bookmark-row">${state.memories.map((m,i)=>`<button class="ghost-btn" data-tune-memory="${i}" title="${m.freq.toFixed(3)} MHz">${escapeHtml(m.name)}</button>`).join('')}</div><div class="btnrow"><button class="ghost-btn" data-command="add-memory">Add current</button><button class="danger-btn" data-command="delete-memory">Delete first</button></div></section><section class="radio-center"><h3>Spectrum & Waterfall <button class="pill" data-command="tune-help" type="button">click, wheel, drag, inspect</button></h3><div class="freq-display"><input aria-label="Frequency in MHz" data-bind="frequency" type="number" step="${r.step}" value="${r.frequency.toFixed(6)}"></div><div class="step-grid"><button class="ghost-btn" data-action="step" data-step="-10">−10 MHz</button><button class="ghost-btn" data-action="step" data-step="-1">−1 MHz</button><button class="ghost-btn" data-command="freq-down">− Step</button><button class="ghost-btn" data-command="freq-up">+ Step</button><button class="ghost-btn" data-action="step" data-step="1">+1 MHz</button><button class="ghost-btn" data-action="step" data-step="10">+10 MHz</button><button class="ghost-btn" data-command="freq-keypad">Keypad</button><button class="ghost-btn" data-command="vfo-toggle">VFO ${r.vfo}</button><button class="ghost-btn" data-command="vfo-swap">Swap</button><button class="ghost-btn" data-command="operator-mode">Operator</button></div><div class="canvas" id="spectrumCanvas" data-radio-control="spectrum" title="Click to tune. Wheel to step. Double-click to inspect."><div class="trace"></div><div class="cursor"></div></div><div class="waterfall-tools"><button class="ghost-btn" data-command="waterfall-palette">Palette: ${r.palette||'Classic'}</button><button class="ghost-btn" data-command="waterfall-freeze">${r.waterfallFrozen?'Resume':'Freeze'}</button><button class="ghost-btn" data-command="signal-inspector">Signal Inspector</button><button class="ghost-btn" data-command="snapshot">Snapshot</button></div><div class="waterfall" aria-label="Waterfall display"></div></section><section class="radio-right"><h3>Live Signal</h3><div class="signal-grid"><div class="signal-box"><span>Frequency</span><b>${r.frequency.toFixed(6)} MHz</b></div><div class="signal-box"><span>Mode</span><b>${r.mode}</b></div><div class="signal-box"><span>Signal</span><b>${level} dBm</b></div><div class="signal-box"><span>SNR</span><b>${r.snr.toFixed(1)} dB</b></div><div class="signal-box"><span>OBW</span><b>${(r.bandwidth/1000).toFixed(1)} kHz</b></div><div class="signal-box"><span>Recording</span><b>${r.recording?'ON':'OFF'}</b></div></div><h3>Signal Inspector</h3><p>Click a visible signal or use the button below to create an investigation card.</p><div class="btnrow"><button class="primary-btn" data-command="signal-inspector">Inspect Signal</button><button class="ghost-btn" data-command="ai">AI Summary</button><button class="ghost-btn" data-command="open-journal">Journal</button></div></section><section class="radio-bottom"><div class="dock-tabs"><span class="pill">Audio</span><span class="pill">Scanner</span><span class="pill">Recorder</span><span class="pill">Measurements</span></div><div class="dock-panel"><div class="mini-card"><h3>Audio</h3><div class="form-row"><label>Volume</label><input class="field" data-bind="audioGain" type="range" min="0" max="100" value="${r.audioGain}"></div><div class="form-row"><label>Squelch</label><input class="field" data-bind="squelch" type="range" min="-100" max="0" value="${r.squelch}"></div><div class="btnrow"><button class="ghost-btn" data-command="mute">${r.muted?'Unmute':'Mute'}</button></div></div><div class="mini-card"><h3>Scanner</h3><p>${r.scanning?'Running':'Stopped'} · ${state.memories.length} memories</p><div class="btnrow"><button class="primary-btn" data-command="scan">${r.scanning?'Stop':'Start'} Scan</button><button class="ghost-btn" data-command="scan-next">Next</button></div></div><div class="mini-card"><h3>Recorder</h3><p>${state.recordings.length} files in session.</p><div class="btnrow"><button class="primary-btn" data-command="record">${r.recording?'Stop Audio':'Record Audio'}</button><button class="ghost-btn" data-command="record-iq">Record IQ</button></div></div><div class="mini-card"><h3>Measurements</h3><p>SNR ${r.snr.toFixed(1)} dB · Noise −72 dBFS</p><div class="btnrow"><button class="ghost-btn" data-command="measure-snapshot">Save Measurement</button><button class="ghost-btn" data-command="add-marker">Marker</button></div></div></div></section></div>`}
-function signalsHtml(){const r=state.receiver;const noise=(-96+r.gain/3).toFixed(1);const obw=(r.bandwidth/1000).toFixed(1);const strongest=state.signals[0]||{freq:r.frequency.toFixed(3)+' MHz',type:r.mode+' carrier',snr:r.snr.toFixed(1)+' dB',status:'Observed',bandwidth:obw+' kHz',confidence:'Live'};const alerts=state.signals.filter(s=>/watch|intermittent|unknown/i.test(s.status||'')).length;return `<div class="signals-layout" id="signalsWorkspace"><section class="card signal-hero"><div><h3>Signal Inspector</h3><p class="muted">Investigation-first workspace for finding, measuring, comparing, documenting, and exporting signal observations.</p></div><div class="btnrow"><button class="primary-btn" data-command="signal-detect">Run Detection</button><button class="ghost-btn" data-command="measure-snapshot">Snapshot</button><button class="ghost-btn" data-command="signal-journal">Journal Signal</button><button class="ghost-btn" data-command="signal-report">Export Report</button></div></section><section class="card signal-card"><h3>Selected Signal</h3><p class="metric">${escapeHtml(strongest.freq)}</p><div class="info-grid"><span>Type</span><b>${escapeHtml(strongest.type)}</b><span>SNR</span><b>${escapeHtml(strongest.snr)}</b><span>Status</span><b>${escapeHtml(strongest.status)}</b><span>Bandwidth</span><b>${escapeHtml(strongest.bandwidth||obw+' kHz')}</b><span>Confidence</span><b>${escapeHtml(strongest.confidence||'Measured')}</b></div><div class="btnrow"><button class="primary-btn" data-command="signal-tune-selected">Tune</button><button class="ghost-btn" data-command="signal-inspector">Inspect</button><button class="ghost-btn" data-command="compare-signals">Compare</button></div></section><section class="card"><h3>Live Metrics</h3><div class="metric-grid"><div><small>SNR</small><b>${r.snr.toFixed(1)} dB</b></div><div><small>Noise</small><b>${noise} dBFS</b></div><div><small>OBW</small><b>${obw} kHz</b></div><div><small>Alerts</small><b>${alerts}</b></div></div><button class="ghost-btn" data-command="ai">Summarize</button></section><section class="card full"><h3>Signal Timeline</h3><div class="toolbar-strip"><input class="search" id="signalSearch" placeholder="Filter signals by frequency, type, status"><button class="ghost-btn" data-command="signal-replay">Replay</button><button class="ghost-btn" data-command="export-measurements">Export CSV</button><button class="danger-btn" data-command="clear-signal-log">Clear Log</button></div><table class="table" id="signalTable"><thead><tr><th>Frequency</th><th>Type</th><th>SNR</th><th>Status</th><th>Bandwidth</th><th>Confidence</th><th>Action</th></tr></thead><tbody>${state.signals.length?state.signals.map((s,i)=>`<tr data-signal-row="${i}"><td>${escapeHtml(s.freq)}</td><td>${escapeHtml(s.type)}</td><td>${escapeHtml(s.snr)}</td><td>${escapeHtml(s.status)}</td><td>${escapeHtml(s.bandwidth||'—')}</td><td>${escapeHtml(s.confidence||'—')}</td><td><button class="ghost-btn" data-signal-action="tune" data-signal-index="${i}">Tune</button><button class="ghost-btn" data-signal-action="journal" data-signal-index="${i}">Journal</button></td></tr>`).join(''):'<tr><td colspan="7">No signal observations. Run Detection or save a Measurement Snapshot.</td></tr>'}</tbody></table></section><section class="card half"><h3>Markers & Deltas</h3><div class="btnrow"><button class="primary-btn" data-command="add-marker">Add Marker</button><button class="ghost-btn" data-command="marker-clear">Clear Markers</button></div><table class="table" id="markerTable"><thead><tr><th>Name</th><th>MHz</th><th>Power</th></tr></thead><tbody>${state.markers.length?state.markers.map(m=>`<tr><td>${m.name}</td><td>${Number(m.freq).toFixed(3)}</td><td>${m.power} dBFS</td></tr>`).join(''):'<tr><td colspan="3">No markers yet.</td></tr>'}</tbody></table><p class="muted">Delta: ${state.markers.length>1?Math.abs(state.markers[0].freq-state.markers[1].freq).toFixed(3)+' MHz':'add two markers'}</p></section><section class="card half"><h3>Occupancy Heat</h3><table class="table" id="occupancyTable"><thead><tr><th>Band</th><th>Use</th></tr></thead><tbody>${state.occupancy.map(o=>`<tr><td>${o.band}</td><td><progress max="100" value="${o.pct}"></progress> ${o.pct}%</td></tr>`).join('')}</tbody></table></section><section class="card half"><h3>Measurement Snapshots</h3><table class="table" id="snapshotTable"><thead><tr><th>Time</th><th>Frequency</th><th>SNR</th><th>OBW</th></tr></thead><tbody>${state.measurementSnapshots.length?state.measurementSnapshots.map(s=>`<tr><td>${escapeHtml(s.time)}</td><td>${escapeHtml(s.freq)}</td><td>${escapeHtml(s.snr)}</td><td>${escapeHtml(s.obw)}</td></tr>`).join(''):'<tr><td colspan="4">No snapshots yet.</td></tr>'}</tbody></table></section><section class="card half"><h3>Interference Report</h3><p><b>${alerts}</b> signals need attention. Watch intermittent, burst, or unknown observations.</p><p>Current noise floor is ${noise} dBFS. Signal margin is ${(r.snr-10).toFixed(1)} dB above the review threshold.</p><button class="ghost-btn" data-command="signal-report">Export Interference Report</button></section><section class="card full"><h3>Waterfall Replay & Comparison</h3><div class="canvas" id="replayCanvas"><div class="trace"></div><div class="cursor"></div></div><p class="muted">Use this panel to compare current signal state against saved snapshots, markers, and occupancy records.</p></section></div>`}
-function decodeHtml(){return `<div class="grid"><div class="card"><h3>Aircraft</h3><p>ADS-B / ACARS event lane.</p><button class="ghost-btn" data-command="snapshot">Log Event</button></div><div class="card"><h3>Marine</h3><p>AIS / DSC event lane.</p><button class="ghost-btn" data-command="snapshot">Log Event</button></div><div class="card"><h3>Weather</h3><p>NOAA SAME / APT workflow.</p><button class="ghost-btn" data-command="snapshot">Log Event</button></div></div>`}
-function rflabHtml(){const h=state.rflab?.history||[];return `<div class="grid" id="rflabWorkspace"><div class="card full"><h3>RF Lab Verification</h3><p>Every tool below opens a working calculator or design helper, writes to RF Lab history, and can be exported. Component Library and Worksheets were intentionally removed.</p><div class="btnrow"><button class="primary-btn" data-command="export-rflab">Export RF Lab History</button><button class="ghost-btn" data-command="clear-rflab">Clear History</button></div></div><div class="card half"><h3>Calculators</h3><div class="btnrow"><button class="ghost-btn" data-command="calc-link">Link Budget</button><button class="ghost-btn" data-command="calc-path">Path Loss</button><button class="ghost-btn" data-command="calc-vswr">VSWR</button><button class="ghost-btn" data-command="calc-noise">Noise Figure</button><button class="ghost-btn" data-command="calc-dynamic">Dynamic Range</button><button class="ghost-btn" data-command="calc-pll">PLL / Mixer</button><button class="ghost-btn" data-command="calc-coax">Coax Loss</button></div></div><div class="card half"><h3>Design</h3><div class="btnrow"><button class="ghost-btn" data-command="design-smith">Smith Solver</button><button class="ghost-btn" data-command="design-match">Matching Network</button><button class="ghost-btn" data-command="design-filter">Filter Synthesis</button><button class="ghost-btn" data-command="design-osc">Oscillator Helper</button></div></div><div class="card full"><h3>RF Lab History</h3><table class="table" id="rflabHistory"><thead><tr><th>Time</th><th>Tool</th><th>Result</th><th>Details</th></tr></thead><tbody>${h.length?h.slice(0,20).map(x=>`<tr><td>${x.time}</td><td>${x.tool}</td><td>${x.result}</td><td>${x.details}</td></tr>`).join(''):'<tr><td colspan="4">No RF Lab calculations yet.</td></tr>'}</tbody></table></div></div>`}
-function journalHtml(){const projects=state.projects||[];const entries=state.journal||[];return `<div class="grid" id="journalWorkspace"><div class="card full"><h3>Journal Verification</h3><p>Sprint 5 restores the Journal as a project-based engineering record. Entries can be added, edited, deleted, exported, and rolled into a Markdown engineering report.</p><div class="btnrow"><button class="primary-btn" data-command="add-journal">Add Entry</button><button class="ghost-btn" data-command="edit-journal">Edit Latest</button><button class="danger-btn" data-command="delete-journal">Delete Latest</button><button class="ghost-btn" data-command="add-project">Add Project</button><button class="ghost-btn" data-command="export-journal">Export Journal</button><button class="ghost-btn" data-command="export-report">Export Report</button></div></div><div class="card half"><h3>Projects</h3><table class="table" id="projectTable"><thead><tr><th>Project</th><th>Status</th><th>Entries</th></tr></thead><tbody>${projects.length?projects.map(p=>`<tr><td>${escapeHtml(p.name)}</td><td>${escapeHtml(p.status||'Active')}</td><td>${p.entries||entries.filter(e=>e.project===p.name).length}</td></tr>`).join(''):'<tr><td colspan="3">No projects yet.</td></tr>'}</tbody></table></div><div class="card half"><h3>Linked Evidence</h3><p><b>${state.recordings.length}</b> recordings · <b>${state.measurementSnapshots.length}</b> measurement snapshots · <b>${state.markers.length}</b> markers available to cite in reports.</p><button class="ghost-btn" data-command="snapshot">Capture Current Radio Snapshot</button></div><div class="card full"><h3>Entries</h3><table class="table" id="journalTable"><thead><tr><th>Title</th><th>Project</th><th>Time</th><th>Frequency</th><th>Mode</th><th>Tags</th><th>Notes</th></tr></thead><tbody>${entries.length?entries.map(j=>`<tr><td>${escapeHtml(j.title)}</td><td>${escapeHtml(j.project||'General')}</td><td>${escapeHtml(j.time)}</td><td>${escapeHtml(j.freq||'')}</td><td>${escapeHtml(j.mode||'')}</td><td>${escapeHtml(j.tags||'')}</td><td>${escapeHtml(j.notes||'')}</td></tr>`).join(''):'<tr><td colspan="7">No entries yet. Use Add Entry or Snapshot.</td></tr>'}</tbody></table></div><div class="card full"><h3>Report Preview</h3><p>This report combines project notes, receiver state, measurements, recordings, and markers into an exportable engineering record.</p><pre>${escapeHtml(entries.slice(0,4).map(j=>`${j.title} | ${j.project||'General'} | ${j.freq||''} | ${j.tags||''}`).join('\n')||'No report content yet.')}</pre></div></div>`}
-function geospatialHtml(){return `<div class="grid"><div class="card"><h3>Location</h3><p>GPS ${state.receiver.gps?'enabled':'disabled'}.</p><button class="ghost-btn" data-action="toggle-gps">Toggle GPS</button></div><div class="card wide"><h3>Coverage Map</h3><div class="canvas"><div class="trace"></div></div></div></div>`}
-function systemHtml(){return `<div class="grid"><div class="card"><h3>Appearance</h3><p>Theme: ${state.theme}</p><button class="primary-btn" data-command="toggle-theme">Toggle Theme</button></div><div class="card"><h3>Keyboard Shortcuts</h3><p><span class="kbd">Ctrl K</span> Quick Actions · <span class="kbd">Ctrl R</span> Radio · <span class="kbd">Ctrl J</span> Journal · <span class="kbd">Ctrl S</span> Signals · <span class="kbd">Space</span> Record · <span class="kbd">←/→</span> Tune in Radio</p></div><div class="card"><h3>Performance Monitor</h3><p class="metric">${state.metrics.fps} FPS</p><p>CPU ${state.metrics.cpu}% · Heap ${state.metrics.heap}% · FFT ${state.metrics.fftMs} ms · Render ${state.metrics.renderMs} ms.</p><div class="btnrow"><button class="primary-btn" data-command="run-performance-audit">Run Performance Audit</button></div></div><div class="card"><h3>Accessibility Monitor</h3><p class="metric">${state.metrics.a11yScore}</p><p>Contrast, focus indicators, landmark roles, labels, keyboard paths, and touch targets are checked by the Sprint 6 audit.</p><div class="btnrow"><button class="primary-btn" data-command="run-accessibility-audit">Run Accessibility Audit</button></div></div><div class="card wide" id="devPanel"><h3>Developer Diagnostics</h3><div class="btnrow"><button class="primary-btn" data-command="run-tests">Run Full Verification</button><button class="ghost-btn" data-command="run-performance-audit">Performance</button><button class="ghost-btn" data-command="run-accessibility-audit">Accessibility</button><button class="ghost-btn" data-command="export-test-report">Export Report</button><button class="ghost-btn" data-command="reset-state">Reset State</button></div><div id="testOutput"><p>Run tests to verify shell, radio, signals, RF Lab, Journal/reporting, performance checks, and accessibility checks.</p></div></div><div class="card full"><h3>Sprint 6 Checklist</h3><table class="table"><thead><tr><th>Area</th><th>Status</th><th>Verification</th></tr></thead><tbody><tr><td>Performance budget</td><td class="test-pass">Active</td><td>FPS, CPU, heap, FFT time, render time</td></tr><tr><td>Accessibility budget</td><td class="test-pass">Active</td><td>Contrast, focus, keyboard, ARIA labels, touch targets</td></tr><tr><td>Documentation</td><td class="test-pass">Updated</td><td>User manual, shortcut reference, architecture notes, test report</td></tr><tr><td>Long session safety</td><td class="test-pass">Active</td><td>State save, bounded logs, bounded histories</td></tr></tbody></table></div><div class="card full"><h3>Event Monitor</h3><table class="table"><thead><tr><th>Time</th><th>Event</th><th>Payload</th></tr></thead><tbody>${state.events.slice(0,30).map(e=>`<tr><td>${e.time}</td><td>${e.type}</td><td>${escapeHtml(JSON.stringify(e.payload))}</td></tr>`).join('')}</tbody></table></div><div class="card full"><h3>Debug Console</h3><pre>${escapeHtml(JSON.stringify({workspace:state.workspace,lastCommand:state.lastCommand,receiver:state.receiver,metrics:state.metrics,memories:state.memories.length,recordings:state.recordings.length},null,2))}</pre></div></div>`}
-function openRfCalc(type){const d=state.rflab.defaults;const titles={link:'Link Budget',vswr:'VSWR',path:'Free-Space Path Loss',noise:'Noise Figure Cascade',dynamic:'Dynamic Range',pll:'PLL / Mixer',coax:'Coax Loss',smith:'Smith Chart Solver',match:'Matching Network',filter:'Filter Synthesis',osc:'Oscillator Design'};const forms={
-link:`${num('txPower','TX power dBm',d.txPower)}${num('txGain','TX gain dBi',d.txGain)}${num('rxGain','RX gain dBi',d.rxGain)}${num('pathLoss','Path loss dB',d.pathLoss)}${num('losses','Cable/system losses dB',d.losses)}`,
-vswr:`${num('forward','Forward power W',d.forward)}${num('reflected','Reflected power W',d.reflected)}`,
-path:`${num('frequency','Frequency MHz',d.frequency)}${num('distance','Distance km',d.distance)}`,
-noise:`${num('gain1','Stage 1 gain dB',d.gain1)}${num('nf1','Stage 1 NF dB',d.nf1)}${num('gain2','Stage 2 gain dB',d.gain2)}${num('nf2','Stage 2 NF dB',d.nf2)}`,
-dynamic:`${num('signal','Signal dBm',d.signal)}${num('noise','Noise floor dBm',d.noise)}`,
-pll:`${num('rf','RF MHz',d.rf)}${num('lo','LO MHz',d.lo)}`,
-coax:`${num('coaxLength','Length ft',d.coaxLength)}${num('coaxLoss100','Loss dB / 100 ft',d.coaxLoss100)}`,
-smith:`${num('impedanceR','Resistance Ω',d.impedanceR)}${num('impedanceX','Reactance Ω',d.impedanceX)}`,
-match:`${num('impedanceR','Load R Ω',d.impedanceR)}${num('impedanceX','Load X Ω',d.impedanceX)}${num('frequency','Frequency MHz',d.frequency)}`,
-filter:`${num('filterCenter','Center MHz',d.filterCenter)}${num('filterBw','Bandwidth kHz',d.filterBw)}`,
-osc:`${num('frequency','Target MHz',d.frequency)}${num('coaxLoss100','Stability ppm',d.coaxLoss100)}`};openDialog(titles[type],`${forms[type]}<div class="btnrow"><button class="primary-btn" data-action="rf-calc" data-rf-type="${type}">Calculate</button><button class="ghost-btn" data-command="close-dialog">Close</button></div><div id="rfResult" class="card full" style="margin-top:12px;box-shadow:none;display:none"></div>`)}
-function num(id,label,val){return `<div class="form-row"><label for="rf_${id}">${label}</label><input class="field" id="rf_${id}" type="number" step="any" value="${val}"></div>`}
-function rfVal(id){const el=$('#rf_'+id);return parseFloat(el?.value)||0}
-function calculateRf(type){let result='',details='',tool='RF Tool';const d=state.rflab.defaults;const set=(ids)=>ids.forEach(id=>d[id]=rfVal(id));if(type==='link'){set(['txPower','txGain','rxGain','pathLoss','losses']);const rx=d.txPower+d.txGain+d.rxGain-d.pathLoss-d.losses;tool='Link Budget';result=rx.toFixed(1)+' dBm';details=`Tx ${d.txPower} dBm, path ${d.pathLoss} dB, losses ${d.losses} dB`}
-if(type==='vswr'){set(['forward','reflected']);const gamma=Math.sqrt(Math.max(0,d.reflected/d.forward));const vswr=(1+gamma)/(1-gamma);tool='VSWR';result=vswr.toFixed(2)+':1';details=`Reflection coefficient ${gamma.toFixed(3)}, return loss ${(-20*Math.log10(gamma||1e-9)).toFixed(1)} dB`}
-if(type==='path'){set(['frequency','distance']);const loss=32.44+20*Math.log10(d.frequency)+20*Math.log10(d.distance);tool='Path Loss';result=loss.toFixed(1)+' dB';details=`${d.frequency} MHz across ${d.distance} km`}
-if(type==='noise'){set(['gain1','nf1','gain2','nf2']);const f1=10**(d.nf1/10),f2=10**(d.nf2/10),g1=10**(d.gain1/10);const nf=10*Math.log10(f1+(f2-1)/g1);tool='Noise Figure';result=nf.toFixed(2)+' dB';details=`Friis cascade, total gain ${(d.gain1+d.gain2).toFixed(1)} dB`}
-if(type==='dynamic'){set(['signal','noise']);const dr=d.signal-d.noise;tool='Dynamic Range';result=dr.toFixed(1)+' dB';details=`Signal ${d.signal} dBm, noise ${d.noise} dBm`}
-if(type==='pll'){set(['rf','lo']);const ifreq=Math.abs(d.rf-d.lo);tool='PLL / Mixer';result=ifreq.toFixed(3)+' MHz IF';details=`High-side image ${(d.lo+ifreq).toFixed(3)} MHz, low-side image ${(d.lo-ifreq).toFixed(3)} MHz`}
-if(type==='coax'){set(['coaxLength','coaxLoss100']);const loss=d.coaxLength/100*d.coaxLoss100;tool='Coax Loss';result=loss.toFixed(2)+' dB';details=`${d.coaxLength} ft at ${d.coaxLoss100} dB/100 ft`}
-if(type==='smith'){set(['impedanceR','impedanceX']);const zmag=Math.hypot(d.impedanceR,d.impedanceX);const gammaMag=Math.hypot(d.impedanceR-50,d.impedanceX)/Math.hypot(d.impedanceR+50,d.impedanceX);tool='Smith Solver';result='|Γ| '+gammaMag.toFixed(3);details=`Z=${d.impedanceR}+j${d.impedanceX} Ω, |Z|=${zmag.toFixed(1)} Ω`}
-if(type==='match'){set(['impedanceR','impedanceX','frequency']);const q=Math.sqrt(Math.max(0,50/d.impedanceR-1));const xs=q*d.impedanceR;tool='Matching Network';result='L-network estimate';details=`Approx series reactance ${xs.toFixed(1)} Ω at ${d.frequency} MHz; validate before build`}
-if(type==='filter'){set(['filterCenter','filterBw']);const q=(d.filterCenter*1000)/d.filterBw;tool='Filter Synthesis';result='Q '+q.toFixed(1);details=`Center ${d.filterCenter} MHz, bandwidth ${d.filterBw} kHz`}
-if(type==='osc'){set(['frequency','coaxLoss100']);const hz=d.frequency*1e6*d.coaxLoss100/1e6;tool='Oscillator';result='±'+hz.toFixed(1)+' Hz';details=`${d.coaxLoss100} ppm stability at ${d.frequency} MHz`}
-const rec={time:new Date().toLocaleString(),tool,result,details};state.rflab.history.unshift(rec);state.rflab.history=state.rflab.history.slice(0,80);save();emit('rflab:calculate',rec);const box=$('#rfResult');if(box){box.style.display='block';box.innerHTML=`<h3>${tool}</h3><p class="metric">${result}</p><p>${details}</p>`}toast(tool+' calculated')}
-function openCommand(){const m=$('#commandModal');m.classList.add('open');renderCommandList('');setTimeout(()=>$('#commandSearch').focus(),20)}function closeCommand(){$('#commandModal').classList.remove('open')}function renderCommandList(q){const matches=Object.entries(commands).filter(([id,c])=>!id.startsWith('close-')&&c[0].toLowerCase().includes(q.toLowerCase())).slice(0,40);$('#commandList').innerHTML=matches.map(([id,c])=>`<button class="cmd-item" data-command-run="${id}">${c[0]}</button>`).join('')||'<p>No commands found.</p>'}function openDialog(title,body){$('#dialogTitle').textContent=title;$('#dialogBody').innerHTML=body;$('#dialogModal').classList.add('open')}function closeDialog(){$('#dialogModal').classList.remove('open')}function openSignalInspector(){const r=state.receiver;openDialog('Signal Inspector',`<div class="signal-grid"><div class="signal-box"><span>Frequency</span><b>${r.frequency.toFixed(6)} MHz</b></div><div class="signal-box"><span>Estimated bandwidth</span><b>${(r.bandwidth/1000).toFixed(1)} kHz</b></div><div class="signal-box"><span>Signal strength</span><b>${(-54+Math.round(Math.random()*5)).toFixed(0)} dBm</b></div><div class="signal-box"><span>Modulation guess</span><b>${r.mode}</b></div><div class="signal-box"><span>Occupancy</span><b>${Math.round(45+Math.random()*35)}%</b></div><div class="signal-box"><span>History</span><b>${state.measurementSnapshots.length} snapshots</b></div></div><p>This creates a working bridge between Radio, Signals, and Journal without leaving the console.</p><div class="btnrow"><button class="primary-btn" data-command="measure-snapshot">Save Measurement</button><button class="ghost-btn" data-command="snapshot">Add Journal Snapshot</button><button class="ghost-btn" data-command="record">Record Audio</button><button class="ghost-btn" data-command="close-dialog">Close</button></div>`)}
-function openKeypad(){openDialog('Frequency Keypad',`<div class="form-row"><label>MHz</label><input class="field" id="keypadFreq" type="number" step="0.001" value="${state.receiver.frequency}"></div><button class="primary-btn" id="applyKeypad">Tune</button>`);setTimeout(()=>{$('#applyKeypad').onclick=()=>{tune(parseFloat($('#keypadFreq').value)||state.receiver.frequency);closeDialog();refresh();toast('Frequency tuned')}},0)}
-function download(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();URL.revokeObjectURL(a.href);emit('export',{name});toast('Export downloaded')}function escapeHtml(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
-function runPerformanceAudit(){state.metrics.fps=Math.max(58,state.metrics.fps||60);state.metrics.cpu=Math.min(28,state.metrics.cpu||12);state.metrics.heap=Math.min(34,state.metrics.heap||18);state.metrics.fftMs=+(2.7+Math.random()*0.8).toFixed(2);state.metrics.renderMs=+(4.2+Math.random()*1.1).toFixed(2);state.metrics.longSession='Bounded logs and histories active';emit('audit:performance',{fps:state.metrics.fps,cpu:state.metrics.cpu,heap:state.metrics.heap,fftMs:state.metrics.fftMs,renderMs:state.metrics.renderMs});if(state.workspace!=='system')setWorkspace('system');setTimeout(()=>{$('#testOutput').innerHTML=`<p><b>Performance Audit PASS</b></p><table class="table"><tbody><tr><td>Frame rate</td><td class="test-pass">${state.metrics.fps} FPS</td><td>Target ≥ 45 FPS shell/render path</td></tr><tr><td>CPU estimate</td><td class="test-pass">${state.metrics.cpu}%</td><td>Target ≤ 60%</td></tr><tr><td>Heap estimate</td><td class="test-pass">${state.metrics.heap}%</td><td>Bounded session arrays and logs</td></tr><tr><td>FFT budget</td><td class="test-pass">${state.metrics.fftMs} ms</td><td>Target ≤ 10 ms simulated path</td></tr><tr><td>Render budget</td><td class="test-pass">${state.metrics.renderMs} ms</td><td>Target ≤ 16 ms shell render</td></tr></tbody></table>`},0);refresh();toast('Performance audit passed')}
-function runAccessibilityAudit(){const checks=[];const add=(name,ok,detail)=>checks.push({name,ok,detail});add('Theme contrast tokens',!!getComputedStyle(document.body).getPropertyValue('--text'),'Text and background tokens are explicit');add('Visible focus styles',$$('button,input,select').length>0,'Interactive controls receive focus-visible outline');add('Navigation buttons labelled',$$('[data-workspace]').every(b=>b.textContent.trim().length>0),'Left navigation has readable labels');add('Command palette keyboard path',!!commands.palette&&!!commands['close-command'],'Ctrl+K opens palette and Escape closes dialogs');add('No duplicate IDs',(()=>{const ids=$$('[id]').map(e=>e.id);return ids.length===new Set(ids).size})(),'DOM ID uniqueness');add('Touch targets',$$('button').every(b=>b.getBoundingClientRect().height>=30),'Buttons meet practical touch target height');add('Table headers',$$('.table').every(t=>t.querySelectorAll('th').length>0||t.querySelectorAll('tr').length===0),'Tables expose headers');state.metrics.a11yScore=Math.round(checks.filter(c=>c.ok).length/checks.length*100);emit('audit:accessibility',{score:state.metrics.a11yScore});if(state.workspace!=='system')setWorkspace('system');setTimeout(()=>{$('#testOutput').innerHTML=`<p><b>Accessibility Audit ${checks.every(c=>c.ok)?'PASS':'WARN'}</b> · Score ${state.metrics.a11yScore}</p><table class="table"><tbody>${checks.map(c=>`<tr><td>${c.name}</td><td class="${c.ok?'test-pass':'test-fail'}">${c.ok?'PASS':'WARN'}</td><td>${c.detail}</td></tr>`).join('')}</tbody></table>`},0);refresh();toast('Accessibility audit complete')}
-function exportVerificationReport(){const report={version:'14.9 Sidebar Recovery',generated:new Date().toISOString(),workspace:state.workspace,metrics:state.metrics,lastCommand:state.lastCommand,events:state.events.slice(0,20),features:{shell:true,radio:true,signals:true,rflab:true,journal:true,performanceAudit:true,accessibilityAudit:true,documentation:true}};download('websdr-sprint6-verification.json',JSON.stringify(report,null,2),'application/json')}
-function runTests(){const results=[];const test=(name,fn)=>{try{results.push({name,ok:!!fn()})}catch(e){results.push({name,ok:false,error:e.message})}};test('Navigation items exist',()=>$$('[data-workspace]').length===8);test('Persistent sidebar controls exist once',()=>$$('.side-actions [data-command=\"toggle-sidebar\"]').length===1&&$$('.side-actions [data-command=\"open-dev\"]').length===1);test('Sidebar is persistent height',()=>getComputedStyle($('.sidebar')).height!=='auto');test('All toolbar commands exist',()=>$$('#toolbar [data-command]').every(b=>commands[b.dataset.command]));test('Command count includes radio workflow',()=>['freq-keypad','freq-up','freq-down','vfo-swap','vfo-toggle','copy-vfo','add-memory','delete-memory','mute','reset-radio','scan-next','signal-inspector','operator-mode','waterfall-palette','waterfall-freeze','record-iq'].every(id=>commands[id]));test('Status ribbon populated',()=>$('#status').children.length>=9);test('No duplicate IDs',()=>{const ids=$$('[id]').map(e=>e.id);return ids.length===new Set(ids).size});const old=state.workspace;renderWorkspace('radio',false);test('Radio workspace renders',()=>!!$('#radioWorkspace'));test('Radio has spectrum click target',()=>!!$('[data-radio-control="spectrum"]'));test('Spectrum tune help button is wired',()=>!!$('[data-command="tune-help"]')&&!!commands['tune-help']);test('Radio has VFO controls',()=>$$('[data-bind]').filter(e=>['frequency','mode','gain','sampleRate','step','bandwidth','squelch','audioGain','agc'].includes(e.dataset.bind)).length>=9);test('Radio memory tune buttons exist',()=>$$('[data-tune-memory]').length===state.memories.length);test('Radio record command toggles state',()=>{const before=state.receiver.recording;commands.record[1]();const changed=state.receiver.recording!==before;commands.record[1]();return changed});renderWorkspace('signals',false);test('Signals workspace renders',()=>!!$('#signalsWorkspace'));test('Signals has measurement controls',()=>['measure-snapshot','add-marker','export-measurements','compare-signals','signal-detect','signal-report','signal-journal','signal-replay','signal-tune-selected'].every(id=>commands[id]));test('Signals tables render',()=>!!$('#signalTable')&&!!$('#markerTable')&&!!$('#occupancyTable')&&!!$('#snapshotTable'));renderWorkspace('rflab',false);test('RF Lab workspace renders',()=>!!$('#rflabWorkspace'));test('RF Lab calculator commands exist',()=>['calc-link','calc-vswr','calc-path','calc-noise','calc-dynamic','calc-pll','calc-coax','design-smith','design-match','design-filter','design-osc','export-rflab','clear-rflab'].every(id=>commands[id]));test('RF Lab removed Component Library and Worksheets',()=>!$('#content').textContent.includes('Component Library')&&!$('#content').textContent.includes('Worksheets'));test('RF Lab history table exists',()=>!!$('#rflabHistory'));
-renderWorkspace('journal',false);test('Journal workspace renders',()=>!!$('#journalWorkspace'));test('Journal project and entry tables exist',()=>!!$('#projectTable')&&!!$('#journalTable'));test('Journal commands exist',()=>['add-project','add-journal','edit-journal','delete-journal','export-journal','export-report'].every(id=>commands[id]));test('Measurement snapshot command writes data',()=>{const before=state.measurementSnapshots.length;commands['measure-snapshot'][1]();return state.measurementSnapshots.length===before+1});test('Marker command writes data',()=>{const before=state.markers.length;commands['add-marker'][1]();return state.markers.length===before+1});state.workspace=old;renderWorkspace(old,false);test('Performance audit command exists',()=>!!commands['run-performance-audit']);test('Accessibility audit command exists',()=>!!commands['run-accessibility-audit']);test('Export test report command exists',()=>!!commands['export-test-report']);test('System performance monitor renders',()=>{renderWorkspace('system',false);return !!$('#devPanel')&&$('#content').textContent.includes('Performance Monitor')&&$('#content').textContent.includes('Accessibility Monitor')});test('Keyboard shortcuts registered',()=>true);const passed=results.filter(r=>r.ok).length;if(state.workspace!=='system')setWorkspace('system');setTimeout(()=>{$('#testOutput').innerHTML=`<p><b>${passed} Passed</b> · <b>${results.length-passed} Failed</b></p><table class="table"><tbody>${results.map(r=>`<tr><td>${r.name}</td><td class="${r.ok?'test-pass':'test-fail'}">${r.ok?'PASS':'FAIL'}</td><td>${r.error||''}</td></tr>`).join('')}</tbody></table>`},0);emit('tests:run',{passed,total:results.length});toast(`Verification: ${passed}/${results.length} passed`)}
-function wire(){document.addEventListener('click',e=>{const ws=e.target.closest('[data-workspace]');if(ws){setWorkspace(ws.dataset.workspace);return}const cmd=e.target.closest('[data-command]');if(cmd){execute(cmd.dataset.command);return}const cr=e.target.closest('[data-command-run]');if(cr){closeCommand();execute(cr.dataset.commandRun);return}const tm=e.target.closest('[data-tune-memory]');if(tm){const m=state.memories[+tm.dataset.tuneMemory];if(m){tune(m.freq,m.mode);refresh();toast('Tuned '+m.name)}return}const sig=e.target.closest('[data-signal-action]');if(sig){handleSignalAction(sig.dataset.signalAction,+sig.dataset.signalIndex);return}const action=e.target.closest('[data-action]');if(action){handleAction(action.dataset.action);return}const spec=e.target.closest('[data-radio-control="spectrum"]');if(spec){const rect=spec.getBoundingClientRect();const offset=((e.clientX-rect.left)/rect.width-.5)*state.receiver.sampleRate; tune(+(state.receiver.frequency+offset).toFixed(6));refresh();toast('Spectrum click tuned')}});document.addEventListener('wheel',e=>{if(e.target.closest('[data-radio-control="spectrum"]')){e.preventDefault();stepTune(e.deltaY<0?1:-1)}},{passive:false});document.addEventListener('dblclick',e=>{if(e.target.closest('[data-radio-control="spectrum"]')){openSignalInspector()}});document.addEventListener('input',e=>{if(e.target.id==='commandSearch')renderCommandList(e.target.value);if(e.target.id==='globalSearch'&&e.target.value.length>1){openCommand();$('#commandSearch').value=e.target.value;renderCommandList(e.target.value)}if(e.target.id==='signalSearch'){filterSignalRows(e.target.value)}const b=e.target.dataset.bind;if(!b)return;const r=state.receiver;if(['frequency','step','sampleRate'].includes(b))r[b]=parseFloat(e.target.value)||r[b];else if(['gain','bandwidth','squelch','audioGain'].includes(b))r[b]=parseInt(e.target.value,10)||0;else if(b==='agc')r.agc=e.target.value==='true';else r[b]=e.target.value;if(b==='frequency')tune(r.frequency);else emit('receiver:update',{[b]:r[b]});renderStatus();save()});document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCommand();closeDialog()}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openCommand()}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='r'){e.preventDefault();setWorkspace('radio')}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='j'){e.preventDefault();setWorkspace('journal')}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();setWorkspace('signals')}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='l'){e.preventDefault();setWorkspace('rflab')}if((e.ctrlKey||e.metaKey)&&e.key===','){e.preventDefault();setWorkspace('system')}if(e.code==='Space'&&['INPUT','TEXTAREA','SELECT'].indexOf(document.activeElement.tagName)<0){e.preventDefault();execute('record')}if(state.workspace==='radio'&&['ArrowLeft','ArrowRight'].includes(e.key)&&['INPUT','TEXTAREA','SELECT'].indexOf(document.activeElement.tagName)<0){e.preventDefault();stepTune(e.key==='ArrowRight'?1:-1)}})}function handleSignalAction(a,i){const s=state.signals[i];if(!s)return;if(a==='tune'){const f=parseFloat(s.freq);if(!Number.isNaN(f)){tune(f);setWorkspace('radio');toast('Tuned '+s.freq)}}if(a==='journal'){state.journal.unshift({title:'Signal observation '+s.freq,time:new Date().toLocaleString(),tags:'signal, analysis',project:'Signal Investigation',notes:s.type+'; SNR '+s.snr+'; status '+s.status,freq:s.freq,mode:state.receiver.mode,snr:s.snr});emit('signals:journal',{freq:s.freq});refresh();toast('Signal added to Journal')}}function filterSignalRows(q){q=(q||'').toLowerCase();$$('[data-signal-row]').forEach(row=>{row.style.display=row.textContent.toLowerCase().includes(q)?'':'none'})}
-function handleAction(a){if(a==='step'){const mhz=parseFloat(event.target.dataset.step)||0;tune(+(state.receiver.frequency+mhz).toFixed(6));refresh();toast((mhz>0?'+':'')+mhz+' MHz');return}if(a==='toggle-gps'){state.receiver.gps=!state.receiver.gps;emit('gps:toggle',{gps:state.receiver.gps});refresh();toast(state.receiver.gps?'GPS enabled':'GPS disabled')}if(a==='rf-calc'){calculateRf(event.target.dataset.rfType)}}
-function init(){applyTheme();buildNav();buildToolbar();renderStatus();renderWorkspace(state.workspace,false);wire();emit('app:boot',{version:'14.9-sidebar-recovery'});setInterval(()=>{state.metrics.fps=Math.max(52,Math.min(60,state.metrics.fps+Math.round(Math.random()*2-1)));state.metrics.cpu=Math.max(8,Math.min(42,state.metrics.cpu+Math.round(Math.random()*4-2)));state.metrics.heap=Math.max(14,Math.min(40,(state.metrics.heap||18)+Math.round(Math.random()*2-1)));if(state.receiver.scanning){const m=nextMemory();tune(m.freq,m.mode)}renderStatus()},3000)}try{init()}catch(err){document.body.innerHTML=`<main style="padding:24px;font-family:system-ui"><h1>WebSDR Studio startup error</h1><pre>${escapeHtml(err.stack||String(err))}</pre></main>`}
-})();
+
+/* ---------- persistent store (local-first) ---------- */
+const Store = {
+  KEY:"spectrum-fi064",
+  data:null,
+  defaults(){
+    return {
+      version:APP.version,
+      freq:14265000, mode:"USB", filter:2400, rfGain:30, sampleRate:2400000, ppm:0,
+      af:50, vol:0, squelch:-100, agc:2,
+      fftSize:2048, avg:4, wfFloor:-110, wfCeil:-30,
+      lat:39.2904, lon:-76.6122,
+      menuCollapsed:false,
+      memories:[
+        {freq:7050000,  mode:"LSB", label:"AM Net"},
+        {freq:14265000, mode:"USB", label:"DX Call"},
+        {freq:21300000, mode:"USB", label:"Beacon"},
+        {freq:28400000, mode:"USB", label:"Contester"},
+        {freq:50110000, mode:"USB", label:"Repeater"}
+      ],
+      journal:[], journalArchive:[]
+    };
+  },
+  load(){
+    try{
+      const raw = localStorage.getItem(this.KEY);
+      this.data = raw ? Object.assign(this.defaults(), JSON.parse(raw)) : this.defaults();
+    }catch(e){ this.data = this.defaults(); DBG.warn("store load failed", e); }
+    return this.data;
+  },
+  save(){
+    try{ localStorage.setItem(this.KEY, JSON.stringify(this.data)); }
+    catch(e){ DBG.warn("store save failed", e); }
+  },
+  exportJSON(){ return JSON.stringify(this.data, null, 2); },
+  importJSON(txt){
+    const obj = JSON.parse(txt);
+    if(!obj || typeof obj!=="object") throw new Error("Not a settings object");
+    this.data = Object.assign(this.defaults(), obj);
+    this.save();
+  }
+};
+
+/* ---------- DSP ---------- */
+const DSP = {
+  /* iterative radix-2 complex FFT, in-place on re[]/im[] */
+  fftTables:{},
+  fft(re, im){
+    const n = re.length;
+    let t = this.fftTables[n];
+    if(!t){
+      const rev = new Uint32Array(n);
+      let bits = Math.log2(n)|0;
+      for(let i=0;i<n;i++){
+        let x=i, r=0;
+        for(let b=0;b<bits;b++){ r=(r<<1)|(x&1); x>>=1; }
+        rev[i]=r;
+      }
+      const cos=new Float32Array(n/2), sin=new Float32Array(n/2);
+      for(let i=0;i<n/2;i++){ cos[i]=Math.cos(-2*Math.PI*i/n); sin[i]=Math.sin(-2*Math.PI*i/n); }
+      t = this.fftTables[n] = {rev,cos,sin};
+    }
+    const {rev,cos,sin} = t;
+    for(let i=0;i<n;i++){
+      const j=rev[i];
+      if(j>i){ let tmp=re[i];re[i]=re[j];re[j]=tmp; tmp=im[i];im[i]=im[j];im[j]=tmp; }
+    }
+    for(let size=2;size<=n;size<<=1){
+      const half=size>>1, step=n/size;
+      for(let i=0;i<n;i+=size){
+        for(let j=0,k=0;j<half;j++,k+=step){
+          const wr=cos[k], wi=sin[k];
+          const xr=re[i+j+half]*wr - im[i+j+half]*wi;
+          const xi=re[i+j+half]*wi + im[i+j+half]*wr;
+          re[i+j+half]=re[i+j]-xr; im[i+j+half]=im[i+j]-xi;
+          re[i+j]+=xr; im[i+j]+=xi;
+        }
+      }
+    }
+  },
+  hannCache:{},
+  hann(n){
+    let w=this.hannCache[n];
+    if(!w){
+      w=this.hannCache[n]=new Float32Array(n);
+      for(let i=0;i<n;i++) w[i]=0.5-0.5*Math.cos(2*Math.PI*i/(n-1));
+    }
+    return w;
+  },
+  /* waterfall colormap: deep blue -> blue -> cyan -> green -> yellow */
+  cmap:(()=> {
+    const stops=[[6,10,40],[20,40,120],[30,110,190],[60,190,160],[150,220,80],[245,230,90]];
+    const lut=new Uint8Array(256*3);
+    for(let i=0;i<256;i++){
+      const p=i/255*(stops.length-1), a=Math.floor(p), b=Math.min(a+1,stops.length-1), f=p-a;
+      for(let c=0;c<3;c++) lut[i*3+c]= stops[a][c]+(stops[b][c]-stops[a][c])*f;
+    }
+    return lut;
+  })(),
+  /* Maidenhead grid */
+  toGrid(lat,lon){
+    lon+=180; lat+=90;
+    const A="ABCDEFGHIJKLMNOPQR", a="abcdefghijklmnopqrstuvwx";
+    return A[Math.floor(lon/20)]+A[Math.floor(lat/10)]
+      + Math.floor((lon%20)/2) + Math.floor(lat%10)
+      + a[Math.floor((lon%2)*12)] + a[Math.floor((lat%1)*24)];
+  },
+  fromGrid(g){
+    g=g.trim(); if(g.length<4) throw new Error("Grid too short");
+    g=g.slice(0,2).toUpperCase()+g.slice(2);
+    const lon=(g.charCodeAt(0)-65)*20 + parseInt(g[2])*2 - 180 +1;
+    const lat=(g.charCodeAt(1)-65)*10 + parseInt(g[3]) - 90 +0.5;
+    if(isNaN(lat)||isNaN(lon)) throw new Error("Bad grid");
+    return {lat,lon};
+  },
+  bearing(lat1,lon1,lat2,lon2){
+    const r=Math.PI/180;
+    const dl=(lon2-lon1)*r;
+    const y=Math.sin(dl)*Math.cos(lat2*r);
+    const x=Math.cos(lat1*r)*Math.sin(lat2*r)-Math.sin(lat1*r)*Math.cos(lat2*r)*Math.cos(dl);
+    let b=Math.atan2(y,x)/r; if(b<0)b+=360;
+    const d=6371*Math.acos(Math.min(1,Math.sin(lat1*r)*Math.sin(lat2*r)+Math.cos(lat1*r)*Math.cos(lat2*r)*Math.cos(dl)));
+    return {bearing:b, km:d};
+  }
+};
+
+/* ---------- Morse ---------- */
+const MORSE = {
+  table:{".-":"A","-...":"B","-.-.":"C","-..":"D",".":"E","..-.":"F","--.":"G","....":"H","..":"I",
+  ".---":"J","-.-":"K",".-..":"L","--":"M","-.":"N","---":"O",".--.":"P","--.-":"Q",".-.":"R",
+  "...":"S","-":"T","..-":"U","...-":"V",".--":"W","-..-":"X","-.--":"Y","--..":"Z",
+  "-----":"0",".----":"1","..---":"2","...--":"3","....-":"4",".....":"5","-....":"6",
+  "--...":"7","---..":"8","----.":"9","..--..":"?","-..-.":"/",".-.-.-":".","--..--":",","-...-":"="},
+  enc:null,
+  encode(ch){
+    if(!this.enc){ this.enc={}; for(const k in this.table) this.enc[this.table[k]]=k; }
+    return this.enc[ch.toUpperCase()]||"";
+  }
+};
+
+/* ============================================================
+   SOURCES. Both emit Float32Array interleaved IQ in [-1,1]
+   via onBlock(iq), and report .rate and .name.
+   ============================================================ */
+
+/* ---------- Simulator: a believable stretch of HF ---------- */
+class SimSource {
+  constructor(){
+    this.name="Simulator";
+    this.rate=256000;
+    this.center=14265000;
+    this.onBlock=null;
+    this._timer=null;
+    this._phase={};
+    this._t=0;
+    /* CW beacon keying: "VVV DE N1HNP" at ~15 WPM, unit=80ms */
+    this._cwMsg=this._buildKeying("VVV DE N1HNP ");
+    this._cwIdx=0; this._cwClock=0;
+    this.stations=[
+      {f:7050000,  kind:"cw",   amp:0.030},
+      {f:14100000, kind:"carrier", amp:0.012},
+      {f:14230000, kind:"am",   amp:0.028},
+      {f:14265000, kind:"ssb",  amp:0.035},
+      {f:14313000, kind:"carrier", amp:0.008},
+      {f:21300000, kind:"cw",   amp:0.022},
+      {f:28400000, kind:"ssb",  amp:0.018}
+    ];
+  }
+  _buildKeying(msg){
+    const unit=0.080, seq=[];
+    for(const ch of msg){
+      if(ch===" "){ seq.push([0,unit*7]); continue; }
+      const code=MORSE.encode(ch);
+      for(let i=0;i<code.length;i++){
+        seq.push([1, code[i]==="."?unit:unit*3]);
+        seq.push([0, unit]);
+      }
+      seq.push([0, unit*2]);
+    }
+    return seq;
+  }
+  start(){
+    const blk=8192, dt=blk/this.rate;
+    this._timer=setInterval(()=>this._emit(blk), dt*1000);
+  }
+  stop(){ clearInterval(this._timer); this._timer=null; }
+  setCenter(f){ this.center=f; }
+  setRate(r){ /* sim rate fixed; kept for interface parity */ }
+  _osc(key){ return this._phase[key]||(this._phase[key]=Math.random()*6.28); }
+  _emit(n){
+    const iq=new Float32Array(n*2);
+    const dt=1/this.rate, half=this.rate/2;
+    /* noise floor */
+    for(let i=0;i<n*2;i++) iq[i]=(Math.random()-0.5)*0.004;
+    /* CW keying clock */
+    for(const st of this.stations){
+      const off=st.f-this.center;
+      if(Math.abs(off)>half) continue;
+      let ph=this._osc(st.f), w=2*Math.PI*off;
+      if(st.kind==="carrier"){
+        for(let i=0;i<n;i++){ const p=ph+w*i*dt; iq[2*i]+=st.amp*Math.cos(p); iq[2*i+1]+=st.amp*Math.sin(p); }
+      } else if(st.kind==="am"){
+        let mp=this._osc("m"+st.f);
+        for(let i=0;i<n;i++){
+          const m=1+0.6*Math.sin(mp+2*Math.PI*400*i*dt)+0.3*Math.sin(mp*1.7+2*Math.PI*950*i*dt);
+          const p=ph+w*i*dt;
+          iq[2*i]+=st.amp*0.5*m*Math.cos(p); iq[2*i+1]+=st.amp*0.5*m*Math.sin(p);
+        }
+        this._phase["m"+st.f]=mp+2*Math.PI*400*n*dt;
+      } else if(st.kind==="ssb"){
+        /* two-tone USB: carriers at +700 and +1900 Hz */
+        for(const tone of [700,1900]){
+          const wt=2*Math.PI*(off+tone);
+          const p0=this._osc(st.f+tone);
+          for(let i=0;i<n;i++){ const p=p0+wt*i*dt; iq[2*i]+=st.amp*0.5*Math.cos(p); iq[2*i+1]+=st.amp*0.5*Math.sin(p); }
+          this._phase[st.f+tone]=p0+wt*n*dt;
+        }
+        continue;
+      } else if(st.kind==="cw"){
+        for(let i=0;i<n;i++){
+          this._cwClock-=dt;
+          if(this._cwClock<=0){
+            this._cwIdx=(this._cwIdx+1)%this._cwMsg.length;
+            this._cwClock=this._cwMsg[this._cwIdx][1];
+          }
+          if(this._cwMsg[this._cwIdx][0]){
+            const p=ph+w*i*dt;
+            iq[2*i]+=st.amp*Math.cos(p); iq[2*i+1]+=st.amp*Math.sin(p);
+          }
+        }
+      }
+      this._phase[st.f]=ph+w*n*dt;
+    }
+    /* occasional static crash */
+    if(Math.random()<0.02){
+      const at=(Math.random()*n)|0, len=Math.min(n-at, 300);
+      for(let i=0;i<len;i++){ iq[2*(at+i)]+=(Math.random()-0.5)*0.15; iq[2*(at+i)+1]+=(Math.random()-0.5)*0.15; }
+    }
+    if(this.onBlock) this.onBlock(iq);
+  }
+}
+
+/* ---------- RTL-SDR over WebUSB (experimental) ----------
+   Implements the librtlsdr control protocol for the RTL2832U
+   with an R820T/R820T2 tuner. Tested against the simulator
+   pipeline; treat hardware behavior as experimental.        */
+class RtlSource {
+  constructor(){
+    this.name="RTL-SDR (USB)";
+    this.rate=2400000;
+    this.center=14265000;
+    this.onBlock=null;
+    this.dev=null; this._running=false;
+    this.ppm=0; this.rfGain=30;
+    this.serial="";
+    this.IF=3570000;           /* R820T IF */
+    this.XTAL=28800000;
+  }
+  /* --- low-level register access --- */
+  async _ctrlOut(block, addr, data){
+    const index=(block<<8)|0x10;
+    await this.dev.controlTransferOut({requestType:"vendor",recipient:"device",request:0,value:addr,index}, data);
+  }
+  async _ctrlIn(block, addr, len){
+    const index=(block<<8);
+    const r=await this.dev.controlTransferIn({requestType:"vendor",recipient:"device",request:0,value:addr,index}, len);
+    return new Uint8Array(r.data.buffer);
+  }
+  async _wReg(block, addr, val, len){
+    const d=new Uint8Array(len);
+    for(let i=0;i<len;i++) d[i]=(val>>(8*(len-1-i)))&0xff;
+    await this._ctrlOut(block, addr, d);
+  }
+  async _demodW(page, addr, val, len){
+    const d=new Uint8Array(len);
+    for(let i=0;i<len;i++) d[i]=(val>>(8*(len-1-i)))&0xff;
+    const index=(0x10|page);
+    await this.dev.controlTransferOut({requestType:"vendor",recipient:"device",request:0,value:(addr<<8)|0x20,index}, d);
+    /* dummy read completes the demod write cycle */
+    await this.dev.controlTransferIn({requestType:"vendor",recipient:"device",request:0,value:0x0130,index:0x0a},1).catch(()=>{});
+  }
+  async _i2cW(i2c, reg, val){
+    await this._ctrlOut(6, i2c, new Uint8Array([reg, val]));
+  }
+  async _i2cRd(i2c, reg, len){
+    await this._ctrlOut(6, i2c, new Uint8Array([reg]));
+    return await this._ctrlIn(6, i2c, len);
+  }
+  /* --- bring-up --- */
+  async connect(){
+    this.dev = await navigator.usb.requestDevice({filters:[
+      {vendorId:0x0bda, productId:0x2838},
+      {vendorId:0x0bda, productId:0x2832}
+    ]});
+    await this.dev.open();
+    if(this.dev.configuration===null) await this.dev.selectConfiguration(1);
+    await this.dev.claimInterface(0);
+    this.serial=this.dev.serialNumber||"unknown";
+    /* USB init (librtlsdr rtlsdr_init_baseband) */
+    await this._wReg(1, 0x2c8, 0x09, 1);      /* USB_SYSCTL */
+    await this._wReg(1, 0x110, 0x0002, 2);    /* USB_EPA_MAXPKT */
+    await this._wReg(1, 0x14a, 0x1002, 2);    /* USB_EPA_CTL: reset fifo */
+    await this._wReg(2, 0x300, 0x22, 1);      /* SYS DEMOD_CTL1: power up */
+    await this._wReg(2, 0x300, 0xe8, 1);      /* SYS DEMOD_CTL  */
+    /* demod soft reset + defaults */
+    await this._demodW(1, 0x01, 0x14, 1);
+    await this._demodW(1, 0x01, 0x10, 1);
+    await this._demodW(1, 0x15, 0x00, 1);
+    await this._demodW(1, 0x16, 0x0000, 2);   /* spectrum not inverted yet */
+    for(let i=0;i<12;i++) await this._demodW(1, 0x1c+i, 0x00, 1); /* clear FIR block A */
+    await this._demodW(0, 0x19, 0x05, 1);
+    await this._demodW(1, 0x93, 0xf0, 1);
+    await this._demodW(1, 0x94, 0x0f, 1);
+    await this._demodW(1, 0x11, 0x00, 1);     /* AGC off */
+    await this._demodW(1, 0x04, 0x00, 1);
+    await this._demodW(0, 0x61, 0x60, 1);
+    await this._demodW(0, 0x06, 0x80, 1);
+    await this._demodW(1, 0xb1, 0x1b, 1);
+    await this._demodW(0, 0x0d, 0x83, 1);
+    /* probe tuner on I2C (R820T at 0x34) */
+    let id=null;
+    try{ id=(await this._i2cRd(0x34, 0x00, 1))[0]; }catch(e){}
+    if(id===null) throw new Error("Tuner did not answer on I2C. Only R820T/T2 is supported in v0.1.0.");
+    await this._r82xxInit();
+    /* R820T path: enable zero-IF off, set IF freq and spectrum inversion */
+    await this._demodW(1, 0xb1, 0x1a, 1);
+    await this._demodW(0, 0x08, 0x4d, 1);
+    await this._setIfFreq(this.IF);
+    await this._demodW(1, 0x15, 0x01, 1);     /* spectrum inversion */
+    await this.setRate(this.rate);
+    await this.setCenter(this.center);
+    await this.setGain(this.rfGain);
+  }
+  async _setIfFreq(f){
+    const ifq = Math.round((-f * (1<<22)) / this.XTAL) & 0x3fffff;
+    await this._demodW(1, 0x19, (ifq>>16)&0x3f, 1);
+    await this._demodW(1, 0x1a, (ifq>>8)&0xff, 1);
+    await this._demodW(1, 0x1b, ifq&0xff, 1);
+  }
+  async setRate(r){
+    this.rate=r;
+    const xtal=this.XTAL*(1+this.ppm/1e6);
+    let ratio=Math.round(xtal*(1<<22)/r) & 0x0ffffffc;
+    await this._demodW(1, 0x9f, (ratio>>16)&0xffff, 2);
+    await this._demodW(1, 0xa1, ratio&0xffff, 2);
+    await this._demodW(1, 0x01, 0x14, 1);
+    await this._demodW(1, 0x01, 0x10, 1);
+  }
+  /* --- R820T minimal driver --- */
+  async _r82xxInit(){
+    const init=[0x83,0x32,0x75,0xc0,0x40,0xd6,0x6c,0xf5,0x63,0x75,0x68,0x6c,0x83,0x80,0x00,0x0f,0xc0,0x30,0x48,0xcc,0x60,0x00,0x54,0xae,0x4a,0xc0];
+    this._r=init.slice();
+    for(let i=0;i<init.length;i++) await this._i2cW(0x34, 0x05+i, init[i]);
+  }
+  async _rUpd(reg, mask, val){
+    const idx=reg-0x05;
+    this._r[idx]=(this._r[idx]&~mask)|(val&mask);
+    await this._i2cW(0x34, reg, this._r[idx]);
+  }
+  async setCenter(f){
+    this.center=f;
+    const lo=f+this.IF;                     /* upconvert: LO = RF + IF */
+    const xtal=this.XTAL*(1+this.ppm/1e6);
+    /* pick divider so VCO in 1.77 - 3.54 GHz */
+    let mixdiv=2, divnum=0;
+    while(mixdiv<=64){
+      if(lo*mixdiv>=1770000000 && lo*mixdiv<3900000000){ break; }
+      mixdiv<<=1; divnum++;
+    }
+    await this._rUpd(0x10, 0xe0, divnum<<5);
+    const vco=lo*mixdiv, pllRef=xtal;
+    const nint=Math.floor(vco/(2*pllRef));
+    const frac=vco/(2*pllRef)-nint;
+    const sdm=Math.round(frac*65536)&0xffff;
+    await this._rUpd(0x14, 0xff, ((nint-13)&0x7f)| ((nint-13)>127?0:0));
+    await this._i2cW(0x34, 0x14, (nint-13)&0xff);
+    await this._i2cW(0x34, 0x15, sdm&0xff);
+    await this._i2cW(0x34, 0x16, (sdm>>8)&0xff);
+    await this._rUpd(0x12, 0x08, sdm===0?0x08:0x00);
+    DBG.log("R820T tune", f, "LO", lo, "div", mixdiv, "N", nint, "SDM", sdm);
+  }
+  async setGain(db){
+    this.rfGain=db;
+    /* map 0-49 dB onto LNA + mixer steps (coarse) */
+    const step=Math.max(0, Math.min(15, Math.round(db/49*15)));
+    await this._rUpd(0x05, 0x0f, step);       /* LNA gain */
+    await this._rUpd(0x07, 0x0f, Math.min(15, step)); /* mixer gain */
+  }
+  async setPpm(p){ this.ppm=p; await this.setRate(this.rate); }
+  async start(){
+    /* reset endpoint and begin streaming */
+    await this._wReg(1, 0x14a, 0x1002, 2);
+    await this._wReg(1, 0x14a, 0x0000, 2);
+    this._running=true;
+    this._pump();
+  }
+  async _pump(){
+    const LEN=16384;
+    while(this._running){
+      let r;
+      try{ r=await this.dev.transferIn(1, LEN); }
+      catch(e){
+        DBG.warn("bulk in failed", e);
+        if(this._running){ this._running=false; UI.sourceLost(e); }
+        return;
+      }
+      if(r.data && r.data.byteLength){
+        const u8=new Uint8Array(r.data.buffer);
+        const n=u8.length>>1, iq=new Float32Array(n*2);
+        for(let i=0;i<n*2;i++) iq[i]=(u8[i]-127.5)/127.5;
+        if(this.onBlock) this.onBlock(iq);
+      }
+    }
+  }
+  async stop(){
+    this._running=false;
+    try{ await this.dev.releaseInterface(0); await this.dev.close(); }catch(e){}
+  }
+}
+</script>
+
+<script>
+"use strict";
+/* ============================================================
+   Receiver pipeline + UI  (SPECTRUM FI-064)
+   ============================================================ */
+const $=id=>document.getElementById(id);
+const S=Store.load();
+
+const MODES={
+  AM: {filters:[6000,9000,4000],  dev:0},
+  NFM:{filters:[12500,10000,15000],dev:5000},
+  WFM:{filters:[180000],          dev:75000},
+  USB:{filters:[2400,2900,1800]},
+  LSB:{filters:[2400,2900,1800]},
+  CW: {filters:[500,250,1000]}
+};
+const BANDS=[
+  ["160m",1840000],["80m",3750000],["60m",5358500],["40m",7150000],
+  ["30m",10120000],["20m",14265000],["17m",18120000],["15m",21300000],
+  ["12m",24940000],["10m",28400000],["6m",50110000],["2m",145500000],
+  ["1.25m",223500000],["70cm",435000000],["33cm",915000000],["23cm",1294000000]
+];
+const CAL_DBM = -37;  /* rough dBFS -> dBm offset; calibrate per dongle */
+
+/* ================= RX core ================= */
+const RX={
+  src:null, running:false,
+  freq:S.freq, mode:S.mode, filter:S.filter,
+  fftSize:S.fftSize, avg:S.avg,
+  iqRing:new Float32Array(1<<16), iqW:0,          /* interleaved ring for FFT */
+  spec:null, specAvg:null, frames:0,
+  noiseDb:-120, sigDb:-120, sigDbm:-140, smoothDbm:-140,
+  /* audio */
+  actx:null, node:null, aRing:new Float32Array(1<<16), aW:0, aR:0, aRate:48000,
+  nb:false, nr:false, agcGain:1, sqOpen:true, sqSlew:0,
+  d:{ accI:0,accQ:0,cnt:0,D:50, pI:1,pQ:0, ph1:0,ph2:0, li:0,lq:0,li2:0,lq2:0,
+      dc:0, de:0, nrY:0, w1:{accI:0,accQ:0,cnt:0,D:10,pI:1,pQ:0}, w2:{acc:0,cnt:0,D:5} },
+
+  attach(src){
+    this.src=src;
+    src.onBlock=(iq)=>this.onIQ(iq);
+    this.setupDecim();
+  },
+  setupDecim(){
+    const r=this.src?this.src.rate:2400000;
+    if(this.mode==="WFM"){
+      this.d.w1.D=Math.max(1,Math.round(r/240000));
+      const midRate=r/this.d.w1.D;
+      this.d.w2.D=Math.max(1,Math.round(midRate/48000));
+      this.aRate=midRate/this.d.w2.D;
+    }else{
+      this.d.D=Math.max(1,Math.round(r/48000));
+      this.aRate=r/this.d.D;
+    }
+    this.d.accI=this.d.accQ=this.d.cnt=0;
+  },
+  onIQ(iq){
+    /* keep ring for FFT/scope */
+    const R=this.iqRing, L=R.length;
+    for(let i=0;i<iq.length;i++){ R[this.iqW]=iq[i]; this.iqW=(this.iqW+1)%L; }
+    this.demod(iq);
+  },
+
+  /* ---------- demodulators ---------- */
+  demod(iq){
+    const d=this.d, n=iq.length>>1;
+    const mode=this.mode, bw=this.filter, Fs=this.aRate;
+    const outA=[];
+    if(mode==="WFM"){
+      /* stage 1 decimate to ~240k, FM discriminate, stage 2 decimate */
+      const w1=d.w1, w2=d.w2;
+      for(let i=0;i<n;i++){
+        w1.accI+=iq[2*i]; w1.accQ+=iq[2*i+1];
+        if(++w1.cnt>=w1.D){
+          const I=w1.accI/w1.D, Q=w1.accQ/w1.D;
+          w1.accI=w1.accQ=0; w1.cnt=0;
+          const re=I*w1.pI+Q*w1.pQ, im=Q*w1.pI-I*w1.pQ;
+          w1.pI=I; w1.pQ=Q;
+          let a=Math.atan2(im,re)*( (this.src.rate/w1.D) /(2*Math.PI*75000));
+          w2.acc+=a;
+          if(++w2.cnt>=w2.D){
+            let s=w2.acc/w2.D; w2.acc=0; w2.cnt=0;
+            d.de+= (s-d.de)*0.18;           /* 75us-ish deemphasis */
+            outA.push(d.de);
+          }
+        }
+      }
+    } else {
+      for(let i=0;i<n;i++){
+        d.accI+=iq[2*i]; d.accQ+=iq[2*i+1];
+        if(++d.cnt<d.D) continue;
+        let I=d.accI/d.D, Q=d.accQ/d.D;
+        d.accI=d.accQ=0; d.cnt=0;
+        let s=0;
+        if(mode==="AM"){
+          const m=Math.sqrt(I*I+Q*Q);
+          d.dc+= (m-d.dc)*0.002;
+          s=(m-d.dc)*4;
+        } else if(mode==="NFM"){
+          const re=I*d.pI+Q*d.pQ, im=Q*d.pI-I*d.pQ;
+          d.pI=I; d.pQ=Q;
+          s=Math.atan2(im,re)*(Fs/(2*Math.PI*(MODES.NFM.dev)));
+        } else { /* USB / LSB / CW : Weaver */
+          let sign=(mode==="LSB")?-1:1;
+          if(mode==="CW"){
+            /* BFO: shift up 600 Hz so zero-beat carrier sings */
+            d.ph2+=2*Math.PI*600/Fs;
+            const c=Math.cos(d.ph2), sn=Math.sin(d.ph2);
+            const I2=I*c-Q*sn, Q2=I*sn+Q*c; I=I2; Q=Q2;
+          }
+          const f1=sign*bw/2;
+          d.ph1+=2*Math.PI*f1/Fs;
+          const c=Math.cos(-d.ph1), sn=Math.sin(-d.ph1);
+          let vI=I*c-Q*sn, vQ=I*sn+Q*c;
+          const a=1-Math.exp(-2*Math.PI*(bw/2)/Fs);
+          d.li +=a*(vI-d.li);  d.lq +=a*(vQ-d.lq);
+          d.li2+=a*(d.li-d.li2); d.lq2+=a*(d.lq-d.lq2);
+          s=(d.li2*Math.cos(d.ph1)-sign*d.lq2*Math.sin(d.ph1))*6;
+        }
+        outA.push(s);
+      }
+    }
+    this.pushAudio(outA);
+  },
+
+  pushAudio(arr){
+    const agcTgt=0.25;
+    const spd=[0, 0.0004, 0.002, 0.01][S.agc]||0.002;   /* Off/Slow/Med/Fast */
+    for(let i=0;i<arr.length;i++){
+      let s=arr[i];
+      if(this.nb && Math.abs(s)>0.9) s=Math.sign(s)*0.9;   /* noise blanker: clip crashes */
+      if(this.nr){ this.d.nrY+=(s-this.d.nrY)*0.25; s=this.d.nrY; }  /* gentle LP */
+      if(S.agc>0){
+        const env=Math.abs(s)*this.agcGain;
+        if(env>agcTgt) this.agcGain*=1-Math.min(0.5, (env-agcTgt)*0.5);
+        else this.agcGain*=1+spd;
+        this.agcGain=Math.min(200, Math.max(0.01, this.agcGain));
+        s*=this.agcGain;
+      }
+      /* squelch slew */
+      this.sqSlew += ((this.sqOpen?1:0)-this.sqSlew)*0.01;
+      s*=this.sqSlew;
+      s*=(S.af/100)*(S.vol/100);
+      this.aRing[this.aW]=Math.max(-1,Math.min(1,s));
+      this.aW=(this.aW+1)%this.aRing.length;
+    }
+  },
+  bufFill(){
+    let d=this.aW-this.aR; if(d<0)d+=this.aRing.length;
+    return d/this.aRing.length;
+  },
+  async audioOn(){
+    if(this.actx) return;
+    this.actx=new (window.AudioContext||window.webkitAudioContext)();
+    const proc=this.actx.createScriptProcessor(2048,0,1);
+    let frac=0;
+    proc.onaudioprocess=(e)=>{
+      const out=e.outputBuffer.getChannelData(0);
+      const ratio=this.aRate/this.actx.sampleRate;
+      const R=this.aRing, L=R.length;
+      for(let i=0;i<out.length;i++){
+        let avail=this.aW-this.aR; if(avail<0)avail+=L;
+        if(avail<4){ out[i]=0; continue; }
+        const a=R[this.aR], b=R[(this.aR+1)%L];
+        out[i]=a+(b-a)*frac;
+        frac+=ratio;
+        while(frac>=1){ frac-=1; this.aR=(this.aR+1)%L; }
+      }
+    };
+    proc.connect(this.actx.destination);
+    this.node=proc;
+  },
+
+  /* ---------- controls ---------- */
+  async tune(f){
+    f=Math.max(24000, Math.min(1766000000, Math.round(f)));
+    this.freq=f; S.freq=f; Store.save();
+    if(this.src && this.src.setCenter){
+      try{ await this.src.setCenter(f); }catch(e){ DBG.warn(e); }
+    }
+    UI.freqChanged();
+  },
+  setMode(m){
+    this.mode=m; S.mode=m;
+    this.filter=MODES[m].filters[0]; S.filter=this.filter;
+    this.setupDecim(); Store.save(); UI.modeChanged();
+  },
+  setFilter(bw){ this.filter=bw; S.filter=bw; Store.save(); }
+};
+
+/* ================= CW decoder ================= */
+const CW={
+  on:true, lastState:0, lastT:0, unit:80, sym:"", text:"",
+  frame(db, noise, tNow){
+    if(!this.on || RX.mode!=="CW") return;
+    const th=noise + Number($("cwThresh").value||10);
+    const st=db>th?1:0;
+    if(this.lastT===0){ this.lastT=tNow; this.lastState=st; return; }
+    if(st!==this.lastState){
+      const dur=tNow-this.lastT;
+      if(this.lastState===1){ /* mark ended */
+        if(dur<this.unit*2) this.sym+=".";
+        else this.sym+="-";
+        /* adapt unit toward shortest mark */
+        if(dur<this.unit*1.6) this.unit=this.unit*0.9+dur*0.1;
+      } else { /* space ended */
+        if(dur>this.unit*5){ this.flush(); this.text+=" "; this.emit(); }
+        else if(dur>this.unit*2){ this.flush(); }
+      }
+      this.lastState=st; this.lastT=tNow;
+    } else if(st===0 && tNow-this.lastT>this.unit*8 && this.sym){
+      this.flush();
+    }
+  },
+  flush(){
+    if(!this.sym) return;
+    this.text+=MORSE.table[this.sym]||"\u00b7";
+    this.sym=""; this.emit();
+  },
+  emit(){
+    if(this.text.length>800) this.text=this.text.slice(-800);
+    $("decodeOut").textContent=this.text;
+  }
+};
+
+/* ================= UI ================= */
+const UI={
+  els:{}, entry:"", entryMode:false, stepIdx:2,
+  steps:[10,100,1000,5000,10000,100000,1000000],
+  wfImage:null, lastPeakScan:0, frameMs:16,
+
+  fmtFreq(hz){
+    let s=String(Math.round(hz)).padStart(7,"0");
+    s=s.replace(/(\d)(?=(\d{3})+$)/g,"$1.");
+    return s;
+  },
+  freqChanged(){
+    $("freqFlag").innerHTML=this.fmtFreq(RX.freq)+' <span class="unit">Hz</span>';
+    $("freqPadDisplay").innerHTML=this.fmtFreq(RX.freq)+' <span class="unit">Hz</span>';
+    document.querySelectorAll("#bandGrid .btn").forEach(b=>{
+      b.classList.toggle("active", Math.abs(Number(b.dataset.f)-RX.freq)<Number(b.dataset.f)*0.04);
+    });
+    this.renderMems();
+  },
+  modeChanged(){
+    $("rsMode").value=RX.mode;
+    const fs=$("rsFilter"); fs.innerHTML="";
+    MODES[RX.mode].filters.forEach(f=>{
+      const o=document.createElement("option");
+      o.value=f; o.textContent=f>=1000?(f/1000)+" kHz":f+" Hz";
+      fs.appendChild(o);
+    });
+    fs.value=RX.filter;
+  },
+
+  /* ---------- boot wiring ---------- */
+  init(){
+    /* tabs + sidebar */
+    const go=(pg)=>{
+      document.querySelectorAll(".tab[data-pg]").forEach(t=>t.setAttribute("aria-selected", t.dataset.pg===pg));
+      document.querySelectorAll(".side-menu button[data-pg]").forEach(b=>b.classList.toggle("on", b.dataset.pg===pg));
+      document.querySelectorAll(".page").forEach(p=>p.classList.toggle("on", p.id==="pg-"+pg));
+      if(pg==="rflab") this.sizeIq();
+    };
+    document.querySelectorAll("[data-pg]").forEach(el=>el.addEventListener("click",()=>go(el.dataset.pg)));
+    /* collapsible sidebar */
+    const applyCollapse=()=>{
+      $("sideBar").classList.toggle("collapsed", !!S.menuCollapsed);
+      $("menuCollapse").setAttribute("aria-expanded", String(!S.menuCollapsed));
+      $("menuCollapse").title=S.menuCollapsed?"Expand menu":"Collapse menu";
+      requestAnimationFrame(()=>{ this.sizeScopes(); this.sizeIq(); });
+    };
+    $("menuCollapse").onclick=()=>{ S.menuCollapsed=!S.menuCollapsed; Store.save(); applyCollapse(); };
+    applyCollapse();
+    $("menuBandplan").onclick=()=>alert("US amateur HF quick reference (phone/CW general):\n160m 1.800-2.000\n80m 3.500-4.000\n40m 7.000-7.300\n30m 10.100-10.150 (CW/data)\n20m 14.000-14.350\n17m 18.068-18.168\n15m 21.000-21.450\n12m 24.890-24.990\n10m 28.000-29.700\n6m 50.0-54.0  2m 144-148  70cm 420-450");
+    $("menuShortcuts").onclick=()=>alert("Keyboard:\nDigits + Enter = direct entry (Hz)\nArrow Left/Right = step down/up\nArrow Up/Down = 10x step\nM = audio on/off\n? = quick start");
+    $("btnHelp").onclick=()=>alert("SPECTRUM quick start:\n1. Click SIMULATOR to run without hardware, or CONNECT USB with an RTL-SDR in Chrome/Edge.\n2. Turn VOLUME up and click the headphone button to start audio (browser requires a click).\n3. Tune with the keypad, band buttons, arrow keys, or by clicking the spectrum.\n4. Try the sim CW beacon at 7.050.000 in CW mode, then open Decode.");
+
+    /* header knobs */
+    $("agcKnob").oninput=e=>{ S.agc=+e.target.value; $("agcVal").textContent=["Off","Slow","Medium","Fast"][S.agc]; Store.save(); };
+    $("afKnob").oninput=e=>{ S.af=+e.target.value; $("afVal").textContent=S.af+"%"; Store.save(); };
+    $("sqKnob").oninput=e=>{ S.squelch=+e.target.value; $("sqVal").textContent=S.squelch+" dB"; Store.save(); };
+    $("volKnob").oninput=e=>{ S.vol=+e.target.value; $("volVal").textContent=S.vol?S.vol+"%":"Muted"; Store.save(); };
+    $("agcKnob").value=S.agc; $("afKnob").value=S.af; $("sqKnob").value=S.squelch; $("volKnob").value=S.vol;
+    ["agcKnob","afKnob","sqKnob","volKnob"].forEach(id=>$(id).dispatchEvent(new Event("input")));
+
+    /* connect buttons: each toggles its own source */
+    $("btnSim").onclick=async ()=>{
+      if(this.srcType==="sim"){ await this.stopSource(); return; }
+      await this.startSource(new SimSource(), "sim");
+    };
+    $("btnConnect").onclick=async ()=>{
+      if(this.srcType==="usb"){ await this.stopSource(); return; }
+      if(!navigator.usb){ alert("WebUSB is not available in this browser. Chrome or Edge on desktop is required for hardware; the Simulator works everywhere."); return; }
+      const src=new RtlSource();
+      src.center=RX.freq; src.rate=S.sampleRate; src.ppm=S.ppm; src.rfGain=S.rfGain;
+      try{
+        if(this.srcType==="sim") await this.stopSource();
+        this.setConn("warn","Negotiating","Requesting device...");
+        await src.connect();
+        await this.startSource(src, "usb");
+      }catch(e){
+        this.setConn("","Standby","No device: "+e.message);
+        this.updateConnButtons();
+        alert("USB connect failed: "+e.message+"\n\nNotes: use Chrome/Edge over HTTPS or localhost, and make sure no other SDR app holds the dongle. On Linux, udev rules must allow user access.");
+      }
+    };
+
+    /* receiver settings */
+    const ms=$("rsMode");
+    Object.keys(MODES).forEach(m=>{ const o=document.createElement("option"); o.value=o.textContent=m; ms.appendChild(o); });
+    ms.onchange=()=>RX.setMode(ms.value);
+    $("rsFilter").onchange=e=>RX.setFilter(+e.target.value);
+    $("rsRfKnob").oninput=async e=>{
+      S.rfGain=+e.target.value; $("rsRf").textContent=S.rfGain+" dB"; Store.save();
+      $("rfGainIn").value=S.rfGain;
+      if(RX.src && RX.src.setGain) try{ await RX.src.setGain(S.rfGain); }catch(_){}
+    };
+    $("rsRfKnob").value=S.rfGain; $("rsRf").textContent=S.rfGain+" dB";
+    $("rfGainIn").onchange=e=>{ $("rsRfKnob").value=e.target.value; $("rsRfKnob").dispatchEvent(new Event("input")); };
+    $("srSel").value=S.sampleRate;
+    $("srSel").onchange=e=>{ S.sampleRate=+e.target.value; Store.save(); $("rsSr").textContent=(S.sampleRate/1e6)+" MS/s"; };
+    $("ppmIn").value=S.ppm;
+    $("ppmIn").onchange=e=>{ S.ppm=+e.target.value; Store.save(); };
+
+    /* keypad */
+    document.querySelectorAll(".pad-grid [data-key]").forEach(b=>b.onclick=()=>this.key(b.dataset.key));
+    $("padEnter").onclick=()=>this.commitEntry();
+    $("stepCycle").onclick=()=>{ this.stepIdx=(this.stepIdx+1)%this.steps.length; this.showStep(); };
+    $("stepUp").onclick=()=>RX.tune(RX.freq+this.steps[this.stepIdx]);
+    $("stepDn").onclick=()=>RX.tune(RX.freq-this.steps[this.stepIdx]);
+    this.showStep();
+    document.addEventListener("keydown",e=>{
+      if(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA"||e.target.tagName==="SELECT") return;
+      if(/^[0-9.]$/.test(e.key)) this.key(e.key);
+      else if(e.key==="Backspace") this.key("bs");
+      else if(e.key==="Enter") this.commitEntry();
+      else if(e.key==="ArrowRight") RX.tune(RX.freq+this.steps[this.stepIdx]);
+      else if(e.key==="ArrowLeft") RX.tune(RX.freq-this.steps[this.stepIdx]);
+      else if(e.key==="ArrowUp"){ this.stepIdx=Math.min(this.steps.length-1,this.stepIdx+1); this.showStep(); }
+      else if(e.key==="ArrowDown"){ this.stepIdx=Math.max(0,this.stepIdx-1); this.showStep(); }
+      else if(e.key.toLowerCase()==="m") $("btnMute").click();
+    });
+
+    /* bands */
+    const bg=$("bandGrid");
+    BANDS.forEach(([nm,f])=>{
+      const b=document.createElement("button");
+      b.className="btn small"; b.textContent=nm; b.dataset.f=f;
+      b.onclick=()=>RX.tune(f);
+      bg.appendChild(b);
+    });
+
+    /* click-to-tune on scopes */
+    const clickTune=(cv)=>cv.addEventListener("click",e=>{
+      if(!RX.src) return;
+      const r=cv.getBoundingClientRect();
+      const frac=(e.clientX-r.left)/r.width;
+      RX.tune(RX.freq+(frac-0.5)*RX.src.rate);
+    });
+    clickTune($("spectrumC")); clickTune($("waterfallC"));
+
+    /* memories */
+    $("memNew").onclick=()=>{
+      const label=prompt("Label for this memory:", "");
+      if(label===null) return;
+      S.memories.push({freq:RX.freq, mode:RX.mode, label:label||"Channel"});
+      Store.save(); this.renderMems();
+    };
+    $("memEdit").onclick=()=>{
+      const i=this.selMem; if(i==null) return alert("Select a memory row first.");
+      const m=S.memories[i];
+      const label=prompt("Label:", m.label); if(label===null) return;
+      const f=prompt("Frequency (Hz):", m.freq); if(f===null) return;
+      m.label=label; m.freq=+f||m.freq; Store.save(); this.renderMems();
+    };
+    $("memDelete").onclick=()=>{
+      const i=this.selMem; if(i==null) return alert("Select a memory row first.");
+      if(confirm("Delete memory \""+S.memories[i].label+"\"?")){ S.memories.splice(i,1); this.selMem=null; Store.save(); this.renderMems(); }
+    };
+    this.renderMems();
+
+    /* audio buttons */
+    $("btnMute").onclick=async ()=>{
+      await RX.audioOn();
+      if(RX.actx.state==="suspended") await RX.actx.resume();
+      if(S.vol===0){ S.vol=50; $("volKnob").value=50; $("volKnob").dispatchEvent(new Event("input")); }
+      $("btnMute").classList.toggle("active");
+      if(!$("btnMute").classList.contains("active")){ S.vol=0; $("volKnob").value=0; $("volKnob").dispatchEvent(new Event("input")); }
+    };
+    $("btnNB").onclick=()=>{ RX.nb=!RX.nb; $("btnNB").classList.toggle("active",RX.nb); };
+    $("btnNR").onclick=()=>{ RX.nr=!RX.nr; $("btnNR").classList.toggle("active",RX.nr); };
+    $("btnANF").title="Automatic notch filter: roadmap item"; $("btnANF").style.opacity=.45;
+    $("btnANF").onclick=()=>alert("ANF is a roadmap item. NB and NR are live.");
+
+    /* analyzer settings */
+    $("fftSel").value=S.fftSize;
+    $("fftSel").onchange=e=>{ S.fftSize=+e.target.value; RX.fftSize=S.fftSize; RX.specAvg=null; Store.save(); };
+    $("avgIn").value=S.avg; $("avgIn").onchange=e=>{ S.avg=Math.max(1,+e.target.value); RX.avg=S.avg; Store.save(); };
+    $("wfFloor").value=S.wfFloor; $("wfFloor").onchange=e=>{ S.wfFloor=+e.target.value; Store.save(); };
+    $("wfCeil").value=S.wfCeil; $("wfCeil").onchange=e=>{ S.wfCeil=+e.target.value; Store.save(); };
+    RX.fftSize=S.fftSize; RX.avg=S.avg;
+
+    /* decode */
+    $("decClear").onclick=()=>{ CW.text=""; CW.sym=""; CW.emit(); };
+    $("decSel").onchange=e=>{ CW.on = e.target.value==="cw"; };
+
+    /* journal */
+    $("jAdd").onclick=()=>{
+      const t=$("jText").value.trim(); if(!t) return;
+      S.journal.unshift({utc:new Date().toISOString(), freq:RX.freq, mode:RX.mode, text:t});
+      $("jText").value=""; Store.save(); this.renderJournal();
+    };
+    $("jExport").onclick=()=>{
+      const rows=[["utc","frequency_hz","mode","entry"]].concat(S.journal.map(j=>[j.utc,j.freq,j.mode,'"'+j.text.replace(/"/g,'""')+'"']));
+      const blob=new Blob([rows.map(r=>r.join(",")).join("\n")],{type:"text/csv"});
+      const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+      a.download="spectrum-journal-"+new Date().toISOString().slice(0,10)+".csv"; a.click();
+    };
+    $("jClear").onclick=()=>{
+      if(!S.journal.length) return;
+      if(confirm("Archive all "+S.journal.length+" entries? They move to the archive inside your data export and leave this view.")){
+        S.journalArchive=S.journalArchive.concat(S.journal); S.journal=[]; Store.save(); this.renderJournal();
+      }
+    };
+    this.renderJournal();
+
+    /* geospatial */
+    $("geoLat").value=S.lat; $("geoLon").value=S.lon;
+    const showGrid=()=>{ try{ $("geoGrid").textContent=DSP.toGrid(S.lat,S.lon); }catch(e){ $("geoGrid").textContent="--"; } };
+    $("geoSave").onclick=()=>{
+      S.lat=parseFloat($("geoLat").value); S.lon=parseFloat($("geoLon").value);
+      if(isNaN(S.lat)||isNaN(S.lon)) return alert("Latitude and longitude must be numbers.");
+      Store.save(); showGrid(); this.statusPos();
+    };
+    $("geoLocate").onclick=()=>{
+      if(!navigator.geolocation) return alert("Browser geolocation unavailable.");
+      navigator.geolocation.getCurrentPosition(p=>{
+        $("geoLat").value=p.coords.latitude.toFixed(4);
+        $("geoLon").value=p.coords.longitude.toFixed(4);
+        $("geoSave").click();
+      },err=>alert("Position denied: "+err.message));
+    };
+    $("geoCalc").onclick=()=>{
+      try{
+        const t=DSP.fromGrid($("geoTarget").value);
+        const r=DSP.bearing(S.lat,S.lon,t.lat,t.lon);
+        $("geoResult").innerHTML='Bearing <span class="ok">'+r.bearing.toFixed(0)+'&deg;</span> &ensp; distance <span class="ok">'+r.km.toFixed(0)+' km</span> ('+(r.km*0.621371).toFixed(0)+' mi)';
+      }catch(e){ $("geoResult").textContent="Could not parse that grid: "+e.message; }
+    };
+    showGrid(); this.statusPos();
+
+    /* signals: click to tune */
+    $("peakTable").addEventListener("click",e=>{
+      const tr=e.target.closest("tr[data-f]"); if(tr) RX.tune(+tr.dataset.f);
+    });
+
+    /* system */
+    $("btnSelfTest").onclick=()=>this.selfTest();
+    $("btnExportAll").onclick=()=>{
+      const blob=new Blob([Store.exportJSON()],{type:"application/json"});
+      const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+      a.download="spectrum-data-"+new Date().toISOString().slice(0,10)+".json"; a.click();
+    };
+    $("btnImportAll").onclick=()=>$("importFile").click();
+    $("importFile").onchange=e=>{
+      const f=e.target.files[0]; if(!f) return;
+      f.text().then(t=>{ Store.importJSON(t); location.reload(); })
+        .catch(err=>alert("Import failed: "+err.message));
+    };
+    $("dbgChk").onchange=e=>DBG.on=e.target.checked;
+    $("envBox").innerHTML=[
+      "User agent: "+navigator.userAgent,
+      "WebUSB: "+(navigator.usb?"available":"not available"),
+      "AudioContext: "+((window.AudioContext||window.webkitAudioContext)?"available":"missing"),
+      "localStorage: "+(function(){try{localStorage.setItem("_t","1");localStorage.removeItem("_t");return "writable"}catch(e){return "blocked"}})(),
+      "Secure context: "+(window.isSecureContext?"yes":"no (WebUSB needs HTTPS or localhost)")
+    ].map(l=>'<div class="testline">'+l+'</div>').join("");
+
+    /* canvases */
+    this.sizeScopes();
+    window.addEventListener("resize",()=>{ this.sizeScopes(); this.sizeIq(); });
+    $("verPlate").textContent="SPECTRUM v"+APP.version;
+    this.freqChanged(); this.modeChanged();
+    requestAnimationFrame(t=>this.frame(t));
+    setInterval(()=>{ $("stClock").textContent=new Date().toISOString().slice(11,19)+" UTC"; },500);
+    console.log("%cSPECTRUM FI-064 v"+APP.version+" | Green Shoe Garage","color:#a8d76a;font-weight:bold");
+  },
+
+  statusPos(){
+    $("stLat").textContent=Math.abs(S.lat).toFixed(4)+(S.lat>=0?" N":" S");
+    $("stLon").textContent=Math.abs(S.lon).toFixed(4)+(S.lon>=0?" E":" W");
+  },
+  showStep(){
+    const s=this.steps[this.stepIdx];
+    $("stepCycle").textContent=s>=1e6?(s/1e6)+" MHz":s>=1000?(s/1000)+" kHz":s+" Hz";
+  },
+  key(k){
+    if(k==="bs"){ this.entry=this.entry.slice(0,-1); }
+    else this.entry+=k;
+    $("freqPadDisplay").innerHTML=(this.entry||"&mdash;")+' <span class="unit">entry Hz</span>';
+  },
+  commitEntry(){
+    if(!this.entry){ return; }
+    let v=parseFloat(this.entry);
+    if(isNaN(v)) { this.entry=""; return; }
+    /* convenience: values under 2000 read as MHz, under 500000 as kHz */
+    if(v<2000) v*=1e6; else if(v<500000) v*=1e3;
+    this.entry="";
+    RX.tune(v);
+  },
+
+  setConn(cls,state,detail){
+    $("connDot").className="dot "+cls;
+    $("connState").textContent=state;
+    $("connDetail").textContent=detail;
+  },
+  srcType:null,
+  async startSource(src, type){
+    if(RX.src){ try{ await RX.src.stop(); }catch(e){} }
+    RX.attach(src);
+    src.setCenter&&src.setCenter(RX.freq);
+    await src.start();
+    RX.running=true;
+    this.srcType=type;
+    this.setConn("on","Connected", src.name+(src.serial?(" S/N: "+src.serial):""));
+    $("rsSrc").textContent=src.name;
+    $("rsSr").textContent=(src.rate/1e6).toFixed(src.rate%1e6?3:1)+" MS/s";
+    this.updateConnButtons();
+    RX.setupDecim();
+  },
+  async stopSource(){
+    if(RX.src){ try{ await RX.src.stop(); }catch(e){} }
+    RX.src=null; RX.running=false; this.srcType=null;
+    this.setConn("","Standby","No device");
+    $("rsSrc").textContent="None";
+    this.updateConnButtons();
+  },
+  updateConnButtons(){
+    const c=$("btnConnect"), s=$("btnSim");
+    const usb=this.srcType==="usb", sim=this.srcType==="sim";
+    c.textContent=usb?"Disconnect":"Connect USB";
+    c.classList.toggle("stop", usb);
+    s.textContent=sim?"Stop Sim":"Simulator";
+    s.classList.toggle("stop", sim);
+  },
+  sourceLost(e){
+    RX.src=null; RX.running=false; this.srcType=null;
+    this.setConn("","Standby","Stream lost: "+(e&&e.message||"unplugged"));
+    $("rsSrc").textContent="None";
+    this.updateConnButtons();
+  },
+
+  renderMems(){
+    const tb=$("memTable").querySelector("tbody"); tb.innerHTML="";
+    S.memories.forEach((m,i)=>{
+      const band=BANDS.reduce((best,b)=> Math.abs(b[1]-m.freq)<Math.abs(best[1]-m.freq)?b:best, BANDS[0]);
+      const tr=document.createElement("tr");
+      if(this.selMem===i) tr.className="sel";
+      tr.innerHTML="<td>"+(i+1)+"</td><td>"+this.fmtFreq(m.freq)+"</td><td>"+band[0]+"</td><td>"+m.mode+"</td><td>"+m.label+"</td><td>"+(Math.abs(m.freq-RX.freq)<100?"&#9733;":"&#9734;")+"</td>";
+      tr.onclick=()=>{
+        if(this.selMem===i){ RX.tune(m.freq); RX.setMode(m.mode); }
+        this.selMem=i; this.renderMems();
+      };
+      tb.appendChild(tr);
+    });
+  },
+  renderJournal(){
+    const tb=$("jTable").querySelector("tbody"); tb.innerHTML="";
+    S.journal.forEach((j,i)=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML="<td>"+j.utc.slice(0,19).replace("T"," ")+"</td><td>"+this.fmtFreq(j.freq)+"</td><td>"+j.mode+"</td><td style='font-family:var(--f-ui)'>"+j.text.replace(/</g,"&lt;")+"</td><td><button class='btn small danger' data-i='"+i+"'>&times;</button></td>";
+      tr.querySelector("button").onclick=()=>{ S.journalArchive.push(S.journal.splice(i,1)[0]); Store.save(); this.renderJournal(); };
+      tb.appendChild(tr);
+    });
+  },
+
+  /* ---------- canvases ---------- */
+  sizeScopes(){
+    for(const id of ["spectrumC","waterfallC","smeterC","noiseC","audioC"]){
+      const c=$(id), r=c.getBoundingClientRect();
+      if(r.width){ c.width=Math.floor(r.width); c.height=Math.floor(r.height)||c.height; }
+    }
+    this.wfImage=null;
+  },
+  sizeIq(){
+    const c=$("iqScope"), r=c.getBoundingClientRect();
+    if(r.width){ c.width=Math.floor(r.width); c.height=260; }
+  },
+
+  frame(tNow){
+    const t0=performance.now();
+    if(RX.running && RX.src){
+      this.computeSpectrum();
+      this.drawSpectrum();
+      this.drawWaterfall();
+      this.drawSMeter();
+      this.drawMini();
+      if(document.getElementById("pg-rflab").classList.contains("on")) this.drawIq();
+      if(tNow-this.lastPeakScan>1000){ this.lastPeakScan=tNow; this.scanPeaks(); }
+      CW.frame(RX.sigDb, RX.noiseDb, tNow);
+      /* squelch decision */
+      RX.sqOpen = RX.sigDb > S.squelch;
+    }
+    /* status */
+    this.frameMs=this.frameMs*0.95+(performance.now()-t0)*0.05;
+    const cpu=Math.min(99,Math.round(this.frameMs/16*100));
+    $("stCpu").textContent=cpu+"%"; $("stCpuBar").style.width=cpu+"%";
+    const buf=Math.round(RX.bufFill()*100);
+    $("stBuf").textContent=buf+"%"; $("stBufBar").style.width=buf+"%";
+    requestAnimationFrame(t=>this.frame(t));
+  },
+
+  computeSpectrum(){
+    const N=RX.fftSize;
+    const re=new Float32Array(N), im=new Float32Array(N), w=DSP.hann(N);
+    const R=RX.iqRing, L=R.length;
+    let idx=(RX.iqW - N*2 + L*4)% L;
+    for(let i=0;i<N;i++){
+      re[i]=R[idx]*w[i]; im[i]=R[(idx+1)%L]*w[i];
+      idx=(idx+2)%L;
+    }
+    DSP.fft(re,im);
+    if(!RX.spec||RX.spec.length!==N){ RX.spec=new Float32Array(N); RX.specAvg=new Float32Array(N).fill(-120); }
+    const norm=1/(N*0.5), a=1/RX.avg;
+    for(let i=0;i<N;i++){
+      const k=(i+N/2)%N;  /* fftshift: DC to center */
+      const p=(re[k]*re[k]+im[k]*im[k])*norm*norm;
+      const db=10*Math.log10(p+1e-14);
+      RX.specAvg[i]+= (db-RX.specAvg[i])*a;
+    }
+    /* noise floor: 25th percentile of a sparse sample */
+    const smp=[];
+    for(let i=0;i<N;i+=Math.max(1,N>>7)) smp.push(RX.specAvg[i]);
+    smp.sort((x,y)=>x-y);
+    RX.noiseDb=smp[Math.floor(smp.length*0.25)];
+    $("nfRead").textContent=Math.round(RX.noiseDb+CAL_DBM)+" dBm";
+    /* signal power inside filter around center */
+    const hz2bin=N/RX.src.rate;
+    const half=Math.max(1,Math.round(RX.filter/2*hz2bin));
+    let pw=0;
+    for(let i=N/2-half;i<=N/2+half;i++) pw+=Math.pow(10,RX.specAvg[i]/10);
+    RX.sigDb=10*Math.log10(pw+1e-14);
+    RX.sigDbm=RX.sigDb+CAL_DBM;
+    RX.smoothDbm+=(RX.sigDbm-RX.smoothDbm)*0.2;
+  },
+
+  drawSpectrum(){
+    const c=$("spectrumC"), g=c.getContext("2d"), W=c.width,H=c.height,N=RX.fftSize;
+    g.fillStyle="#0c120a"; g.fillRect(0,0,W,H);
+    const lo=-130, hi=-10;
+    /* grid */
+    g.strokeStyle="#223321"; g.lineWidth=1; g.beginPath();
+    g.font="10px 'Share Tech Mono'"; g.fillStyle="#4d5b40";
+    for(let db=-120; db<=-20; db+=20){
+      const y=H*(1-(db-lo)/(hi-lo));
+      g.moveTo(0,y); g.lineTo(W,y);
+      g.fillText(db, 4, y-2);
+    }
+    for(let x=0;x<=8;x++){ g.moveTo(W*x/8,0); g.lineTo(W*x/8,H); }
+    g.stroke();
+    /* trace */
+    g.strokeStyle="#a8d76a"; g.lineWidth=1.4;
+    g.shadowColor="rgba(168,215,106,.5)"; g.shadowBlur=4;
+    g.beginPath();
+    for(let x=0;x<W;x++){
+      const i=Math.floor(x/W*N);
+      const y=H*(1-(RX.specAvg[i]-lo)/(hi-lo));
+      x?g.lineTo(x,y):g.moveTo(x,y);
+    }
+    g.stroke(); g.shadowBlur=0;
+    /* filter shading + center line */
+    const hz2px=W/RX.src.rate;
+    const fw=RX.filter*hz2px;
+    g.fillStyle="rgba(168,215,106,.08)";
+    let fx=W/2, fx0=fx-fw/2;
+    if(RX.mode==="USB") fx0=fx; else if(RX.mode==="LSB") fx0=fx-fw;
+    g.fillRect(fx0,0,Math.max(2,RX.mode==="USB"||RX.mode==="LSB"?fw:fw),H);
+    g.strokeStyle="#c4552e"; g.lineWidth=1.5;
+    g.beginPath(); g.moveTo(W/2,0); g.lineTo(W/2,H); g.stroke();
+    g.fillStyle="#c4552e"; g.beginPath();
+    g.moveTo(W/2-5,0); g.lineTo(W/2+5,0); g.lineTo(W/2,8); g.fill();
+    /* HUD */
+    const span=RX.src.rate;
+    $("spanLbl").textContent=(span/1e6).toFixed(span%1e6?3:0).replace(/0+$/,"").replace(/\.$/,"")+" MHz";
+    $("rbwLbl").textContent=(span/N/1000).toFixed(1)+" kHz";
+    $("hudLo").textContent=((RX.freq-span/2)/1e6).toFixed(3);
+    $("hudMid").textContent=(RX.freq/1e6).toFixed(3);
+    $("hudHi").textContent=((RX.freq+span/2)/1e6).toFixed(3);
+  },
+
+  drawWaterfall(){
+    const c=$("waterfallC"), g=c.getContext("2d"), W=c.width,H=c.height,N=RX.fftSize;
+    /* scroll down one line */
+    g.drawImage(c, 0,0,W,H-1, 0,1,W,H-1);
+    const row=g.createImageData(W,1), d=row.data, lut=DSP.cmap;
+    const lo=S.wfFloor, hi=S.wfCeil;
+    for(let x=0;x<W;x++){
+      const i=Math.floor(x/W*N);
+      let v=(RX.specAvg[i]-lo)/(hi-lo);
+      v=Math.max(0,Math.min(1,v));
+      const k=(v*255|0)*3;
+      d[x*4]=lut[k]; d[x*4+1]=lut[k+1]; d[x*4+2]=lut[k+2]; d[x*4+3]=255;
+    }
+    g.putImageData(row,0,0);
+    /* center line */
+    g.fillStyle="rgba(196,85,46,.55)"; g.fillRect(W/2,0,1,H);
+  },
+
+  drawSMeter(){
+    const c=$("smeterC"), g=c.getContext("2d"), W=c.width,H=c.height;
+    g.clearRect(0,0,W,H);
+    const cx=W/2, cy=H+26, r=H+4;
+    const a0=-Math.PI*0.82, a1=-Math.PI*0.18;
+    /* scale arc */
+    g.lineWidth=5; g.strokeStyle="#5d7a3c";
+    g.beginPath(); g.arc(cx,cy,r,a0,a0+(a1-a0)*0.66); g.stroke();
+    g.strokeStyle="#c4552e";
+    g.beginPath(); g.arc(cx,cy,r,a0+(a1-a0)*0.66,a1); g.stroke();
+    /* ticks: S1..S9 then +10..+30 */
+    g.fillStyle="#a5a284"; g.font="9px 'Share Tech Mono'"; g.textAlign="center";
+    const marks=[["1",0],["3",.165],["5",.33],["7",.5],["9",.66],["+10",.77],["+20",.885],["+30",1]];
+    for(const [lb,f] of marks){
+      const a=a0+(a1-a0)*f;
+      const x1=cx+Math.cos(a)*(r-6), y1=cy+Math.sin(a)*(r-6);
+      const x2=cx+Math.cos(a)*(r+5), y2=cy+Math.sin(a)*(r+5);
+      g.strokeStyle=f>0.66?"#c4552e":"#a5a284"; g.lineWidth=1.5;
+      g.beginPath(); g.moveTo(x1,y1); g.lineTo(x2,y2); g.stroke();
+      g.fillStyle=f>0.66?"#c4552e":"#a5a284";
+      g.fillText(lb, cx+Math.cos(a)*(r+14), cy+Math.sin(a)*(r+14)+3);
+    }
+    /* needle: S1=-121dBm .. S9=-73 .. +30=-43 */
+    let f=(RX.smoothDbm+121)/(121-73)* .66;
+    if(RX.smoothDbm>-73) f=.66+(RX.smoothDbm+73)/30*.34;
+    f=Math.max(0,Math.min(1,f));
+    const a=a0+(a1-a0)*f;
+    g.strokeStyle="#e8e4c8"; g.lineWidth=2;
+    g.beginPath(); g.moveTo(cx,cy); g.lineTo(cx+Math.cos(a)*(r-4), cy+Math.sin(a)*(r-4)); g.stroke();
+    /* readout */
+    const dbm=RX.smoothDbm;
+    let sTxt;
+    if(dbm<=-73){ sTxt="S"+Math.max(0,Math.min(9,Math.round((dbm+127)/6))); }
+    else sTxt="S9 +"+Math.min(60,Math.round(dbm+73));
+    $("sRead").textContent=sTxt;
+    $("dbmRead").textContent=Math.round(dbm)+" dBm";
+  },
+
+  drawMini(){
+    /* noise strip */
+    let c=$("noiseC"), g=c.getContext("2d");
+    g.fillStyle="#0c120a"; g.fillRect(0,0,c.width,c.height);
+    g.strokeStyle="#5d7a3c"; g.beginPath();
+    const N=RX.fftSize, step=Math.max(1,N/c.width|0);
+    for(let x=0;x<c.width;x++){
+      const v=(RX.specAvg[Math.min(N-1,x*step)]+130)/110;
+      const y=c.height*(1-Math.max(0,Math.min(1,v)));
+      x?g.lineTo(x,y):g.moveTo(x,y);
+    }
+    g.stroke();
+    /* audio strip: recent ring contents */
+    c=$("audioC"); g=c.getContext("2d");
+    g.fillStyle="#0c120a"; g.fillRect(0,0,c.width,c.height);
+    g.strokeStyle="#a8d76a"; g.beginPath();
+    const R=RX.aRing, L=R.length;
+    let idx=(RX.aW-L/8+L)%L, n=L/8, sk=Math.max(1,n/c.width|0);
+    for(let x=0;x<c.width;x++){
+      const v=R[(idx+x*sk)%L];
+      const y=c.height/2 - v*c.height/2*.9;
+      x?g.lineTo(x,y):g.moveTo(x,y);
+    }
+    g.stroke();
+  },
+
+  drawIq(){
+    const c=$("iqScope"), g=c.getContext("2d");
+    if(!c.width) this.sizeIq();
+    g.fillStyle="rgba(12,18,10,.35)"; g.fillRect(0,0,c.width,c.height);
+    g.strokeStyle="#223321"; g.beginPath();
+    g.moveTo(c.width/2,0); g.lineTo(c.width/2,c.height);
+    g.moveTo(0,c.height/2); g.lineTo(c.width,c.height/2); g.stroke();
+    g.fillStyle="#a8d76a";
+    const R=RX.iqRing, L=R.length;
+    let idx=(RX.iqW-2000+L*2)%L;
+    for(let i=0;i<1000;i++){
+      const I=R[idx], Q=R[(idx+1)%L]; idx=(idx+2)%L;
+      g.fillRect(c.width/2+I*c.width*2.2, c.height/2-Q*c.height*2.2, 1.5,1.5);
+    }
+  },
+
+  scanPeaks(){
+    const N=RX.fftSize, sr=RX.src.rate;
+    const peaks=[];
+    for(let i=4;i<N-4;i++){
+      const v=RX.specAvg[i];
+      if(v>RX.noiseDb+8 && v>=RX.specAvg[i-1] && v>=RX.specAvg[i+1] && v>RX.specAvg[i-3] && v>RX.specAvg[i+3]){
+        peaks.push({i,v});
+        i+=3;
+      }
+    }
+    peaks.sort((a,b)=>b.v-a.v);
+    const tb=$("peakTable").querySelector("tbody"); tb.innerHTML="";
+    peaks.slice(0,8).forEach(p=>{
+      const f=RX.freq+(p.i/N-0.5)*sr;
+      const tr=document.createElement("tr"); tr.dataset.f=Math.round(f); tr.style.cursor="pointer";
+      tr.innerHTML="<td>"+this.fmtFreq(f)+"</td><td>"+p.v.toFixed(1)+"</td><td>"+((f-RX.freq)/1000).toFixed(1)+" kHz</td><td>+"+(p.v-RX.noiseDb).toFixed(1)+" dB</td>";
+      tb.appendChild(tr);
+    });
+    /* measurements box */
+    $("measBox").innerHTML=[
+      "In-filter power: <span class='ok'>"+RX.sigDb.toFixed(1)+" dBFS</span> &asymp; "+Math.round(RX.sigDbm)+" dBm (cal offset "+CAL_DBM+")",
+      "Noise floor: <span class='ok'>"+RX.noiseDb.toFixed(1)+" dBFS</span>",
+      "SNR in filter: <span class='ok'>"+(RX.sigDb-RX.noiseDb).toFixed(1)+" dB</span>",
+      "Squelch: "+(RX.sqOpen?"<span class='ok'>OPEN</span>":"<span class='fail'>CLOSED</span>")+" (threshold "+S.squelch+" dB)"
+    ].map(l=>"<div class='testline'>"+l+"</div>").join("");
+  },
+
+  /* ---------- self test harness ---------- */
+  selfTest(){
+    const out=[], T=(name,fn)=>{
+      try{ const r=fn(); out.push([name, r===true, r===true?"pass":String(r)]); }
+      catch(e){ out.push([name,false,e.message]); }
+    };
+    T("FFT: 1 kHz tone lands in the right bin",()=>{
+      const N=1024, re=new Float32Array(N), im=new Float32Array(N);
+      const bin=100;
+      for(let i=0;i<N;i++){ re[i]=Math.cos(2*Math.PI*bin*i/N); im[i]=Math.sin(2*Math.PI*bin*i/N); }
+      DSP.fft(re,im);
+      let mi=0,mv=-1;
+      for(let i=0;i<N;i++){ const m=re[i]*re[i]+im[i]*im[i]; if(m>mv){mv=m;mi=i;} }
+      return mi===bin || "peak at bin "+mi;
+    });
+    T("FFT: Parseval energy within 1%",()=>{
+      const N=512, re=new Float32Array(N), im=new Float32Array(N);
+      let e1=0;
+      for(let i=0;i<N;i++){ re[i]=Math.random()-0.5; e1+=re[i]*re[i]; }
+      DSP.fft(re,im);
+      let e2=0; for(let i=0;i<N;i++) e2+=re[i]*re[i]+im[i]*im[i];
+      e2/=N;
+      return Math.abs(e1-e2)/e1<0.01 || "delta "+(Math.abs(e1-e2)/e1*100).toFixed(2)+"%";
+    });
+    T("Maidenhead: home grid round trip",()=>{
+      const g=DSP.toGrid(39.65,-78.76);           /* Cumberland MD */
+      const p=DSP.fromGrid(g);
+      return (g.slice(0,4)==="FM09" && Math.abs(p.lat-39.65)<1 && Math.abs(p.lon+78.76)<2) || g;
+    });
+    T("Bearing: Cumberland to London ~ east-northeast",()=>{
+      const r=DSP.bearing(39.65,-78.76,51.5,-0.1);
+      return (r.bearing>40 && r.bearing<75 && r.km>5000 && r.km<6500) || r.bearing.toFixed(0)+" deg "+r.km.toFixed(0)+" km";
+    });
+    T("Morse: encode/decode agree for full alphabet",()=>{
+      for(const k in MORSE.table){
+        if(MORSE.encode(MORSE.table[k])!==k) return "mismatch on "+MORSE.table[k];
+      }
+      return true;
+    });
+    T("Store: JSON round trip preserves memories",()=>{
+      const j=Store.exportJSON();
+      const o=JSON.parse(j);
+      return (Array.isArray(o.memories)&&o.memories.length===S.memories.length) || "memory count changed";
+    });
+    T("Colormap: 256 entries, ends warmer than it starts",()=>{
+      const l=DSP.cmap;
+      return (l.length===768 && l[765]>l[0]) || "lut malformed";
+    });
+    T("Frequency formatter: 14265000 renders 14.265.000",()=>{
+      return UI.fmtFreq(14265000)==="14.265.000" || UI.fmtFreq(14265000);
+    });
+    const allOk=out.every(o=>o[1]);
+    $("testOut").innerHTML=out.map(o=>
+      "<div class='testline'><span class='"+(o[1]?"ok":"fail")+"'>"+(o[1]?"&#10004; PASS":"&#10008; FAIL")+"</span> &ensp;"+o[0]+(o[1]?"":" &mdash; "+o[2])+"</div>"
+    ).join("")+"<div class='testline' style='margin-top:6px'>"+(allOk?"<span class='ok'>All "+out.length+" tests green. Cleared for release.</span>":"<span class='fail'>Failures present. Hold the release.</span>")+"</div>";
+    return allOk;
+  }
+};
+
+/* boot */
+window.addEventListener("DOMContentLoaded",()=>UI.init());
 </script>
 </body>
 </html>
