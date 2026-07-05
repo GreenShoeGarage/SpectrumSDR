@@ -4,7 +4,7 @@
 
 SPECTRUM turns a Chrome or Edge browser into a standalone software-defined radio console for the RTL-SDR. No server, no install, no build step. The browser drives the dongle directly over WebUSB, demodulates in JavaScript, and paints the spectrum and waterfall on canvas. A built-in simulator provides a believable stretch of HF so every page can be exercised with no hardware attached.
 
-Aesthetic: U.S. Army Signal Corps field equipment. Olive drab panels, rivets, stencil plates, phosphor readouts.
+Aesthetic: U.S. Army Signal Corps field equipment. Olive drab panels, rivets, stencil plates, phosphor readouts. Three themes cycle from the header: Night (default), Day (field-manual paper), and High Contrast. Every text pair in every theme is held to WCAG AA by the self-test harness; a theme change that breaks contrast fails the release gate. Scopes and meters keep dark instrument faces in all themes.
 
 ## Quick start
 
@@ -59,6 +59,7 @@ The System page carries the release gate. **Run Self Test** exercises the FFT (b
 - WFM is mono, with approximate deemphasis. No stereo pilot decoding.
 - The S-meter uses a rough default offset (-37) until the commissioning checklist stores a per-dongle calibration. PPM sign convention on step 2 is unverified against hardware; the checklist says to re-measure after applying and flip the sign if the error grows.
 - ANF (automatic notch filter) is a placeholder button. NB and NR are live but simple.
+- The band plan strip covers simplified US full-license extents plus broadcast and NOAA segments; it is a reading aid, not an operating authority.
 - Decode covers CW only. RTTY and FT8 are roadmap items.
 - IQ recordings live in browser memory until downloaded; the limit control caps capture at 60 seconds (roughly 96 MB at 2.4 MS/s per 10 seconds).
 - ScriptProcessorNode is deprecated in favor of AudioWorklet. It still works everywhere; migration is planned.
@@ -69,6 +70,8 @@ The System page carries the release gate. **Run Self Test** exercises the FFT (b
 GPL-3.0
 
 ## Changelog
+
+- **v0.4.0 Field Manual.** Standards compliance release. Three themes (Night, Day, High Contrast) driven from a single JS table so the self-test harness enforces WCAG AA on every text pair in every theme; scopes and meters keep dark instrument faces throughout. In-app feedback: a System page form that composes a field report (version, source, frequency, mode, theme, browser) and opens a prefilled GitHub issue or copies it. Band plan strip along the top of the spectrum: blue CW/data, green phone, amber broadcast, teal NOAA weather, drawn zoom-aware from simplified US extents. Simulator gains broadcast content: an AM music-box broadcaster on 1010 kHz, a wideband FM station on 98.1, and a synthetic NOAA voice cadence on 162.550, all bench-verified through their matching demodulators. CW decoder confidence line shows estimated WPM, unit length, and mark counts. Waterfall history now survives canvas resizes. New 25 kHz step for walking NOAA channels. Four new self-tests, 18 total.
 
 - **v0.3.2** Band module gains US broadcast buttons: AM (530-1700 kHz, tunes to 1000 kHz), FM (87.9-107.9 MHz, tunes to 98.1), and WX (NOAA weather, tunes to 162.550). These three also switch the demodulator (AM, WFM, NFM respectively); the amateur band buttons remain tune-only so they never override a chosen mode. Tooltips carry the band ranges.
 
