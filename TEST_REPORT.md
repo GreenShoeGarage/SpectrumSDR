@@ -1,6 +1,6 @@
-# v0.3.0 Test Report
+# v0.3.1 Test Report
 
-Browser-runnable self-test harness (System page), 14 tests:
+Browser-runnable self-test harness (System page), 15 tests:
 
 - FFT: 1 kHz tone lands in the right bin: PASS
 - FFT: Parseval energy within 1%: PASS
@@ -15,6 +15,7 @@ Browser-runnable self-test harness (System page), 14 tests:
 - WAV: header and parser round trip: PASS
 - Replay: FileSource reads samples and filename frequency tag: PASS
 - Commissioning: calibration offset overrides default: PASS
+- Squelch: opens on SNR, not absolute level: PASS
 - Frequency formatter: PASS
 
 Bench tests (Node harness with DOM stubs):
@@ -26,6 +27,8 @@ Bench tests (Node harness with DOM stubs):
 - Connection toggle state machine: PASS
 - Record/replay round trip: 1 s sim capture to WAV, replayed beacon within
   0.3 dB of live SNR (57.5 vs 57.8 dB): PASS
+- Gain-invariant squelch: 20 dB gain change moves absolute level 20.0 dB,
+  SNR decision under 2 dB; old dBFS scheme flips at the same threshold: PASS
 
 Hardware driver (WebUSB RTL2832U/R820T, including direct sampling) remains
 experimental: validated against protocol documentation and the simulator
