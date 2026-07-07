@@ -1,4 +1,4 @@
-# v0.4.2 Test Report
+# v0.4.3 Test Report
 
 Browser-runnable self-test harness (System page), 19 tests:
 
@@ -35,6 +35,8 @@ Bench tests (Node harness with DOM stubs):
   SNR decision under 2 dB; old dBFS scheme flips at the same threshold: PASS
 - Sim broadcast: AM 1010 kHz, WFM 98.1 MHz, NFM 162.550 MHz all produce
   finite audio with real SNR through their matching demodulators: PASS
+- Demod at hardware rate: WFM/AM/USB at 2.4 MS/s each produce exactly
+  the expected 48k samples per second of RF at 12-14% CPU: PASS
 
 Hardware status: S/N oUKs9mTRIMlx3j47. v0.4.1 fixed streaming (waterfall
 and S-meter confirmed live on air). v0.4.2 rebuilds the audio sink on
