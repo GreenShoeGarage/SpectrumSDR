@@ -1,4 +1,4 @@
-# v0.4.3 Test Report
+# v0.4.4 Test Report
 
 Browser-runnable self-test harness (System page), 19 tests:
 
@@ -37,6 +37,13 @@ Bench tests (Node harness with DOM stubs):
   finite audio with real SNR through their matching demodulators: PASS
 - Demod at hardware rate: WFM/AM/USB at 2.4 MS/s each produce exactly
   the expected 48k samples per second of RF at 12-14% CPU: PASS
+- Full onIQ path with 64 KB transfer blocks: 1 s of 2.4 MS/s FM through
+  ring, capture hook, and demod in 174 ms: PASS
+
+Hardware telemetry trail (S/N oUKs9mTRIMlx3j47): v0.4.1 restored
+streaming; v0.4.3 instrumentation showed buf 2% with drops climbing,
+convicting the single-transfer USB pump of continuous FIFO overflow;
+v0.4.4 streams with 8 concurrent 64 KB transfers. Awaiting retest.
 
 Hardware status: S/N oUKs9mTRIMlx3j47. v0.4.1 fixed streaming (waterfall
 and S-meter confirmed live on air). v0.4.2 rebuilds the audio sink on
