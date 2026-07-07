@@ -55,7 +55,7 @@ The System page carries the release gate. **Run Self Test** exercises the FFT (b
 
 ## Known limitations
 
-- **The RTL-SDR hardware driver is experimental.** It was validated against the simulator pipeline and the librtlsdr protocol documentation, not against physical hardware. First hardware session should be treated as commissioning: expect to touch tuner gain mapping and PLL edge cases. Only the R820T and R820T2 tuners are recognized.
+- **The RTL-SDR hardware driver is experimental but has had first hardware contact.** v0.4.1 corrected the register map against librtlsdr after a real dongle connected but streamed nothing (wrong USB register addresses, zeroed FIR coefficients, missing I2C repeater, shifted tuner init table, PLL packing). The connection panel now shows live MB/s so streaming health is visible at a glance. Only the R820T and R820T2 tuners are recognized.
 - WFM is mono, with approximate deemphasis. No stereo pilot decoding.
 - The S-meter uses a rough default offset (-37) until the commissioning checklist stores a per-dongle calibration. PPM sign convention on step 2 is unverified against hardware; the checklist says to re-measure after applying and flip the sign if the error grows.
 - ANF (automatic notch filter) is a placeholder button. NB and NR are live but simple.
@@ -70,6 +70,8 @@ The System page carries the release gate. **Run Self Test** exercises the FFT (b
 GPL-3.0
 
 ## Changelog
+
+- **v0.4.1** Driver hotfix from first hardware contact (dongle connected, streamed nothing). Corrected the USB/SYS register map (SYSCTL 0x2000, EPA_CTL 0x2148, EPA_MAXPKT 0x2158, DEMOD_CTL 0x3000/0x300b), wrote the real librtlsdr default FIR table where the old init had zeroed the coefficients and silenced the ADC path, bracketed all tuner access with the I2C repeater, fixed a one-byte shift in the R820T init array that misaligned every register from 0x15 up, implemented proper PLL packing (ni/si into reg 0x14, SDM into 0x15/0x16) with a lock check and VCO-current retry, and added band-dependent tracking-filter mux. The connection panel now reports live stream MB/s, showing NO DATA in amber if the pipe goes quiet. New FIR-packing self-test, 19 total.
 
 - **v0.4.0 Field Manual.** Standards compliance release. Three themes (Night, Day, High Contrast) driven from a single JS table so the self-test harness enforces WCAG AA on every text pair in every theme; scopes and meters keep dark instrument faces throughout. In-app feedback: a System page form that composes a field report (version, source, frequency, mode, theme, browser) and opens a prefilled GitHub issue or copies it. Band plan strip along the top of the spectrum: blue CW/data, green phone, amber broadcast, teal NOAA weather, drawn zoom-aware from simplified US extents. Simulator gains broadcast content: an AM music-box broadcaster on 1010 kHz, a wideband FM station on 98.1, and a synthetic NOAA voice cadence on 162.550, all bench-verified through their matching demodulators. CW decoder confidence line shows estimated WPM, unit length, and mark counts. Waterfall history now survives canvas resizes. New 25 kHz step for walking NOAA channels. Four new self-tests, 18 total.
 

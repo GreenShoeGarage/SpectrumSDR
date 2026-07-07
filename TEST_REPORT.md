@@ -1,6 +1,6 @@
-# v0.4.0 Test Report
+# v0.4.1 Test Report
 
-Browser-runnable self-test harness (System page), 18 tests:
+Browser-runnable self-test harness (System page), 19 tests:
 
 - FFT: 1 kHz tone lands in the right bin: PASS
 - FFT: Parseval energy within 1%: PASS
@@ -19,6 +19,7 @@ Browser-runnable self-test harness (System page), 18 tests:
 - Themes: every text pair meets WCAG AA in all three themes: PASS
 - CW confidence: 80 ms unit reads 15 WPM: PASS
 - Band plan: segments ordered, typed, and non-degenerate: PASS
+- RTL driver: FIR table repacks to librtlsdr defaults: PASS
 - Frequency formatter: PASS
 
 Bench tests (Node harness with DOM stubs):
@@ -35,6 +36,6 @@ Bench tests (Node harness with DOM stubs):
 - Sim broadcast: AM 1010 kHz, WFM 98.1 MHz, NFM 162.550 MHz all produce
   finite audio with real SNR through their matching demodulators: PASS
 
-Hardware driver (WebUSB RTL2832U/R820T, including direct sampling) remains
-experimental: validated against protocol documentation and the simulator
-pipeline, not yet against physical hardware.
+Hardware status: first contact 2026-07-05 (S/N oUKs9mTRIMlx3j47) connected
+but streamed nothing; v0.4.1 corrects the register map, FIR table, I2C
+repeater, tuner init, and PLL packing. Awaiting hardware retest.
