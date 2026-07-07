@@ -1,4 +1,4 @@
-# v0.4.1 Test Report
+# v0.4.2 Test Report
 
 Browser-runnable self-test harness (System page), 19 tests:
 
@@ -36,6 +36,8 @@ Bench tests (Node harness with DOM stubs):
 - Sim broadcast: AM 1010 kHz, WFM 98.1 MHz, NFM 162.550 MHz all produce
   finite audio with real SNR through their matching demodulators: PASS
 
-Hardware status: first contact 2026-07-05 (S/N oUKs9mTRIMlx3j47) connected
-but streamed nothing; v0.4.1 corrects the register map, FIR table, I2C
-repeater, tuner init, and PLL packing. Awaiting hardware retest.
+Hardware status: S/N oUKs9mTRIMlx3j47. v0.4.1 fixed streaming (waterfall
+and S-meter confirmed live on air). v0.4.2 rebuilds the audio sink on
+AudioWorklet after RF-works-but-silent was reported; the old zero-input
+ScriptProcessorNode is a known silent-failure configuration in Chrome.
+Awaiting audio retest.
